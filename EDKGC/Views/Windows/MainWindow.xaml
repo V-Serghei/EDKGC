@@ -1,0 +1,94 @@
+﻿<Window x:Class="EDKGC.Views.Windows.MainWindow"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:mvvc="clr-namespace:EDKGC.ViewModel"
+            xmlns:local="clr-namespace:EDKGC"
+            mc:Ignorable="d"
+            Title="{Binding Path=Main.Title}"
+            Height="450" 
+            Width="800">
+    <Window.DataContext>
+        <mvvc:ViewModelLocator />
+    </Window.DataContext>
+
+    <Grid x:Name="MainW" Background="#65E6AD">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="271*"/>
+            <RowDefinition Height="157*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="101*"/>
+            <ColumnDefinition Width="59*"/>
+
+        </Grid.ColumnDefinitions>
+
+        <RichTextBox IsReadOnly="True" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Height="166" VerticalAlignment="Top" FontSize="36" FontFamily="Snap ITC" Background="#FF65E6AD" SelectionBrush="Transparent" CaretBrush="#FF65E6AD" OpacityMask="#FFDF1F1F" Margin="0,10,0,0">
+            <RichTextBox.Style>
+                <Style TargetType="RichTextBox">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.1" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </RichTextBox.Style>
+            <RichTextBox.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="Blue" Offset="0.0"/>
+                    <GradientStop Color="Red" Offset="0.5"/>
+                    <GradientStop Color="Green" Offset="1.0"/>
+                </LinearGradientBrush>
+            </RichTextBox.BorderBrush>
+            <RichTextBox.BorderThickness>
+                <Thickness>2</Thickness>
+                <!-- Указывает толщину границы -->
+            </RichTextBox.BorderThickness>
+            <RichTextBox.RenderTransform>
+                <ScaleTransform ScaleX="1" ScaleY="1"/>
+            </RichTextBox.RenderTransform>
+
+
+            <FlowDocument>
+                <Paragraph>
+                    <LineBreak/>
+                    <Run Text="Welcome to EDKGC" Background="#0551413C" Foreground="#FF332825"/>
+                    <LineBreak/>
+                    <Run Text="Encryptor/Decrypted/Key Generator/Cracker" FontSize="12" Background="#00000000" Foreground="#FF525C59"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+
+        <Button Grid.Column="1" Grid.Row="1" Content="Show Buttons" Command="{Binding Main.ShowButtonsCommand}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" x:Name="ButtonsPanel" Visibility="{Binding Main.ButtonsPanelVisibility}" Orientation="Horizontal">
+            <Button Content="Button 1"/>
+            <Button Content="Button 2"/>
+            <Button Content="Button 3"/>
+            <Button Content="Button 4"/>
+        </StackPanel>
+
+
+
+    </Grid>
+</Window>

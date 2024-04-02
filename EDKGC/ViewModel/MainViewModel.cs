@@ -1,34 +1,61 @@
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using System.Windows;
+using System.Windows.Input;
 
 namespace EDKGC.ViewModel
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
-    /// </para>
-    /// <para>
-    /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
-    /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
-        /// </summary>
         public MainViewModel()
         {
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
+            ShowButtonsCommand = new RelayCommand(ExecuteShowButtonsCommand);
+
         }
+
+        public ICommand ShowButtonsCommand { get; private set; }
+        private Visibility _buttonsPanelVisibility = Visibility.Collapsed;
+        public Visibility ButtonsPanelVisibility
+        {
+            get { return _buttonsPanelVisibility; }
+            set
+            {
+                if (_buttonsPanelVisibility != value)
+                {
+                    _buttonsPanelVisibility = value;
+                    RaisePropertyChanged(nameof(ButtonsPanelVisibility));
+                }
+            }
+        }
+
+        private void ExecuteShowButtonsCommand()
+        {
+            ButtonsPanelVisibility = Visibility.Visible;
+        }
+
+        #region Window title
+        /// <summary>
+        /// Window title
+        /// </summary>
+
+        private string _title = "Welcome to EDKGC";
+
+        public string Title
+        {
+            get => _title;
+            set =>
+                //if(Equals(_title,value))return;
+                //_title = value;
+                //RaisePropertyChanged(nameof(Title));
+                Set(ref _title, value);
+
+        }
+
+        #endregion
+
+
+
+
+        
     }
 }
