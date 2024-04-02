@@ -1,7 +1,7 @@
 
 .vs/
-/bin/
-/obj/
+EDKGC/bin/
+EDKGC/obj/
 
 
 *.dll
