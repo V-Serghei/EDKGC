@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace EDKGC.Infrastructure.Command.Base
 {
-    internal abstract class CommandInf:ICommand
+    public abstract class CommandInf:ICommand
     {
         public event EventHandler CanExecuteChanged
         {

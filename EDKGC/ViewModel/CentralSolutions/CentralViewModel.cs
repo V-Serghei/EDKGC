@@ -28,7 +28,6 @@ namespace EDKGC.ViewModel.CentralSolutions
         public void OnCloseAppCommandExecuted()
         {
             Application.Current.Shutdown();
-
         }
 
         #endregion

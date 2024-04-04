@@ -8,7 +8,7 @@ using EDKGC.Infrastructure.Command.Base;
 
 namespace EDKGC.Infrastructure.Command
 {
-    internal class LCommand : CommandInf
+    public class LCommand : CommandInf
     {
         private readonly Action<object> _execute;
         private readonly Func<object,bool> _canExecute;

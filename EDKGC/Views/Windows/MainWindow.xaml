@@ -82,24 +82,139 @@
         </RichTextBox>
 
         <Grid Grid.Column="1" Grid.Row="1" Height="147" VerticalAlignment="Center">
-            <Button Grid.Column="0" Grid.Row="0" Content="Show Buttons" Command="{Binding Main.ShowButtonsCommand}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button  x:Name="StartButton" Grid.Column="0" Content="Start" 
+                      Command="{Binding Main.ShowButtonsCommand}"  
+                      CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                      VerticalAlignment="Center" 
+                      Background="#FFDB755A" 
+                      Height="127" FontFamily="Snap ITC" 
+                      FontSize="36" 
+                      Margin="15,0,15,0" RenderTransformOrigin="0.668,0.501" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
 
-            <StackPanel Grid.Column="0" Grid.Row="0" x:Name="ButtonsPanel" Visibility="{Binding Main.ButtonsPanelVisibility}" Orientation="Horizontal" Background="#FF679c8d" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <UniformGrid Columns="4" Rows="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Rectangle Width="95" Height="50" Fill="{Binding Main.Button1Color}" MouseDown="Button_Click" RadiusX="29" RadiusY="29"/>
-                    <Rectangle Width="95" Height="50" Fill="{Binding Main.Button2Color}"  RadiusX="29" RadiusY="29">
-                        <Rectangle.InputBindings>
-                            <MouseBinding Gesture="LeftClick">
-                                <MouseBinding.Command>
-                                    <cmd:CloseAppCommand/>
-                                </MouseBinding.Command>
-                            </MouseBinding>
-                        </Rectangle.InputBindings>
-                    </Rectangle>
-                            <Rectangle Width="95" Height="50" Fill="{Binding Main.Button3Color}" MouseDown="Rectangle_MouseDown" RadiusX="29" RadiusY="29"/>
-                    <Rectangle Width="95" Height="50" Fill="{Binding Main.Button4Color}" MouseDown="Rectangle_MouseDown" RadiusX="29" RadiusY="29"/>
+
+
+
+            <StackPanel x:Name="ButtonsPanel"
+            Orientation="Horizontal" 
+            Background="#65E6AD" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center" Height="148" Width="560">
+                <UniformGrid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid Canvas.Left="0">
+                        <Grid.Resources>
+                            <Style x:Key="ButtonStyle" TargetType="Rectangle">
+                                <Setter Property="Width" Value="278"/>
+                                <Setter Property="Height" Value="50"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0,10,0,12"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Width" Value="300"/>
+                                        <Setter Property="Height" Value="60"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Resources>
+                        <Rectangle Fill="{Binding Main.Button1Color}" MouseDown="Button_Click" RadiusX="29" RadiusY="29" Style="{StaticResource ButtonStyle}"/>
+                        <TextBlock Text="Button 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid>
+                        <Grid.Resources>
+                            <Style x:Key="ButtonStyle" TargetType="Rectangle">
+                                <Setter Property="Width" Value="278"/>
+                                <Setter Property="Height" Value="50"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0,10,0,12"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Width" Value="300"/>
+                                        <Setter Property="Height" Value="60"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Resources>
+                        <Rectangle Fill="{Binding Main.Button2Color}" RadiusX="29" RadiusY="29" Style="{StaticResource ButtonStyle}">
+                            <Rectangle.InputBindings>
+                                <MouseBinding Gesture="LeftClick">
+                                    <MouseBinding.Command>
+                                        <cmd:CloseAppCommand/>
+                                    </MouseBinding.Command>
+                                </MouseBinding>
+                            </Rectangle.InputBindings>
+                        </Rectangle>
+                        <TextBlock Text="Button 2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,29,0,0"/>
+                    </Grid>
+
+                    <Grid>
+                        <Grid.Resources>
+                            <Style x:Key="ButtonStyle" TargetType="Rectangle">
+                                <Setter Property="Width" Value="278"/>
+                                <Setter Property="Height" Value="50"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0,10,0,12"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Width" Value="300"/>
+                                        <Setter Property="Height" Value="60"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Resources>
+                        <Rectangle Fill="{Binding Main.Button3Color}" MouseDown="Rectangle_MouseDown" RadiusX="29" RadiusY="29" Style="{StaticResource ButtonStyle}"/>
+                        <TextBlock Text="Button 3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.Resources>
+                            <Style x:Key="ButtonStyle" TargetType="Rectangle">
+                                <Setter Property="Width" Value="278"/>
+                                <Setter Property="Height" Value="50"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0,10,0,12"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Width" Value="300"/>
+                                        <Setter Property="Height" Value="60"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Resources>
+                        <Rectangle Fill="{Binding Main.Button4Color}" MouseDown="Rectangle_MouseDown" RadiusX="29" RadiusY="29" Style="{StaticResource ButtonStyle}"/>
+                        <TextBlock Text="Exit" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Algerian" Foreground="#FFCFAFAF"/>
+                    </Grid>
                 </UniformGrid>
-            </StackPanel>
+                </StackPanel>
+
         </Grid>
         <DockPanel Grid.Row="2" LastChildFill="True" VerticalAlignment="Bottom" Height="24" Margin="0,24,0,0" Grid.ColumnSpan="3">
             <StatusBar DockPanel.Dock="Bottom" Height="24">

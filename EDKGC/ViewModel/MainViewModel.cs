@@ -8,6 +8,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using EDKGC.Infrastructure.Command;
+using System.Configuration;
+using System.Windows.Controls;
 
 namespace EDKGC.ViewModel
 {
@@ -17,14 +19,14 @@ namespace EDKGC.ViewModel
         {
             #region CommandInf
 
-            ShowButtonsCommand = new RelayCommand(ExecuteShowButtonsCommand);
+            ShowButtonsCommand = new LCommand(ExecuteShowButtonsCommand);
 
-
+            HideElementCommand = new LCommand(HideElement);
             #endregion
 
         }
 
-
+        public LCommand HideElementCommand { get; private set; }
         public ICommand ShowButtonsCommand { get; private set; }
         private Visibility _buttonsPanelVisibility = Visibility.Collapsed;
         public Visibility ButtonsPanelVisibility
@@ -40,9 +42,27 @@ namespace EDKGC.ViewModel
             }
         }
 
-        private void ExecuteShowButtonsCommand()
+        private void HideElement(object parameter)
+        {
+            if (parameter is Button button)
+            {
+                button.Visibility = Visibility.Collapsed;
+            }
+            else if (parameter is TextBlock textBlock)
+            {
+                textBlock.Visibility = Visibility.Collapsed;
+            }
+            else if (parameter is Rectangle rect)
+            {
+                rect.Visibility = Visibility.Collapsed;
+            }
+        }
+
+
+        private void ExecuteShowButtonsCommand(object parameter)
         {
             ButtonsPanelVisibility = Visibility.Visible;
+            HideElement(parameter);
         }
 
         #region Window title
@@ -71,16 +91,16 @@ namespace EDKGC.ViewModel
         /// CommandInf 
         /// </summary>
 
-        
 
 
-        
+
+
 
 
         #endregion
 
 
-        private Brush _button1Color = Brushes.Red;
+        private Brush _button1Color = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFDB755A"));
         public Brush Button1Color
         {
             get { return _button1Color; }
@@ -90,7 +110,7 @@ namespace EDKGC.ViewModel
                 RaisePropertyChanged(nameof(Button1Color));
             }
         }
-        private Brush _button2Color = Brushes.BlueViolet;
+        private Brush _button2Color = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFDB755A"));
         public Brush Button2Color
         {
             get { return _button2Color; }
@@ -100,7 +120,7 @@ namespace EDKGC.ViewModel
                 RaisePropertyChanged(nameof(Button2Color));
             }
         }
-        private Brush _button3Color = Brushes.DarkOrange;
+        private Brush _button3Color = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFDB755A"));
         public Brush Button3Color
         {
             get { return _button3Color; }
@@ -110,7 +130,7 @@ namespace EDKGC.ViewModel
                 RaisePropertyChanged(nameof(Button3Color));
             }
         }
-        private Brush _button4Color = Brushes.Tan;
+        private Brush _button4Color = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF332825"));
         public Brush Button4Color
         {
             get { return _button4Color; }
