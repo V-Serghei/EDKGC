@@ -1,0 +1,61 @@
+﻿<Window x:Class="EDKGC.Views.Windows.CentralWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:EDKGC.ViewModel"
+        xmlns:local="clr-namespace:EDKGC"
+        mc:Ignorable="d"
+        Title="{Binding Path=Central.Title}" Background="#FF866B64" d:DesignHeight="654.32" d:DesignWidth="378.354" BorderBrush="#FF871515" Foreground="#FF679C8B">
+
+    <Window.DataContext>
+        <vm:ViewModelLocator />
+    </Window.DataContext>
+    <DockPanel Background="#FF525C59">
+        <Menu DockPanel.Dock="Top" Background="#FF525C59">
+            <MenuItem Header="File" BorderBrush="#FF679C8B" Background="#FFACACAC">
+                <MenuItem Header="Exit" Command="{Binding Central.CloseAppCommand}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Helper" Background="#FFACACAC" BorderBrush="#FF679C8B">
+                <MenuItem Header="About Program"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom" Height="24">
+            <StatusBarItem VerticalAlignment="Bottom">
+                <TextBlock Text="{Binding Central.Status}"></TextBlock>
+
+            </StatusBarItem>
+            <ProgressBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Height="19" Value="67" Width="758" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
+
+        </StatusBar>
+
+        <TabControl Background="#FF679C8B" BorderBrush="#FFDB755A" Foreground="#FF679C8B" OpacityMask="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
+            <TabItem Header="Первая вкладка"  Background="#FF679C8B">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="57*"/>
+                        <RowDefinition Height="110*"/>
+                        <RowDefinition Height="191*"/>
+                        <RowDefinition Height="210*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="113*"/>
+                        <ColumnDefinition Width="135*"/>
+                        <ColumnDefinition Width="124*"/>
+                    </Grid.ColumnDefinitions>
+                    <GridSplitter Grid.Column="1" Grid.RowSpan="4" HorizontalAlignment="Left" Margin="1,0,0,0" Width="5"/>
+                    <GridSplitter Grid.Column="2" Grid.RowSpan="4" HorizontalAlignment="Left" Margin="1,0,0,0" Width="6"/>
+                </Grid>
+
+            </TabItem>
+
+            <TabItem Header="Вторая вкладка"  Background="#FF679C8B">
+                <StackPanel>
+                </StackPanel>
+            </TabItem>
+
+        </TabControl>
+
+    </DockPanel>
+</Window>

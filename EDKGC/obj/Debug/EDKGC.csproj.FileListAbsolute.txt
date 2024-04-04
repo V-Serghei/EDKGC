@@ -45,3 +45,5 @@ D:\web project\EDKGC.desk\EDKGC\obj\Debug\EDKGC.exe
 D:\web project\EDKGC.desk\EDKGC\obj\Debug\EDKGC.pdb
 D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\MainWindow.g.cs
 D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\MainWindow.baml
+D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\CentralWindow.g.cs
+D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\CentralWindow.baml

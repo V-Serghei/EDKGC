@@ -5,26 +5,28 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:mvvc="clr-namespace:EDKGC.ViewModel"
             xmlns:local="clr-namespace:EDKGC"
+            xmlns:cmd="clr-namespace:EDKGC.Infrastructure.Command.BasicCommands"
             mc:Ignorable="d"
             Title="{Binding Path=Main.Title}"
             Height="450" 
             Width="800">
+
     <Window.DataContext>
         <mvvc:ViewModelLocator />
     </Window.DataContext>
 
+
     <Grid x:Name="MainW" Background="#65E6AD">
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="271*"/>
-            <RowDefinition Height="157*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="253*"/>
+            <RowDefinition Height="133*"/>
+            <RowDefinition Height="48*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40*"/>
-            <ColumnDefinition Width="101*"/>
-            <ColumnDefinition Width="59*"/>
+            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="70*"/>
+            <ColumnDefinition Width="13*"/>
 
         </Grid.ColumnDefinitions>
 
@@ -62,7 +64,6 @@
             </RichTextBox.BorderBrush>
             <RichTextBox.BorderThickness>
                 <Thickness>2</Thickness>
-                <!-- Указывает толщину границы -->
             </RichTextBox.BorderThickness>
             <RichTextBox.RenderTransform>
                 <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -77,16 +78,39 @@
                     <Run Text="Encryptor/Decrypted/Key Generator/Cracker" FontSize="12" Background="#00000000" Foreground="#FF525C59"/>
                 </Paragraph>
             </FlowDocument>
+
         </RichTextBox>
 
-        <Button Grid.Column="1" Grid.Row="1" Content="Show Buttons" Command="{Binding Main.ShowButtonsCommand}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Column="1" Grid.Row="1" Height="147" VerticalAlignment="Center">
+            <Button Grid.Column="0" Grid.Row="0" Content="Show Buttons" Command="{Binding Main.ShowButtonsCommand}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <StackPanel Grid.Column="1" Grid.Row="1" x:Name="ButtonsPanel" Visibility="{Binding Main.ButtonsPanelVisibility}" Orientation="Horizontal">
-            <Button Content="Button 1"/>
-            <Button Content="Button 2"/>
-            <Button Content="Button 3"/>
-            <Button Content="Button 4"/>
-        </StackPanel>
+            <StackPanel Grid.Column="0" Grid.Row="0" x:Name="ButtonsPanel" Visibility="{Binding Main.ButtonsPanelVisibility}" Orientation="Horizontal" Background="#FF679c8d" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <UniformGrid Columns="4" Rows="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Rectangle Width="95" Height="50" Fill="{Binding Main.Button1Color}" MouseDown="Button_Click" RadiusX="29" RadiusY="29"/>
+                    <Rectangle Width="95" Height="50" Fill="{Binding Main.Button2Color}"  RadiusX="29" RadiusY="29">
+                        <Rectangle.InputBindings>
+                            <MouseBinding Gesture="LeftClick">
+                                <MouseBinding.Command>
+                                    <cmd:CloseAppCommand/>
+                                </MouseBinding.Command>
+                            </MouseBinding>
+                        </Rectangle.InputBindings>
+                    </Rectangle>
+                            <Rectangle Width="95" Height="50" Fill="{Binding Main.Button3Color}" MouseDown="Rectangle_MouseDown" RadiusX="29" RadiusY="29"/>
+                    <Rectangle Width="95" Height="50" Fill="{Binding Main.Button4Color}" MouseDown="Rectangle_MouseDown" RadiusX="29" RadiusY="29"/>
+                </UniformGrid>
+            </StackPanel>
+        </Grid>
+        <DockPanel Grid.Row="2" LastChildFill="True" VerticalAlignment="Bottom" Height="24" Margin="0,24,0,0" Grid.ColumnSpan="3">
+            <StatusBar DockPanel.Dock="Bottom" Height="24">
+                <StatusBarItem VerticalAlignment="Bottom">
+                    <TextBlock Text="Rich"></TextBlock>
+
+                </StatusBarItem>
+                <ProgressBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Height="19" Value="67" Width="758" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
+
+            </StatusBar>
+        </DockPanel>
 
 
 
