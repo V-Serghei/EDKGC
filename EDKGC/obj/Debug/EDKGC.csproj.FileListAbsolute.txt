@@ -53,3 +53,16 @@ D:\web project\EDKGC.desk\EDKGC\bin\Debug\FontAwesome5.xml
 D:\web project\EDKGC.desk\EDKGC\bin\Debug\FontAwesome5.Net.xml
 D:\web project\EDKGC.desk\EDKGC\obj\Debug\Infrastructure\Command\Control\CustomDropdownButton.baml
 D:\web project\EDKGC.desk\EDKGC\obj\Debug\Infrastructure\Command\Control\CustomDropdownButton.g.cs
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\MaterialDesignColors.dll
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\MaterialDesignThemes.Wpf.dll
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\MaterialDesignColors.pdb
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\MaterialDesignThemes.Wpf.pdb
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\MaterialDesignThemes.Wpf.xml
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\ControlzEx.dll
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\MahApps.Metro.dll
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\MaterialDesignThemes.MahApps.dll
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\ControlzEx.pdb
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\ControlzEx.xml
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\MahApps.Metro.pdb
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\MahApps.Metro.xml
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\MaterialDesignThemes.MahApps.pdb

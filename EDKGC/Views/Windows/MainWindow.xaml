@@ -12,13 +12,14 @@
             MinWidth="850" 
             MinHeight="450"
             Icon="../../Resources/EDKGC_ICON.ico"
-            Background="LemonChiffon"
+           
             Foreground="LawnGreen" 
             BorderBrush="#FFEE0A0A" 
             OpacityMask="#FFF72222"
             HorizontalAlignment="Left" 
             VerticalAlignment="Top" 
             WindowStartupLocation="CenterScreen"
+            
             >
     <Window.DataContext>
         <mvvc:ViewModelLocator />

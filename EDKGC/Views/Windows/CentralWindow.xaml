@@ -8,13 +8,19 @@
         xmlns:Cddc="clr-namespace:EDKGC.Infrastructure.Command.Control"
         mc:Ignorable="d"
         Title="{Binding Path=Central.Title}" 
-        Background="#FF866B64" 
         d:DesignHeight="654.32" 
         BorderBrush="#FF871515" 
         Foreground="#FF679C8B"
+        Style="{StaticResource MaterialDesignWindow}"
         Width="940"
         MinWidth="900" 
-        MinHeight="650">
+        MinHeight="650"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesign.Brush.Foreground}"
+        Background="{DynamicResource MaterialDesign.Brush.Background}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="{materialDesign:MaterialDesignFont}">
 
     <Window.DataContext>
         <vm:ViewModelLocator />
