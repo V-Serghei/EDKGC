@@ -50,7 +50,7 @@
       <HintPath>packages\CommonServiceLocator.2.0.7\lib\net48\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
-      <HintPath>packages\ControlzEx.4.3.0\lib\net462\ControlzEx.dll</HintPath>
+      <HintPath>packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="FontAwesome5, Version=2.1.11.0, Culture=neutral, PublicKeyToken=9cfaf01297a008f8, processorArchitecture=MSIL">
       <HintPath>packages\FontAwesome5.2.1.11\lib\net472\FontAwesome5.dll</HintPath>
@@ -68,7 +68,7 @@
       <HintPath>packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
-      <HintPath>packages\MahApps.Metro.2.0.0\lib\net47\MahApps.Metro.dll</HintPath>
+      <HintPath>packages\MahApps.Metro.2.4.10\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignColors, Version=3.0.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>packages\MaterialDesignColors.3.0.0\lib\net462\MaterialDesignColors.dll</HintPath>
@@ -130,11 +130,16 @@
     <Compile Include="Infrastructure\Command\LCommand.cs" />
     <Compile Include="ViewModel\CentralSolutions\CentralViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\SatelliteWindows\ConfirmationWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\Windows\CentralWindow.xaml.cs">
       <DependentUpon>CentralWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Infrastructure\Command\Control\CustomDropdownButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\ConfirmationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -145,6 +150,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\Windows\ConfirmationWindow.xaml.cs">
+      <DependentUpon>ConfirmationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -183,6 +191,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Infrastructure\Command\Service\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +203,15 @@
   <ItemGroup>
     <Resource Include="Resources\encryptionFile.ico" />
     <Resource Include="Resources\mail.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\cryptography_8948700.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\question.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\questionW.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MaterialDesignThemes.5.0.0\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.5.0.0\build\MaterialDesignThemes.targets')" />

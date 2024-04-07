@@ -280,7 +280,7 @@
                                    Style="{StaticResource ButtonStyle}" 
                                    RenderTransformOrigin="0.547,0.538" 
                                    HorizontalAlignment="Center" />
-                        <TextBlock Text="Button 1" 
+                        <TextBlock Text="Start working" 
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center"/>
                     </Grid>
@@ -337,7 +337,7 @@
 
 
                         </Rectangle>
-                        <TextBlock Text="Button 2" 
+                        <TextBlock Text="Setting" 
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center" />
                     </Grid>
@@ -395,7 +395,7 @@
 
                         </Rectangle>
                         <TextBlock 
-                            Text="Button 3"
+                            Text="Basic information"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Center" />
                     </Grid>
@@ -452,10 +452,8 @@
                                    Margin="49,24,50,24">
 
                             <Rectangle.InputBindings>
-                                <MouseBinding Gesture="LeftClick">
-                                    <MouseBinding.Command>
-                                        <cmd:CloseAppCommand/>
-                                    </MouseBinding.Command>
+                                <MouseBinding Gesture="LeftClick" Command="{Binding Main.ExitCommand}">
+                                    
                                 </MouseBinding>
                             </Rectangle.InputBindings>
                         </Rectangle>
@@ -486,7 +484,7 @@
                 <ProgressBar 
                     DockPanel.Dock="Bottom" 
                     VerticalAlignment="Bottom" 
-                    Height="19" Value="67" 
+                    Height="19" Value="100" 
                     Width="758" 
                     HorizontalAlignment="Stretch" 
                     HorizontalContentAlignment="Stretch"/>

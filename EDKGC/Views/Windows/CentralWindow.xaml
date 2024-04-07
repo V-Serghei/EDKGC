@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="{Binding Path=Central.Title}" 
         d:DesignHeight="654.32" 
-        BorderBrush="#FF871515" 
+        BorderBrush="#FFE0DCDC" 
         Foreground="#FF679C8B"
         Style="{StaticResource MaterialDesignWindow}"
         Width="940"
@@ -20,7 +20,7 @@
         Background="{DynamicResource MaterialDesign.Brush.Background}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
-        Icon="../../Resources/encryptionFile.ico"
+        Icon="../../Resources/cryptography_8948700.png"
         FontFamily="{materialDesign:MaterialDesignFont}">
 
     <Window.DataContext>
@@ -56,7 +56,7 @@
             </StatusBarItem>
             <ProgressBar DockPanel.Dock="Bottom" 
                          VerticalAlignment="Bottom" 
-                         Height="19" Value="67" 
+                         Height="19" Value="100" 
                          Width="758" 
                          HorizontalAlignment="Stretch" 
                          HorizontalContentAlignment="Stretch"/>

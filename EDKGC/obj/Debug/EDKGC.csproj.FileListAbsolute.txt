@@ -66,3 +66,6 @@ D:\web project\EDKGC.desk\EDKGC\bin\Debug\ControlzEx.xml
 D:\web project\EDKGC.desk\EDKGC\bin\Debug\MahApps.Metro.pdb
 D:\web project\EDKGC.desk\EDKGC\bin\Debug\MahApps.Metro.xml
 D:\web project\EDKGC.desk\EDKGC\bin\Debug\MaterialDesignThemes.MahApps.pdb
+D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\ConfirmationWindow.g.cs
+D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\ConfirmationWindow.baml
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\de\MahApps.Metro.resources.dll
