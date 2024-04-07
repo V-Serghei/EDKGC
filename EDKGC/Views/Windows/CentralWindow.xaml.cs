@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using EDKGC.Infrastructure.Command.Control;
 using EDKGC.ViewModel;
 
 namespace EDKGC.Views.Windows
@@ -20,11 +22,13 @@ namespace EDKGC.Views.Windows
     /// </summary>
     public partial class CentralWindow : Window
     {
+       
         public CentralWindow()
         {
             InitializeComponent();
             DataContext = new ViewModelLocator();
         }
-      
+       
+
     }
 }

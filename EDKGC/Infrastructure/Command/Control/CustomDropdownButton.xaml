@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="EDKGC.Infrastructure.Command.Control.CustomDropdownButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="200">
+    <Grid>
+        <Button x:Name="Button" Content="Dropdown" Click="Button_Click" Background="#FF59DBB1">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#FF59DBB1"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF59DBB1"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Popup x:Name="DropdownPopup" 
+               StaysOpen="False" 
+               PlacementTarget="{Binding ElementName=Button}" 
+               Placement="Bottom"
+               Width="200" 
+               Height="100">
+            <Border Background="#ffdb755a"
+                    BorderBrush="#ff525c95" 
+                    BorderThickness="1">
+                <ListBox Background="LawnGreen"
+                         ItemsSource="{Binding Items, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                         SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                         SelectionChanged="ListBox_SelectionChanged"/>
+            </Border>
+        </Popup>
+    </Grid>
+
+</UserControl>

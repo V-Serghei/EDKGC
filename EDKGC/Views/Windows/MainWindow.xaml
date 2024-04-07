@@ -4,33 +4,56 @@
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:mvvc="clr-namespace:EDKGC.ViewModel"
-            xmlns:local="clr-namespace:EDKGC"
             xmlns:cmd="clr-namespace:EDKGC.Infrastructure.Command.BasicCommands"
             mc:Ignorable="d"
             Title="{Binding Path=Main.Title}"
-            Height="450" 
-            Width="800">
-
+            Height="462" 
+            Width="875"
+            MinWidth="850" 
+            MinHeight="450"
+            Icon="../../Resources/EDKGC_ICON.ico"
+            Background="LemonChiffon"
+            Foreground="LawnGreen" 
+            BorderBrush="#FFEE0A0A" 
+            OpacityMask="#FFF72222"
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            WindowStartupLocation="CenterScreen"
+            >
     <Window.DataContext>
         <mvvc:ViewModelLocator />
     </Window.DataContext>
 
 
+
     <Grid x:Name="MainW" Background="#65E6AD">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="253*"/>
-            <RowDefinition Height="133*"/>
-            <RowDefinition Height="48*"/>
+            <RowDefinition Height="178*"/>
+            <RowDefinition Height="219*"/>
+            <RowDefinition Height="29*"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="17*"/>
-            <ColumnDefinition Width="70*"/>
-            <ColumnDefinition Width="13*"/>
+            <ColumnDefinition Width="12*"/>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="111*"/>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="12*"/>
 
         </Grid.ColumnDefinitions>
 
-        <RichTextBox IsReadOnly="True" RenderTransformOrigin="0.5,0.5" Grid.Column="1" Height="166" VerticalAlignment="Top" FontSize="36" FontFamily="Snap ITC" Background="#FF65E6AD" SelectionBrush="Transparent" CaretBrush="#FF65E6AD" OpacityMask="#FFDF1F1F" Margin="0,10,0,0">
+        <RichTextBox VerticalAlignment="Top" 
+                     HorizontalAlignment="Center" 
+                     IsReadOnly="True" 
+                     RenderTransformOrigin="0.5,0.5" 
+                     Grid.Column="2" FontSize="36" 
+                     FontFamily="Snap ITC" 
+                     Background="#FF65E6AD" 
+                     SelectionBrush="Transparent"
+                     CaretBrush="#FF65E6AD" 
+                     OpacityMask="#FFDF1F1F" 
+                     Margin="0,14,0,0" Height="158" Width="555" >
             <RichTextBox.Style>
                 <Style TargetType="RichTextBox">
                     <Style.Triggers>
@@ -38,16 +61,24 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.1" Duration="0:0:0.2"/>
-                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation 
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.1" 
+                                            Duration="0:0:0.2"/>
+                                        <DoubleAnimation 
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.1"
+                                            Duration="0:0:0.2"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.2"/>
-                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation 
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" 
+                                            Duration="0:0:0.2"/>
+                                        <DoubleAnimation 
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" 
+                                            Duration="0:0:0.2"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
@@ -71,25 +102,33 @@
 
 
             <FlowDocument>
-                <Paragraph>
+                <Paragraph TextAlignment="Center">
                     <LineBreak/>
-                    <Run Text="Welcome to EDKGC" Background="#0551413C" Foreground="#FF332825"/>
+                    <Run Text="Welcome to EDKGC" 
+                         Background="#0551413C" 
+                         Foreground="#FF332825"/>
                     <LineBreak/>
-                    <Run Text="Encryptor/Decrypted/Key Generator/Cracker" FontSize="12" Background="#00000000" Foreground="#FF525C59"/>
+                    <Run Text="Encryptor/Decrypted/Key Generator/Cracker" 
+                         FontSize="12" 
+                         Background="#00000000"
+                         Foreground="#FF525C59"/>
+                    <LineBreak/>
                 </Paragraph>
             </FlowDocument>
 
+
         </RichTextBox>
 
-        <Grid Grid.Column="1" Grid.Row="1" Height="147" VerticalAlignment="Center">
+        <Grid Grid.Column="1" Grid.Row="1" Height="147" VerticalAlignment="Center" Grid.ColumnSpan="3">
+
+
             <Button  x:Name="StartButton" Grid.Column="0" Content="Start" 
                       Command="{Binding Main.ShowButtonsCommand}"  
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
                       VerticalAlignment="Center" 
                       Background="#FFDB755A" 
-                      Height="127" FontFamily="Snap ITC" 
-                      FontSize="36" 
-                      Margin="15,0,15,0" RenderTransformOrigin="0.668,0.501" >
+                      Height="194" FontFamily="Snap ITC" 
+                      FontSize="36" RenderTransformOrigin="0.505,0.513" >
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="RenderTransform">
@@ -102,16 +141,24 @@
                                 <Trigger.EnterActions>
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.1" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.1" 
+                                                Duration="0:0:0.2"/>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.1" 
+                                                Duration="0:0:0.2"/>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </Trigger.EnterActions>
                                 <Trigger.ExitActions>
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1"
+                                                Duration="0:0:0.2"/>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" 
+                                                Duration="0:0:0.2"/>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </Trigger.ExitActions>
@@ -121,50 +168,288 @@
                 </Button.Style>
             </Button>
 
+        </Grid>
 
+        <Grid Grid.Column="1" Grid.Row="1" Height="147" 
+              VerticalAlignment="Center" Grid.ColumnSpan="3">
+            <StackPanel x:Name="ButtonsPanel" 
+                        Background="#FF65E6AD" 
+                        Margin="0,-24,-1,-23" 
+                        Visibility="{Binding Main.ButtonsPanelVisibility}"
+                        RenderTransformOrigin="0.511,0.496"
+                        
+>
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="(StackPanel.RenderTransform).(ScaleTransform.ScaleX)" To="1.1" 
+                                                Duration="0:0:0.2"/>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="(StackPanel.RenderTransform).(ScaleTransform.ScaleY)" To="1.1" 
+                                                Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="(StackPanel.RenderTransform).(ScaleTransform.ScaleX)" To="1" 
+                                                Duration="0:0:0.2"/>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="(StackPanel.RenderTransform).(ScaleTransform.ScaleY)" To="1" 
+                                                Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
 
+                <Grid
+                    HorizontalAlignment="Center" 
+                    Height="196"
+                    Width="753">
 
-            <StackPanel x:Name="ButtonsPanel"
-            Orientation="Horizontal" 
-            Background="#65E6AD" 
-            HorizontalAlignment="Center" 
-            VerticalAlignment="Center" Height="148" Width="560">
-                <UniformGrid HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Grid Canvas.Left="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition />
+
+                    </Grid.ColumnDefinitions>
+                    <Grid >
                         <Grid.Resources>
                             <Style x:Key="ButtonStyle" TargetType="Rectangle">
                                 <Setter Property="Width" Value="278"/>
                                 <Setter Property="Height" Value="50"/>
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
-                                <Setter Property="Margin" Value="0,10,0,12"/>
+                                <Setter Property="Margin" Value="0,10,0,10"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    </Setter.Value>
+                                </Setter>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Width" Value="300"/>
-                                        <Setter Property="Height" Value="60"/>
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleX)" To="1.1"
+                                                        Duration="0:0:0.2"/>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleY)" To="1.1" 
+                                                        Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleX)" To="1" 
+                                                        Duration="0:0:0.2"/>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleY)" To="1"
+                                                        Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </Grid.Resources>
-                        <Rectangle Fill="{Binding Main.Button1Color}" MouseDown="Button_Click" RadiusX="29" RadiusY="29" Style="{StaticResource ButtonStyle}"/>
-                        <TextBlock Text="Button 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Rectangle Fill="#FFDB755A" 
+                                   MouseDown="Button_Click" 
+                                   RadiusX="29" RadiusY="29" 
+                                   Style="{StaticResource ButtonStyle}" 
+                                   RenderTransformOrigin="0.547,0.538" 
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="Button 1" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
                     </Grid>
 
-                    <Grid>
+                    <Grid Grid.Row="1" Grid.Column="0">
                         <Grid.Resources>
                             <Style x:Key="ButtonStyle" TargetType="Rectangle">
                                 <Setter Property="Width" Value="278"/>
                                 <Setter Property="Height" Value="50"/>
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
-                                <Setter Property="Margin" Value="0,10,0,12"/>
+                                <Setter Property="Margin" Value="0,10,0,10"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    </Setter.Value>
+                                </Setter>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Width" Value="300"/>
-                                        <Setter Property="Height" Value="60"/>
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleX)" To="1.1"
+                                                        Duration="0:0:0.2"/>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleY)" To="1.1" 
+                                                        Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleX)" To="1" 
+                                                        Duration="0:0:0.2"/>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleY)" To="1" 
+                                                        Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
+
                         </Grid.Resources>
-                        <Rectangle Fill="{Binding Main.Button2Color}" RadiusX="29" RadiusY="29" Style="{StaticResource ButtonStyle}">
+                        <Rectangle Fill="#FFDB755A" 
+                                   RadiusX="29" RadiusY="29" 
+                                   Style="{StaticResource ButtonStyle}"
+                                   HorizontalAlignment="Stretch"  
+                                   RenderTransformOrigin="0.558,0.498" 
+                                   Margin="48,24,50,24">
+
+
+                        </Rectangle>
+                        <TextBlock Text="Button 2" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Grid.Resources>
+                            <Style x:Key="ButtonStyle" TargetType="Rectangle">
+                                <Setter Property="Width" Value="278"/>
+                                <Setter Property="Height" Value="50"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0,10,0,10"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleX)" To="1.1"
+                                                        Duration="0:0:0.2"/>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleY)" To="1.1" 
+                                                        Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleX)" To="1"
+                                                        Duration="0:0:0.2"/>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleY)" To="1"
+                                                        Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+
+                        </Grid.Resources>
+                        <Rectangle Fill="#FFDB755A"
+                                   MouseDown="Rectangle_MouseDown" 
+                                   RadiusX="29" RadiusY="29" 
+                                   Style="{StaticResource ButtonStyle}" 
+                                   RenderTransformOrigin="0.568,0.507" 
+                                   HorizontalAlignment="Stretch" 
+                                   Margin="48,24,50,24">
+
+                        </Rectangle>
+                        <TextBlock 
+                            Text="Button 3"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center" />
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="1" RenderTransformOrigin="0.576,0.505">
+                        <Grid.Resources>
+                            <Style x:Key="ButtonStyle" TargetType="Rectangle">
+                                <Setter Property="Width" Value="278"/>
+                                <Setter Property="Height" Value="50"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0,10,0,10"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleX)" To="1.1" 
+                                                        Duration="0:0:0.2"/>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleY)" To="1.1"
+                                                        Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleX)" 
+                                                        To="1"
+                                                        Duration="0:0:0.2"/>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetProperty="(Rectangle.RenderTransform).(ScaleTransform.ScaleY)" 
+                                                        To="1" 
+                                                        Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+
+                        </Grid.Resources>
+                        <Rectangle Fill="#FF332825" 
+                                   RadiusX="29" RadiusY="29" 
+                                   Style="{StaticResource ButtonStyle}"
+                                   HorizontalAlignment="Stretch"  
+                                   RenderTransformOrigin="0.558,0.498" 
+                                   Margin="49,24,50,24">
+
                             <Rectangle.InputBindings>
                                 <MouseBinding Gesture="LeftClick">
                                     <MouseBinding.Command>
@@ -173,61 +458,39 @@
                                 </MouseBinding>
                             </Rectangle.InputBindings>
                         </Rectangle>
-                        <TextBlock Text="Button 2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,29,0,0"/>
-                    </Grid>
 
-                    <Grid>
-                        <Grid.Resources>
-                            <Style x:Key="ButtonStyle" TargetType="Rectangle">
-                                <Setter Property="Width" Value="278"/>
-                                <Setter Property="Height" Value="50"/>
-                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                                <Setter Property="Margin" Value="0,10,0,12"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Width" Value="300"/>
-                                        <Setter Property="Height" Value="60"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Resources>
-                        <Rectangle Fill="{Binding Main.Button3Color}" MouseDown="Rectangle_MouseDown" RadiusX="29" RadiusY="29" Style="{StaticResource ButtonStyle}"/>
-                        <TextBlock Text="Button 3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="Exit" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" 
+                                   FontFamily="Algerian" 
+                                   Foreground="#FFCFAFAF" />
                     </Grid>
-                    <Grid>
-                        <Grid.Resources>
-                            <Style x:Key="ButtonStyle" TargetType="Rectangle">
-                                <Setter Property="Width" Value="278"/>
-                                <Setter Property="Height" Value="50"/>
-                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                                <Setter Property="Margin" Value="0,10,0,12"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Width" Value="300"/>
-                                        <Setter Property="Height" Value="60"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Resources>
-                        <Rectangle Fill="{Binding Main.Button4Color}" MouseDown="Rectangle_MouseDown" RadiusX="29" RadiusY="29" Style="{StaticResource ButtonStyle}"/>
-                        <TextBlock Text="Exit" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Algerian" Foreground="#FFCFAFAF"/>
-                    </Grid>
-                </UniformGrid>
-                </StackPanel>
+                </Grid>
+            </StackPanel>
 
         </Grid>
-        <DockPanel Grid.Row="2" LastChildFill="True" VerticalAlignment="Bottom" Height="24" Margin="0,24,0,0" Grid.ColumnSpan="3">
-            <StatusBar DockPanel.Dock="Bottom" Height="24">
+        <DockPanel Grid.Row="3" 
+                   LastChildFill="True" 
+                   Grid.ColumnSpan="5" 
+                   Grid.Column="0" 
+                   Margin="0,0,0,0" 
+                   VerticalAlignment="Bottom">
+            <StatusBar DockPanel.Dock="Bottom" 
+                       Height="25" 
+                       VerticalContentAlignment="Bottom" 
+                       Panel.ZIndex="1">
                 <StatusBarItem VerticalAlignment="Bottom">
-                    <TextBlock Text="Rich"></TextBlock>
-
+                    <TextBlock Text="{Binding Central.Status}"></TextBlock>
                 </StatusBarItem>
-                <ProgressBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Height="19" Value="67" Width="758" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
-
+                <ProgressBar 
+                    DockPanel.Dock="Bottom" 
+                    VerticalAlignment="Bottom" 
+                    Height="19" Value="67" 
+                    Width="758" 
+                    HorizontalAlignment="Stretch" 
+                    HorizontalContentAlignment="Stretch"/>
             </StatusBar>
         </DockPanel>
-
-
 
     </Grid>
 </Window>

@@ -47,3 +47,9 @@ D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\MainWindow.g.cs
 D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\MainWindow.baml
 D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\CentralWindow.g.cs
 D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\CentralWindow.baml
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\FontAwesome5.dll
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\FontAwesome5.Net.dll
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\FontAwesome5.xml
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\FontAwesome5.Net.xml
+D:\web project\EDKGC.desk\EDKGC\obj\Debug\Infrastructure\Command\Control\CustomDropdownButton.baml
+D:\web project\EDKGC.desk\EDKGC\obj\Debug\Infrastructure\Command\Control\CustomDropdownButton.g.cs

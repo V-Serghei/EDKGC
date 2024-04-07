@@ -20,7 +20,7 @@ namespace EDKGC.Views.Windows
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CentralWindow window = new CentralWindow();
+            var window = new CentralWindow();
 
             window.Show();
 
@@ -28,11 +28,9 @@ namespace EDKGC.Views.Windows
         }
         private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Rectangle rectangle = sender as Rectangle;
-            if (rectangle != null)
+            if (sender is Rectangle rectangle)
             {
-                // Изменяем цвет прямоугольника по вашей логике
-                rectangle.Fill = Brushes.Blue; // Например, изменяем на синий цвет
+                rectangle.Fill = Brushes.Blue; 
             }
         }
        

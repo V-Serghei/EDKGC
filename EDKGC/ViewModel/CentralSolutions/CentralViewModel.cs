@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,14 +17,49 @@ namespace EDKGC.ViewModel.CentralSolutions
         public CentralViewModel()
         {
             CloseAppCommand = new RelayCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecuted);
-
+            FirstItems = new ObservableCollection<string>
+            {
+                "Item 1",
+                "Item 2",
+                "Item 3"
+            };
+            SecondItems = new ObservableCollection<string>
+            {
+                "Item 4",
+                "Item 5",
+                "Item 3"
+            };
+            ThirdItems = new ObservableCollection<string>
+            {
+                "Item 9",
+                "Item 2",
+                "Item 3"
+            };
         }
+
+        #region Custom Dropdown Button
+
+        /// <summary>
+        /// Custom Dropdown Button
+        /// Personal Popup Box Selection
+        /// </summary>
+
+        public string SelectedFirstItem { get; set; }
+        public string SelectedSecondItem { get; set; }
+        public string SelectedThirdItem { get; set; }
+
+        public ObservableCollection<string> FirstItems { get; set; }
+        public ObservableCollection<string> SecondItems { get; set; }
+        public ObservableCollection<string> ThirdItems { get; set; }
+        
+
+        #endregion
 
         #region CloseAppCommand
 
         public ICommand CloseAppCommand { get; }
 
-        private bool CanCloseAppCommandExecuted() => true;
+        private static bool CanCloseAppCommandExecuted() => true;
 
         public void OnCloseAppCommandExecuted()
         {
@@ -69,7 +105,9 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         #endregion
 
-        public void Dispose()
+        
+
+    public void Dispose()
         {
            
         }
