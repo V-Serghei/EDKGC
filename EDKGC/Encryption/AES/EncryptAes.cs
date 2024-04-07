@@ -11,16 +11,18 @@ namespace EDKGC.Encryption.AES
 {
     public class EncryptAes
     {
-        public byte[] Encrypt(byte[] entText, byte[] key)
+        public byte[] Encrypt(byte[] plainText, byte[] key)
         {
-            AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
-            ICryptoTransform encryptor = aes.CreateEncryptor(key,null);
-            byte[] ciphertext = new byte[entText.Length];
+            using (Aes aes = Aes.Create())
+            {
+                aes.Mode = CipherMode.ECB; 
+                aes.Key = key;
 
-            int processedBytes = encryptor.TransformBlock(entText, 0, entText.Length, ciphertext, 0);
-            encryptor.TransformFinalBlock(ciphertext, processedBytes, ciphertext.Length - processedBytes);
-
-            return ciphertext;
+                using (ICryptoTransform encryptor = aes.CreateEncryptor())
+                {
+                    return encryptor.TransformFinalBlock(plainText, 0, plainText.Length);
+                }
+            }
         }
     }
 }

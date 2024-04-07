@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using EDKGC.Models;
 using GalaSoft.MvvmLight;
+using Org.BouncyCastle.Utilities;
 
 
 namespace EDKGC.ViewModel.CentralSolutions
@@ -151,7 +153,7 @@ namespace EDKGC.ViewModel.CentralSolutions
         public void AesGenKey()
         {
             var key = AesSymmetricEncryptionM.GenKeyAesAlg();
-            Base64String = Convert.ToBase64String(AesSymmetricEncryptionM.Key);
+            Base64String = Encoding.UTF8.GetString(AesSymmetricEncryptionM.Key);
             //Base64String = BitConverter.ToString(AesSymmetricEncryptionM.Key).Replace("-", " ");
             AesKeyText = Base64String;
 
@@ -159,9 +161,9 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         public void AesEncryptTextB()
         {
-
+           var a =  Convert.ToByte(_aesEncryptText);
            var encryptText =  AesSymmetricEncryptionM.Encrypting(_aesTextNonEncrypt);
-           Base64String = Convert.ToBase64String(encryptText);
+           Base64String = Encoding.UTF8.GetString(encryptText);
            AesEncryptText = Base64String;
            AesTextNonEncrypt = AesSymmetricEncryptionM.EnterText;
 

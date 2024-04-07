@@ -114,7 +114,7 @@
                     </Rectangle>
                     <GridSplitter Grid.Column="2" 
                                   x:Name="Splitter1"
-                                  Grid.RowSpan="7" 
+                                  Grid.Row="0" Grid.RowSpan="7" 
                                   Width="5"
                                   HorizontalAlignment="Stretch" 
                                   Margin="1,0,21,0"
@@ -186,7 +186,7 @@
                              Text="{Binding Central.AesKeyText}"
                              Grid.ColumnSpan="4" 
                              Grid.RowSpan="2" 
-                             Background="#FFE3F2FF"/>
+                             Background="#FFE3F2FF" FontFamily="Arial Unicode MS"/>
                     <TextBox Grid.Column="7" 
                              x:Name="AesEncryptText"
                              Margin="48,89,36,10" 
