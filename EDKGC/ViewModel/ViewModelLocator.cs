@@ -13,6 +13,7 @@
 */
 
 using CommonServiceLocator;
+using EDKGC.ViewModel.CentralSolutions;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 
@@ -43,19 +44,16 @@ namespace EDKGC.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<CentralViewModel>();
         }
 
-        public MainViewModel Main
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
-        }
-        
+        public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public CentralViewModel Central => ServiceLocator.Current.GetInstance<CentralViewModel>();
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels
+            
         }
     }
 }
