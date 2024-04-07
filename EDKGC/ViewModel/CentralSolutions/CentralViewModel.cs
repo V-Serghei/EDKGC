@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using EDKGC.Views.Windows;
+using CommunityToolkit.Mvvm.Input;
+using EDKGC.Models;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+
 
 namespace EDKGC.ViewModel.CentralSolutions
 {
@@ -16,12 +13,25 @@ namespace EDKGC.ViewModel.CentralSolutions
     {
         public CentralViewModel()
         {
+            AesSymmetricEncryptionM = new AesSymmetricEncryption();
+           
             CloseAppCommand = new RelayCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecuted);
+
+            GenKeyAes = new RelayCommand(AesGenKey);
+
+            EncryptText = new RelayCommand(AesEncryptTextB);
+
             FirstItems = new ObservableCollection<string>
             {
-                "Item 1",
-                "Item 2",
-                "Item 3"
+                "AES",
+                "DES",
+                "3DES",
+                "Kuznyechik",
+                "Blowfish",
+                "Twofish",
+                "Serpent"
+
+
             };
             SecondItems = new ObservableCollection<string>
             {
@@ -58,6 +68,8 @@ namespace EDKGC.ViewModel.CentralSolutions
         #region CloseAppCommand
 
         public ICommand CloseAppCommand { get; }
+
+
 
         private static bool CanCloseAppCommandExecuted() => true;
 
@@ -105,9 +117,64 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         #endregion
 
-        
 
-    public void Dispose()
+        #region AES
+
+        /// <summary>
+        /// AES symmetric encryption
+        /// </summary>
+        public ICommand GenKeyAes { get; set; }
+        public ICommand EncryptText { get; set; }
+        public AesSymmetricEncryption AesSymmetricEncryptionM { get; set; }
+        public string Base64String { get; set; }
+        private string _aesKeyText;
+        private string _aesEncryptText;
+        private string _aesTextNonEncrypt;
+
+
+        public string AesTextNonEncrypt
+        {
+            get => _aesTextNonEncrypt;
+            set => Set(ref _aesTextNonEncrypt, value);
+        }
+        public string AesEncryptText
+        {
+            get => _aesEncryptText;
+            set => Set(ref _aesEncryptText, value);
+        }
+
+        public string AesKeyText
+        {
+            get => _aesKeyText;
+            set => Set(ref _aesKeyText, value);
+        }
+        public void AesGenKey()
+        {
+            var key = AesSymmetricEncryptionM.GenKeyAesAlg();
+            Base64String = Convert.ToBase64String(AesSymmetricEncryptionM.Key);
+            //Base64String = BitConverter.ToString(AesSymmetricEncryptionM.Key).Replace("-", " ");
+            AesKeyText = Base64String;
+
+        }
+
+        public void AesEncryptTextB()
+        {
+
+           var encryptText =  AesSymmetricEncryptionM.Encrypting(_aesTextNonEncrypt);
+           Base64String = Convert.ToBase64String(encryptText);
+           AesEncryptText = Base64String;
+           AesTextNonEncrypt = AesSymmetricEncryptionM.EnterText;
+
+        }
+
+
+
+
+
+        #endregion
+
+
+        public void Dispose()
         {
            
         }

@@ -27,7 +27,7 @@
 
 
 
-    <Grid x:Name="MainW" Background="#65E6AD">
+    <Grid x:Name="MainW" Background="#FFA2FFD6">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="178*"/>
@@ -44,17 +44,17 @@
 
         </Grid.ColumnDefinitions>
 
-        <RichTextBox VerticalAlignment="Top" 
+        <RichTextBox 
                      HorizontalAlignment="Center" 
                      IsReadOnly="True" 
                      RenderTransformOrigin="0.5,0.5" 
                      Grid.Column="2" FontSize="36" 
-                     FontFamily="Snap ITC" 
-                     Background="#FF65E6AD" 
+                     FontFamily="Engravers MT" 
+                     Background="#FFA2FFD6" 
                      SelectionBrush="Transparent"
                      CaretBrush="#FF65E6AD" 
                      OpacityMask="#FFDF1F1F" 
-                     Margin="0,14,0,0" Height="158" Width="555" >
+                     Margin="0,14,0,14" Width="555" >
             <RichTextBox.Style>
                 <Style TargetType="RichTextBox">
                     <Style.Triggers>
@@ -127,9 +127,9 @@
                       Command="{Binding Main.ShowButtonsCommand}"  
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
                       VerticalAlignment="Center" 
-                      Background="#FFDB755A" 
-                      Height="194" FontFamily="Snap ITC" 
-                      FontSize="36" RenderTransformOrigin="0.505,0.513" >
+                      Background="#FF9EDA74" 
+                      Height="194" FontFamily="Wide Latin" 
+                      FontSize="48" RenderTransformOrigin="0.505,0.513" >
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="RenderTransform">
@@ -174,7 +174,7 @@
         <Grid Grid.Column="1" Grid.Row="1" Height="147" 
               VerticalAlignment="Center" Grid.ColumnSpan="3">
             <StackPanel x:Name="ButtonsPanel" 
-                        Background="#FF65E6AD" 
+                        Background="#FFA2FFD6" 
                         Margin="0,-24,-1,-23" 
                         Visibility="{Binding Main.ButtonsPanelVisibility}"
                         RenderTransformOrigin="0.511,0.496"
@@ -274,7 +274,7 @@
                                 </Style.Triggers>
                             </Style>
                         </Grid.Resources>
-                        <Rectangle Fill="#FFDB755A" 
+                        <Rectangle Fill="#FFCBB9E0" 
                                    MouseDown="Button_Click" 
                                    RadiusX="29" RadiusY="29" 
                                    Style="{StaticResource ButtonStyle}" 
@@ -282,7 +282,7 @@
                                    HorizontalAlignment="Center" />
                         <TextBlock Text="Start working" 
                                    HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center"/>
+                                   VerticalAlignment="Center" Foreground="Black" FontFamily="Arial Black"/>
                     </Grid>
 
                     <Grid Grid.Row="1" Grid.Column="0">
@@ -328,7 +328,7 @@
                             </Style>
 
                         </Grid.Resources>
-                        <Rectangle Fill="#FFDB755A" 
+                        <Rectangle Fill="#FFCBB9E0" 
                                    RadiusX="29" RadiusY="29" 
                                    Style="{StaticResource ButtonStyle}"
                                    HorizontalAlignment="Stretch"  
@@ -339,7 +339,7 @@
                         </Rectangle>
                         <TextBlock Text="Setting" 
                                    HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center" />
+                                   VerticalAlignment="Center" Foreground="Black" FontFamily="Segoe UI Black" />
                     </Grid>
 
                     <Grid Grid.Row="0" Grid.Column="1">
@@ -385,7 +385,7 @@
                             </Style>
 
                         </Grid.Resources>
-                        <Rectangle Fill="#FFDB755A"
+                        <Rectangle Fill="#FFCBB9E0"
                                    MouseDown="Rectangle_MouseDown" 
                                    RadiusX="29" RadiusY="29" 
                                    Style="{StaticResource ButtonStyle}" 
@@ -397,7 +397,7 @@
                         <TextBlock 
                             Text="Basic information"
                             HorizontalAlignment="Center" 
-                            VerticalAlignment="Center" />
+                            VerticalAlignment="Center" Foreground="Black" FontFamily="Segoe UI Black" />
                     </Grid>
                     <Grid Grid.Row="1" Grid.Column="1" RenderTransformOrigin="0.576,0.505">
                         <Grid.Resources>
@@ -453,7 +453,7 @@
 
                             <Rectangle.InputBindings>
                                 <MouseBinding Gesture="LeftClick" Command="{Binding Main.ExitCommand}">
-                                    
+
                                 </MouseBinding>
                             </Rectangle.InputBindings>
                         </Rectangle>
