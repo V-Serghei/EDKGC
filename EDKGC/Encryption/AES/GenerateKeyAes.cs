@@ -19,5 +19,6 @@ namespace EDKGC.Encryption.AES
             keyGenerator.Init(keyGenParam);
             return keyGenerator.GenerateKey();
         }
+
     }
 }

@@ -152,6 +152,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enams\Effect.cs" />
+    <Compile Include="Enams\SymmetricEncryption.cs" />
     <Compile Include="Encryption\AES\DecryptAes.cs" />
     <Compile Include="Encryption\AES\EncryptAes.cs" />
     <Compile Include="Encryption\AES\GenerateKeyAes.cs" />

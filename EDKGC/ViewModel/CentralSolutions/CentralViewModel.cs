@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using EDKGC.Enams;
 using EDKGC.Models;
 using GalaSoft.MvvmLight;
 using Org.BouncyCastle.Utilities;
@@ -11,8 +15,39 @@ using Org.BouncyCastle.Utilities;
 
 namespace EDKGC.ViewModel.CentralSolutions
 {
-    public class CentralViewModel : ViewModelBase, IDisposable
+    public class CentralViewModel : ViewModelBase, INotifyPropertyChanged
     {
+        #region basic tools
+
+        /// <summary>
+        /// PropertyChanged
+        /// And
+        /// Encoding
+        /// </summary>
+        readonly Encoding _encoding = Encoding.UTF7;
+
+        private SymmetricEncryption _algorithmSymmetricEncryption = SymmetricEncryption.Aes;
+
+        public new event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected new bool Set<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value))
+                return false;
+
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+
+        #endregion
+
         public CentralViewModel()
         {
             AesSymmetricEncryptionM = new AesSymmetricEncryption();
@@ -23,47 +58,83 @@ namespace EDKGC.ViewModel.CentralSolutions
 
             EncryptText = new RelayCommand(AesEncryptTextB);
 
-            FirstItems = new ObservableCollection<string>
-            {
-                "AES",
-                "DES",
-                "3DES",
-                "Kuznyechik",
-                "Blowfish",
-                "Twofish",
-                "Serpent"
+            SwapEncryptDecrypt = new RelayCommand(SwapEnDecrypt);
 
 
-            };
-            SecondItems = new ObservableCollection<string>
-            {
-                "Item 4",
-                "Item 5",
-                "Item 3"
-            };
-            ThirdItems = new ObservableCollection<string>
-            {
-                "Item 9",
-                "Item 2",
-                "Item 3"
-            };
+            Items = new ObservableCollection<string>() { "Aes", "DES", "3DES", "SEAL", "Blowfish" , "Twofish" , "Serpent" };
+            SelectionChangedCommand = new RelayCommand(UpdateCommand);
         }
 
-        #region Custom Dropdown Button
+        #region Algorithm selection list
 
         /// <summary>
-        /// Custom Dropdown Button
-        /// Personal Popup Box Selection
+        /// Algorithm selection list
         /// </summary>
+        public ICommand SelectionChangedCommand { get; set; }
 
-        public string SelectedFirstItem { get; set; }
-        public string SelectedSecondItem { get; set; }
-        public string SelectedThirdItem { get; set; }
+        private ObservableCollection<string> _items;
+        public ObservableCollection<string> Items
+        {
+            get => _items;
+            set
+            {
+                Set(ref _items, value);
+                SelectedItemText = SelectedItem;
+            } 
+        }
 
-        public ObservableCollection<string> FirstItems { get; set; }
-        public ObservableCollection<string> SecondItems { get; set; }
-        public ObservableCollection<string> ThirdItems { get; set; }
-        
+        private string _selectedItem;
+        public string SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                if (_selectedItem == value) return;
+                _selectedItem = value;
+                OnPropertyChanged(nameof(SelectedItem));
+                SelectedItemText = value;
+            }
+        }
+
+        private string _selectedItemText;
+        public string SelectedItemText
+        {
+            get => _selectedItemText;
+            set => Set(ref _selectedItemText, value);
+        }
+
+        private void UpdateCommand()
+        {
+            if (SelectedItemText == Items[0])
+            {
+                _algorithmSymmetricEncryption = SymmetricEncryption.Aes;
+            }
+            else if(SelectedItemText == Items[1])
+            {
+                _algorithmSymmetricEncryption = SymmetricEncryption.DES;
+            }
+            else if (SelectedItemText == Items[2])
+            {
+                _algorithmSymmetricEncryption = SymmetricEncryption.TripleDES;
+            }
+            else if (SelectedItemText == Items[3])
+            {
+                _algorithmSymmetricEncryption = SymmetricEncryption.SEAL;
+            }
+            else if (_selectedItemText == Items[4])
+            {
+                _algorithmSymmetricEncryption = SymmetricEncryption.Blowfish;
+            }
+            else if (_selectedItemText == Items[5])
+            {
+                _algorithmSymmetricEncryption = SymmetricEncryption.Twofish;
+            }
+            else
+            {
+                _algorithmSymmetricEncryption = SymmetricEncryption.Serpent;
+            }
+        }
+
 
         #endregion
 
@@ -127,12 +198,29 @@ namespace EDKGC.ViewModel.CentralSolutions
         /// </summary>
         public ICommand GenKeyAes { get; set; }
         public ICommand EncryptText { get; set; }
+        public ICommand SwapEncryptDecrypt { get; set; }
         public AesSymmetricEncryption AesSymmetricEncryptionM { get; set; }
         public string Base64String { get; set; }
         private string _aesKeyText;
         private string _aesEncryptText;
-        private string _aesTextNonEncrypt;
+        private string _aesTextNonEncrypt = "Enter text";
+        private string _buttonEDecrypt = "Encrypt";
+        private Effect _buttonEffect = Effect.Encrypt;
 
+       
+
+
+        public Effect ButtonEffect
+        {
+            get => _buttonEffect;
+            set => Set(ref _buttonEffect, value);
+        }
+
+        public string ButtonEDecrypt
+        {
+            get => _buttonEDecrypt;
+            set => Set(ref _buttonEDecrypt, value);
+        }
 
         public string AesTextNonEncrypt
         {
@@ -153,7 +241,7 @@ namespace EDKGC.ViewModel.CentralSolutions
         public void AesGenKey()
         {
             var key = AesSymmetricEncryptionM.GenKeyAesAlg();
-            Base64String = Encoding.UTF8.GetString(AesSymmetricEncryptionM.Key);
+            Base64String = _encoding.GetString(AesSymmetricEncryptionM.Key);
             //Base64String = BitConverter.ToString(AesSymmetricEncryptionM.Key).Replace("-", " ");
             AesKeyText = Base64String;
 
@@ -161,13 +249,52 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         public void AesEncryptTextB()
         {
-           var a =  Convert.ToByte(_aesEncryptText);
-           var encryptText =  AesSymmetricEncryptionM.Encrypting(_aesTextNonEncrypt);
-           Base64String = Encoding.UTF8.GetString(encryptText);
-           AesEncryptText = Base64String;
-           AesTextNonEncrypt = AesSymmetricEncryptionM.EnterText;
+
+
+            if (ButtonEffect == Effect.Encrypt)
+            {
+                Base64String = _encoding.GetString(AesSymmetricEncryptionM.Encrypting(AesTextNonEncrypt));
+                AesEncryptText = Base64String;
+                AesTextNonEncrypt = AesSymmetricEncryptionM.EnterText;
+
+            }
+            else if (ButtonEffect == Effect.Decrypt)
+            {
+                Base64String = _encoding.GetString(AesSymmetricEncryptionM.Decrypt(AesTextNonEncrypt));
+                AesEncryptText = Base64String;
+            }
+           
 
         }
+
+        public void SwapEnDecrypt()
+        {
+            switch (ButtonEffect)
+            {
+                case Effect.Encrypt:
+                    ButtonEffect = Effect.Decrypt;
+                    ButtonEDecrypt = "Decrypt";
+                    AesTextNonEncrypt = AesEncryptText;
+                    AesEncryptText = "";
+                    break;
+                case Effect.Decrypt:
+                    ButtonEffect = Effect.Encrypt;
+                    ButtonEDecrypt = "Encrypt";
+                    if (AesEncryptText == "") AesTextNonEncrypt = "";
+                    else
+                    {
+                        AesTextNonEncrypt = AesEncryptText;
+                    }
+                    AesEncryptText = "";
+                    break;
+                default:
+                    ButtonEffect = Effect.Encrypt;
+                    break;
+            }
+            
+        }
+
+
 
 
 

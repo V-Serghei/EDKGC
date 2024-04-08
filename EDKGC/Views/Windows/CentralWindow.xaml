@@ -16,6 +16,8 @@
         MinWidth="900" 
         MinHeight="650"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
         TextElement.Foreground="{DynamicResource MaterialDesign.Brush.Foreground}"
         Background="{DynamicResource MaterialDesign.Brush.Background}"
         TextElement.FontWeight="Medium"
@@ -46,6 +48,11 @@
 
                 </MenuItem>
             </MenuItem>
+            <TextBox TextWrapping="Wrap" 
+                     Text="{Binding Central.SelectedItemText, Mode=TwoWay}" 
+                     Width="90" 
+                     IsReadOnly="True"/>
+
         </Menu>
         <StatusBar DockPanel.Dock="Bottom" Height="24">
             <StatusBarItem VerticalAlignment="Bottom">
@@ -127,44 +134,21 @@
                                   HorizontalAlignment="Left" 
                                   Margin="1,0,0,0" Width="6" Background="#FF536F5D"
                                   />
-                    <Grid Grid.Row="0" 
-                          Grid.ColumnSpan="2" 
-                          Grid.Column="0" 
-                          Height="89" 
-                          VerticalAlignment="Center">
-                        <Cddc:CustomDropdownButton Items="{Binding Central.FirstItems}" 
-                                                   SelectedItem="{Binding Central.SelectedFirstItem}" Margin="0,10,0,-10" />
-                        <TextBlock Text="Block ciphers" Foreground="Black" Focusable="False" IsHitTestVisible="False" HorizontalAlignment="Left" Width="224" Height="21" VerticalAlignment="Center" FontFamily="Bodoni MT Black" FontSize="16" Margin="31,0,0,0"/>
-                    </Grid>
 
-                    <Grid Grid.Row="2" 
+                    <Grid 
                           Grid.ColumnSpan="2" 
-                          Grid.Column="0" 
-                          Height="89" 
-                          VerticalAlignment="Center">
-                        <Cddc:CustomDropdownButton Items="{Binding Central.SecondItems}" 
-                                                   SelectedItem="{Binding Central.SelectedSecondItem}" 
-                                                   Margin="0,10,0,-10" />
-                        <TextBlock Text="Stream ciphers" Margin="19,40,0,0" Foreground="Black" Focusable="False" IsHitTestVisible="False" HorizontalAlignment="Left" Width="224" Height="21" VerticalAlignment="Top" FontFamily="Bodoni MT Black" FontSize="16"/>
-                    </Grid>
+                          Grid.Column="0" Margin="0,81,4,58" Grid.Row="0" Grid.RowSpan="6">
+                        <ListView ItemsSource="{Binding Central.Items}" 
+                                  SelectedItem="{Binding Central.SelectedItem}" SelectionChanged="ListView_SelectionChanged"
+                                  >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Symmetric encryption algorithms" DisplayMemberBinding="{Binding}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
 
-                    <Grid Grid.Row="4" 
-                          Grid.ColumnSpan="2" 
-                          Grid.Column="0" 
-                          Height="89" 
-                          VerticalAlignment="Top"
-                          Margin="0,0,0,0" 
-                          Grid.RowSpan="3">
-                        <Cddc:CustomDropdownButton Items="{Binding Central.ThirdItems}" 
-                                                   SelectedItem="{Binding Central.SelectedThirdItem}" Margin="0,10,0,0" />
-                        <TextBlock Text="Encrypted compression algorithms" 
-                                   Margin="10,16,50,0" 
-                                   Foreground="Black" 
-                                   TextWrapping="Wrap"
-                                   Focusable="False" 
-                                   IsHitTestVisible="False" 
-                                   Height="69" 
-                                   VerticalAlignment="Top" FontSize="16" FontFamily="Bodoni MT Black"/>
+
 
                     </Grid>
 
@@ -186,7 +170,7 @@
                              Text="{Binding Central.AesKeyText}"
                              Grid.ColumnSpan="4" 
                              Grid.RowSpan="2" 
-                             Background="#FFE3F2FF" FontFamily="Arial Unicode MS"/>
+                             Background="#FFE3F2FF" FontFamily="Segoe UI"/>
                     <TextBox Grid.Column="7" 
                              x:Name="AesEncryptText"
                              Margin="48,89,36,10" 
@@ -195,9 +179,9 @@
                              Grid.Row="0"
                              Grid.RowSpan="5" 
                              Grid.ColumnSpan="4" 
-                             Background="#FFE3F2FF"/>
+                             Background="#FFE3F2FF" FontFamily="Calibri"/>
                     <Grid Grid.Column="7" Grid.Row="5" Margin="1,2,0,0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="76">
-                        <Button Margin="10,0,0,0" Height="32" VerticalAlignment="Center" HorizontalAlignment="Left" Width="48" Foreground="#FFA73232" Background="#FFA7D6FF" />
+                        <Button Command="{Binding Central.SwapEncryptDecrypt}" Margin="10,0,0,0" Height="32" VerticalAlignment="Center" HorizontalAlignment="Left" Width="48" Foreground="#FFA73232" Background="#FFA7D6FF" />
                         <Image Source="../../Resources/arrows.ico" Margin="26,0,0,0" Height="22" VerticalAlignment="Center" Focusable="False" IsHitTestVisible="False" HorizontalAlignment="Left" Width="16"/>
                     </Grid>
                     <Button Grid.Column="4"
@@ -213,7 +197,7 @@
                             Background="#FF0D0356"
                             Command="{Binding Central.GenKeyAes}" Foreground="White" />
                     <Button Grid.Column="4"
-                            Content="Encrypt" 
+                            Content="{Binding Central.ButtonEDecrypt}" 
                             Margin="0,0,31,10" 
                             Grid.Row="5" Grid.ColumnSpan="3"
                             HorizontalAlignment="Right" 
@@ -232,6 +216,7 @@
                             Width="105" 
                             Height="38"
                             Background="#FF0D0356" Foreground="White"/>
+                    
                 </Grid>
 
             </TabItem>

@@ -87,3 +87,5 @@ D:\web project\EDKGC.desk\EDKGC\bin\Debug\System.Memory.xml
 D:\web project\EDKGC.desk\EDKGC\bin\Debug\System.Numerics.Vectors.xml
 D:\web project\EDKGC.desk\EDKGC\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\web project\EDKGC.desk\EDKGC\bin\Debug\System.Threading.Tasks.Extensions.xml
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\System.Text.Encoding.CodePages.dll
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\System.Text.Encoding.CodePages.xml

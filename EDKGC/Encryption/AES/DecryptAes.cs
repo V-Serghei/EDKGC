@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -9,17 +10,45 @@ namespace EDKGC.Encryption.AES
 {
     public class DecryptAes
     {
-        public static byte[] Decrypt(byte[] ciphertext, byte[] key)
+        public byte[] Decrypt(byte[] cipherText, byte[] key)
         {
-            AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
-            ICryptoTransform decryptor = aes.CreateDecryptor(key, null);
-            byte[] plaintext = new byte[ciphertext.Length];
+            using (Aes aes = Aes.Create())
+            {
+                aes.Mode = CipherMode.ECB;
+                aes.Key = key;
 
-            int processedBytes = decryptor.TransformBlock(ciphertext, 0, ciphertext.Length, plaintext, 0);
-            decryptor.TransformFinalBlock(ciphertext, processedBytes, ciphertext.Length - processedBytes);
-
-            return plaintext;
+                using (ICryptoTransform decryptor = aes.CreateDecryptor())
+                {
+                    return decryptor.TransformFinalBlock(cipherText, 0, cipherText.Length);
+                }
+            }
         }
 
+        public byte[] DecryptCBC(byte[] cipherText, byte[] key, byte[] iv)
+        {
+            using (Aes aes = Aes.Create())
+            {
+                aes.Mode = CipherMode.CBC;
+                aes.Key = key;
+                aes.IV = iv;
+
+                using (ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
+                {
+                    using (MemoryStream ms = new MemoryStream(cipherText))
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                        {
+                            using (MemoryStream decryptedMs = new MemoryStream())
+                            {
+                                cs.CopyTo(decryptedMs);
+                                return decryptedMs.ToArray();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+    
+
 }
