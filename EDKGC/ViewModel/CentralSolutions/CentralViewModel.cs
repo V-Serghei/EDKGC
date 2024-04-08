@@ -9,6 +9,7 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using EDKGC.Enams;
 using EDKGC.Models;
+using EDKGC.Models.SymmetricEncryption;
 using GalaSoft.MvvmLight;
 using Org.BouncyCastle.Utilities;
 
@@ -24,9 +25,8 @@ namespace EDKGC.ViewModel.CentralSolutions
         /// And
         /// Encoding
         /// </summary>
-        readonly Encoding _encoding = Encoding.UTF7;
+        readonly Encoding _encoding = Encoding.Default;
 
-        private SymmetricEncryption _algorithmSymmetricEncryption = SymmetricEncryption.Aes;
 
         public new event PropertyChangedEventHandler PropertyChanged;
 
@@ -50,19 +50,27 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         public CentralViewModel()
         {
+
+            #region encryption algorithms
+
             AesSymmetricEncryptionM = new AesSymmetricEncryption();
-           
-            CloseAppCommand = new RelayCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecuted);
 
-            GenKeyAes = new RelayCommand(AesGenKey);
+            DesSymmetricEncryptionM = new DESsymmetricEncryption();
 
-            EncryptText = new RelayCommand(AesEncryptTextB);
+            GenKeyAes = new RelayCommand(GenKeyAl);
+
+            EncryptText = new RelayCommand(EncryptTextB);
 
             SwapEncryptDecrypt = new RelayCommand(SwapEnDecrypt);
 
-
-            Items = new ObservableCollection<string>() { "Aes", "DES", "3DES", "SEAL", "Blowfish" , "Twofish" , "Serpent" };
+            Items = new ObservableCollection<string>() { "Aes", "DES", "3DES", "SEAL", "Blowfish", "Twofish", "Serpent" };
             SelectionChangedCommand = new RelayCommand(UpdateCommand);
+
+            #endregion
+
+            CloseAppCommand = new RelayCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecuted);
+
+            
         }
 
         #region Algorithm selection list
@@ -96,15 +104,26 @@ namespace EDKGC.ViewModel.CentralSolutions
             }
         }
 
-        private string _selectedItemText;
+        private string _selectedItemText = "Aes";
         public string SelectedItemText
         {
             get => _selectedItemText;
-            set => Set(ref _selectedItemText, value);
+            set
+            {
+                Set(ref _selectedItemText, value);
+                UpdateCommand();
+            }
         }
 
         private void UpdateCommand()
         {
+            KeyTextAl = "Generate Key!";
+            TextNonEncrypt = EncryptTextAl;
+            if (ButtonEffect == Effect.Decrypt)
+            {
+                SwapEnDecrypt();
+            }
+
             if (SelectedItemText == Items[0])
             {
                 _algorithmSymmetricEncryption = SymmetricEncryption.Aes;
@@ -141,8 +160,6 @@ namespace EDKGC.ViewModel.CentralSolutions
         #region CloseAppCommand
 
         public ICommand CloseAppCommand { get; }
-
-
 
         private static bool CanCloseAppCommandExecuted() => true;
 
@@ -191,23 +208,34 @@ namespace EDKGC.ViewModel.CentralSolutions
         #endregion
 
 
-        #region AES
+
+
+        #region Symmetric encryption
+        /// <summary>
+        /// Symmetric encryption
+        /// </summary>
+
+        private SymmetricEncryption _algorithmSymmetricEncryption = SymmetricEncryption.Aes;
+
+        
 
         /// <summary>
         /// AES symmetric encryption
         /// </summary>
+
         public ICommand GenKeyAes { get; set; }
         public ICommand EncryptText { get; set; }
         public ICommand SwapEncryptDecrypt { get; set; }
         public AesSymmetricEncryption AesSymmetricEncryptionM { get; set; }
-        public string Base64String { get; set; }
-        private string _aesKeyText;
-        private string _aesEncryptText;
-        private string _aesTextNonEncrypt = "Enter text";
+        public DESsymmetricEncryption DesSymmetricEncryptionM { get; set; }
+        public string ConvertByteStringContainer { get; set; }
+        private string _keyTextAl;
+        private string _encryptTextAl;
+        private string _textNonEncrypt = "Enter text";
         private string _buttonEDecrypt = "Encrypt";
         private Effect _buttonEffect = Effect.Encrypt;
 
-       
+
 
 
         public Effect ButtonEffect
@@ -222,48 +250,123 @@ namespace EDKGC.ViewModel.CentralSolutions
             set => Set(ref _buttonEDecrypt, value);
         }
 
-        public string AesTextNonEncrypt
+        public string TextNonEncrypt
         {
-            get => _aesTextNonEncrypt;
-            set => Set(ref _aesTextNonEncrypt, value);
+            get => _textNonEncrypt;
+            set => Set(ref _textNonEncrypt, value);
         }
-        public string AesEncryptText
+        public string EncryptTextAl
         {
-            get => _aesEncryptText;
-            set => Set(ref _aesEncryptText, value);
-        }
-
-        public string AesKeyText
-        {
-            get => _aesKeyText;
-            set => Set(ref _aesKeyText, value);
-        }
-        public void AesGenKey()
-        {
-            var key = AesSymmetricEncryptionM.GenKeyAesAlg();
-            Base64String = _encoding.GetString(AesSymmetricEncryptionM.Key);
-            //Base64String = BitConverter.ToString(AesSymmetricEncryptionM.Key).Replace("-", " ");
-            AesKeyText = Base64String;
-
+            get => _encryptTextAl;
+            set => Set(ref _encryptTextAl, value);
         }
 
-        public void AesEncryptTextB()
+        public string KeyTextAl
+        {
+            get => _keyTextAl;
+            set => Set(ref _keyTextAl, value);
+        }
+        public void GenKeyAl()
         {
 
-
-            if (ButtonEffect == Effect.Encrypt)
+            switch (_algorithmSymmetricEncryption)
             {
-                Base64String = _encoding.GetString(AesSymmetricEncryptionM.Encrypting(AesTextNonEncrypt));
-                AesEncryptText = Base64String;
-                AesTextNonEncrypt = AesSymmetricEncryptionM.EnterText;
+                case SymmetricEncryption.Aes:
+                {
+                    var key = AesSymmetricEncryptionM.GenKeyAesAlg();
+                    ConvertByteStringContainer = _encoding.GetString(AesSymmetricEncryptionM.Key);
+                    //ConvertByteStringContainer = BitConverter.ToString(AesSymmetricEncryptionM.Key).Replace("-", " ");
+                    KeyTextAl = ConvertByteStringContainer;
+                    break;
+                }
+                case SymmetricEncryption.DES:
+                {
+                    var key = DesSymmetricEncryptionM.GenKeyDes();
+                    KeyTextAl = _encoding.GetString(key);
+                    break;
+                }
+                case SymmetricEncryption.TripleDES:
+                {
 
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
             }
-            else if (ButtonEffect == Effect.Decrypt)
+
+        }
+
+        public void EncryptTextB()
+        {
+
+            switch (_algorithmSymmetricEncryption)
             {
-                Base64String = _encoding.GetString(AesSymmetricEncryptionM.Decrypt(AesTextNonEncrypt));
-                AesEncryptText = Base64String;
+                case SymmetricEncryption.Aes:
+                {
+                    
+
+                    switch (ButtonEffect)
+                    {
+                        case Effect.Encrypt:
+                            if (TextNonEncrypt != null)
+                            {
+                                ConvertByteStringContainer =
+                                    _encoding.GetString(AesSymmetricEncryptionM.Encrypting(TextNonEncrypt));
+                                EncryptTextAl = ConvertByteStringContainer;
+                                TextNonEncrypt = AesSymmetricEncryptionM.EnterText;
+                            }
+                            else TextNonEncrypt = "Enter text";
+                            
+                            break;
+                        case Effect.Decrypt:
+                            var res = AesSymmetricEncryptionM.Decrypt(TextNonEncrypt);
+                            if (res == null) EncryptTextAl = "Inappropriate key";
+                            else
+                            {
+                                ConvertByteStringContainer = _encoding.GetString(res);
+                                EncryptTextAl = ConvertByteStringContainer;
+                            }
+                            
+                            break;
+                    }
+
+                    break;
+                }
+                case SymmetricEncryption.DES:
+                {
+                    switch (ButtonEffect)
+                    {
+                        case Effect.Encrypt:
+                            ConvertByteStringContainer = _encoding.GetString(DesSymmetricEncryptionM.GetEncryptTextEdc(TextNonEncrypt));
+                            EncryptTextAl = ConvertByteStringContainer;
+                            TextNonEncrypt = DesSymmetricEncryptionM.EnterText;
+                            break;
+                        case Effect.Decrypt:
+                            ConvertByteStringContainer = DesSymmetricEncryptionM.GetDecryptTextEbc(TextNonEncrypt) ?? "Inappropriate key";
+                            EncryptTextAl = ConvertByteStringContainer;
+                            break;
+                        case Effect.None:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+
+                    break;
+                }
+                case SymmetricEncryption.TripleDES:
+                {
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
             }
-           
+
+            
+
 
         }
 
@@ -274,34 +377,45 @@ namespace EDKGC.ViewModel.CentralSolutions
                 case Effect.Encrypt:
                     ButtonEffect = Effect.Decrypt;
                     ButtonEDecrypt = "Decrypt";
-                    AesTextNonEncrypt = AesEncryptText;
-                    AesEncryptText = "";
+                    TextNonEncrypt = EncryptTextAl;
+                    EncryptTextAl = "";
                     break;
                 case Effect.Decrypt:
                     ButtonEffect = Effect.Encrypt;
                     ButtonEDecrypt = "Encrypt";
-                    if (AesEncryptText == "") AesTextNonEncrypt = "";
+                    if (EncryptTextAl == "") TextNonEncrypt = "";
                     else
                     {
-                        AesTextNonEncrypt = AesEncryptText;
+                        TextNonEncrypt = EncryptTextAl;
                     }
-                    AesEncryptText = "";
+                    EncryptTextAl = "";
                     break;
                 default:
                     ButtonEffect = Effect.Encrypt;
                     break;
             }
-            
+
         }
 
 
 
 
 
+        
+
+
+        #region Des
+        ////
+        ////symmetric encryption algorithm Des
+        ////
+
+
 
 
         #endregion
 
+
+        #endregion
 
         public void Dispose()
         {

@@ -12,7 +12,6 @@ namespace EDKGC.Enams
         DES,
         TripleDES, // 3DES
         SEAL,
-        Kuznyechik,
         Blowfish,
         Twofish,
         Serpent

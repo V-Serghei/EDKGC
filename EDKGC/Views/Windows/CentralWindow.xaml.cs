@@ -33,7 +33,7 @@ namespace EDKGC.Views.Windows
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var viewModel = DataContext as CentralViewModel; 
-            viewModel?.SelectionChangedCommand.Execute(null); 
+            viewModel?.SelectionChangedCommand.Execute(sender); 
         }
     }
 }

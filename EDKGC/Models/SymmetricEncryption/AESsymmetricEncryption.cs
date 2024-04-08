@@ -11,9 +11,11 @@ namespace EDKGC.Models
 {
     public  class AesSymmetricEncryption
     {
-        readonly Encoding encoding = Encoding.UTF8;
+        readonly Encoding encoding = Encoding.Default;
 
         public byte[] Key { get; set; }
+
+        public byte[] ResKey { get; set; }
 
         public string EnterText { get; set; }
 
@@ -42,8 +44,8 @@ namespace EDKGC.Models
         {
             EncryptAes _encrypt = new EncryptAes();
             EnterText = entText;
-
-
+            ResKey = Key;
+            if (entText == null) return null;
             var encryptedText = encoding.GetBytes(EnterText);
             EncryptedText = _encrypt.Encrypt(encryptedText, Key);
 
@@ -62,12 +64,10 @@ namespace EDKGC.Models
 
         public byte[] Decrypt(string entText)
         {
+
             DecryptAes _decrypt = new DecryptAes();
-
-
-
-            return _decrypt.Decrypt(EncryptedText, Key);
-          
+            if (ResKey == Key) return _decrypt.Decrypt(EncryptedText, Key);
+            else return null;
 
         }
 

@@ -157,6 +157,9 @@
     <Compile Include="Encryption\AES\DecryptAes.cs" />
     <Compile Include="Encryption\AES\EncryptAes.cs" />
     <Compile Include="Encryption\AES\GenerateKeyAes.cs" />
+    <Compile Include="Encryption\DES\DecryptDes.cs" />
+    <Compile Include="Encryption\DES\EncryptDes.cs" />
+    <Compile Include="Encryption\DES\GenerateKeyDes.cs" />
     <Compile Include="Infrastructure\Command\Base\CommandInf.cs" />
     <Compile Include="Infrastructure\Command\BasicCommands\CloseAppCommand.cs" />
     <Compile Include="Infrastructure\Command\BasicCommands\HideElementCommand.cs" />
@@ -164,7 +167,9 @@
       <DependentUpon>CustomDropdownButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Command\LCommand.cs" />
-    <Compile Include="Models\AESsymmetricEncryption.cs" />
+    <Compile Include="Models\SymmetricEncryption\AESsymmetricEncryption.cs" />
+    <Compile Include="Models\SymmetricEncryption\DESsymmetricEncryption.cs" />
+    <Compile Include="Models\SymmetricEncryption\TripleDesSymmetricEncryption.cs" />
     <Compile Include="ViewModel\CentralSolutions\CentralViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SatelliteWindows\ConfirmationWindowViewModel.cs" />
