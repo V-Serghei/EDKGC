@@ -181,7 +181,7 @@
                              Grid.ColumnSpan="4" 
                              Background="#FFE3F2FF" FontFamily="Calibri"/>
                     <Grid Grid.Column="7" Grid.Row="5" Margin="1,2,0,0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="76">
-                        <Button Command="{Binding Central.SwapEncryptDecrypt}" Margin="10,0,0,0" Height="32" VerticalAlignment="Center" HorizontalAlignment="Left" Width="48" Foreground="#FFA73232" Background="#FFA7D6FF" />
+                        <Button Command="{Binding Central.SwapEncryptDecryptcCommand}" Margin="10,0,0,0" Height="32" VerticalAlignment="Center" HorizontalAlignment="Left" Width="48" Foreground="#FFA73232" Background="#FFA7D6FF" />
                         <Image Source="../../Resources/arrows.ico" Margin="26,0,0,0" Height="22" VerticalAlignment="Center" Focusable="False" IsHitTestVisible="False" HorizontalAlignment="Left" Width="16"/>
                     </Grid>
                     <Button Grid.Column="4"
@@ -195,7 +195,7 @@
                             HorizontalAlignment="Right"
                             Width="130" 
                             Background="#FF0D0356"
-                            Command="{Binding Central.GenKeyAes}" Foreground="White" />
+                            Command="{Binding Central.GenKeySymmetricalCommand}" Foreground="White" />
                     <Button Grid.Column="4"
                             Content="{Binding Central.ButtonEDecrypt}" 
                             Margin="0,0,31,10" 
@@ -205,7 +205,7 @@
                             Height="46" 
                             VerticalAlignment="Bottom" 
                             Background="#FF0D0356"
-                            Command="{Binding Central.EncryptText}" Foreground="White"/>
+                            Command="{Binding Central.EncryptTextCommand}" Foreground="White"/>
                     <Button Grid.Column="9" 
                             Content="Copy" 
                             HorizontalAlignment="Right"
@@ -266,7 +266,10 @@
                                   ResizeDirection="Columns" 
                                   Width="5" Grid.Row="0" Grid.RowSpan="10" Background="#FF536F5D"/>
 
-                    <ComboBox Margin="10,2,22,1" Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" />
+                    <ComboBox Margin="10,2,22,1" Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" 
+                              ItemsSource="{Binding Central.ItemsAsymAl}" 
+                              SelectedItem="{Binding Central.Se, Mode=TwoWay}" />
+
                     <Grid Grid.ColumnSpan="4" Grid.Column="0" Margin="0,0,10,3" Grid.Row="1" Grid.RowSpan="4">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="26*"/>
@@ -276,11 +279,12 @@
                         </Grid.RowDefinitions>
 
                         <TextBox TextWrapping="Wrap" 
-                                 Text="TextBox" 
+                                 Text="{Binding Central.KeyTextAl1}" 
                                  Margin="14,10,12,42" 
                                  Grid.RowSpan="2" 
                                  Background="#FFE3F2FF"/>
                         <Button Content="GenKey" 
+                                Command="{Binding Central.GenKeyAsymmetrical1Command}"
                                 Margin="14,0,0,5"
                                 Grid.Row="1" 
                                 Grid.Column="0" 
@@ -289,11 +293,12 @@
                                 Background="#FF0D0356" Height="25" VerticalAlignment="Bottom" Foreground="White"
                         />
                         <TextBox TextWrapping="Wrap" 
-                                 Text="TextBox" 
+                                 Text="{Binding Central.KeyTextAl2}" 
                                  Margin="14,9,12,40"
                                  Grid.Row="2"
                                  Background="#FFE3F2FF"/>
                         <Button Content="GenKey"
+                                Command="{Binding Central.GenKeyAsymmetrical2Command}"
                                 Margin="14,0,0,6" 
                                 Grid.Column="0" 
                                 Grid.Row="2" 
@@ -312,24 +317,25 @@
                             <ColumnDefinition Width="226*"/>
                         </Grid.ColumnDefinitions>
                         <TextBox TextWrapping="Wrap"
-                                 Text="TextBox" 
+                                 Text="{Binding Central.TextNonEncrypt}" 
                                  Margin="4,17,10,103" 
                                  Grid.Column="1" 
                                  Background="#FFE3F2FF"/>
-                        <Button Content="Encrypt" 
+                        <Button Content="{Binding Central.ButtonEDecrypt}" 
                                 Margin="4,0,0,46" 
                                 Grid.Column="1" 
                                 HorizontalAlignment="Left" 
                                 Width="172" 
                                 Height="40" 
                                 VerticalAlignment="Bottom"
-                                Background="#FF0D0356" Foreground="White"/>
+                                Background="#FF0D0356" Foreground="White"
+                                Command="{Binding Central.EncryptAsymmetricalCommand}"/>
 
                     </Grid>
                     <TextBox Grid.Column="4" 
                              Grid.Row="1" 
                              TextWrapping="Wrap" 
-                             Text="TextBox" 
+                             Text="{Binding Central.EncryptTextAl}" 
                              Margin="10,10,10,10" 
                              Grid.RowSpan="7"
                              Grid.ColumnSpan="2"
@@ -343,7 +349,8 @@
                             Width="228" 
                             Background="#FF0D0356" Foreground="#FFFDFDFD"/>
                     <Grid Grid.Column="4" Grid.Row="8" HorizontalAlignment="Left" Width="209" Grid.ColumnSpan="2">
-                        <Button Margin="10,6,136,0" Height="32" VerticalAlignment="Top" Background="#FFA7D6FF" />
+                        <Button Command="{Binding Central.SwapEncryptDecryptcCommand}"
+                            Margin="10,6,136,0" Height="32" VerticalAlignment="Top" Background="#FFA7D6FF" />
                         <Image Source="../../Resources/arrows.ico" Margin="26,10,151,0" Height="22" VerticalAlignment="Top" Focusable="False" IsHitTestVisible="False"/>
                     </Grid>
 

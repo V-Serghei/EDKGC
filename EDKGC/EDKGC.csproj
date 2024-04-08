@@ -91,6 +91,9 @@
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Xaml.Behaviors.Wpf.1.1.77\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
     </Reference>
@@ -152,14 +155,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enams\AsymmetricAlgorithms.cs" />
     <Compile Include="Enams\Effect.cs" />
     <Compile Include="Enams\SymmetricEncryption.cs" />
+    <Compile Include="Enams\TypeOfAlgorithm.cs" />
     <Compile Include="Encryption\AES\DecryptAes.cs" />
     <Compile Include="Encryption\AES\EncryptAes.cs" />
     <Compile Include="Encryption\AES\GenerateKeyAes.cs" />
     <Compile Include="Encryption\DES\DecryptDes.cs" />
     <Compile Include="Encryption\DES\EncryptDes.cs" />
     <Compile Include="Encryption\DES\GenerateKeyDes.cs" />
+    <Compile Include="Encryption\RSA\DecryptRSA.cs" />
+    <Compile Include="Encryption\RSA\EncryptRSA.cs" />
+    <Compile Include="Encryption\RSA\GenerateKeysRSA.cs" />
     <Compile Include="Infrastructure\Command\Base\CommandInf.cs" />
     <Compile Include="Infrastructure\Command\BasicCommands\CloseAppCommand.cs" />
     <Compile Include="Infrastructure\Command\BasicCommands\HideElementCommand.cs" />
@@ -167,6 +175,7 @@
       <DependentUpon>CustomDropdownButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Command\LCommand.cs" />
+    <Compile Include="Models\AsymmetricAlgorithms\RsaAsymmetricalAlModel.cs" />
     <Compile Include="Models\SymmetricEncryption\AESsymmetricEncryption.cs" />
     <Compile Include="Models\SymmetricEncryption\DESsymmetricEncryption.cs" />
     <Compile Include="Models\SymmetricEncryption\TripleDesSymmetricEncryption.cs" />

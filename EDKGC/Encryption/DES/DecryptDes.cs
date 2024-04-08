@@ -22,18 +22,12 @@ namespace EDKGC.Encryption.DES
                 {
                     using (var cryptoStream = new CryptoStream(memoryStream, des.CreateDecryptor(), CryptoStreamMode.Read))
                     {
-                        // Создаем временный буфер для чтения данных
-                        byte[] buffer = new byte[cipherText.Length];
-                        int bytesRead;
-                        using (var memoryStreamResult = new MemoryStream())
+                        using (var decryptedMemoryStream = new MemoryStream())
                         {
-                            // Читаем все данные из CryptoStream во временный буфер
-                            while ((bytesRead = cryptoStream.Read(buffer, 0, buffer.Length)) > 0)
-                            {
-                                memoryStreamResult.Write(buffer, 0, bytesRead);
-                            }
-                            // Преобразуем результат в строку и возвращаем
-                            return Encoding.UTF8.GetString(memoryStreamResult.ToArray()).TrimEnd('\0');
+                            cryptoStream.CopyTo(decryptedMemoryStream);
+
+                            string decryptedText = Encoding.Default.GetString(decryptedMemoryStream.ToArray());
+                            return decryptedText.TrimEnd('\0');
                         }
                     }
                 }

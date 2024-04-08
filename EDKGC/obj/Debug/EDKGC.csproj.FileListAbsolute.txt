@@ -89,3 +89,5 @@ D:\web project\EDKGC.desk\EDKGC\bin\Debug\System.Runtime.CompilerServices.Unsafe
 D:\web project\EDKGC.desk\EDKGC\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\web project\EDKGC.desk\EDKGC\bin\Debug\System.Text.Encoding.CodePages.dll
 D:\web project\EDKGC.desk\EDKGC\bin\Debug\System.Text.Encoding.CodePages.xml
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\Newtonsoft.Json.dll
+D:\web project\EDKGC.desk\EDKGC\bin\Debug\Newtonsoft.Json.xml

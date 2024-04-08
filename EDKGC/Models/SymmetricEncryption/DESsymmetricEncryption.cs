@@ -58,7 +58,7 @@ namespace EDKGC.Models.SymmetricEncryption
         {
             if (ResKey == Key)
             {
-                var byteText = _encoding.GetBytes(encryptText);
+                var byteText = EncryptedText;
                 return DecryptDes.DecryptEbc(byteText, Key);
 
             }
