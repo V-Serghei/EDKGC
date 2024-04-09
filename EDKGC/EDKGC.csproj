@@ -176,6 +176,7 @@
     </Compile>
     <Compile Include="Infrastructure\Command\LCommand.cs" />
     <Compile Include="Models\AsymmetricAlgorithms\RsaAsymmetricalAlModel.cs" />
+    <Compile Include="Models\ElectronicSignature\ElectronicSignatureAes.cs" />
     <Compile Include="Models\SymmetricEncryption\AESsymmetricEncryption.cs" />
     <Compile Include="Models\SymmetricEncryption\DESsymmetricEncryption.cs" />
     <Compile Include="Models\SymmetricEncryption\TripleDesSymmetricEncryption.cs" />

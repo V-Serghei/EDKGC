@@ -427,11 +427,11 @@
                         <TextBox Grid.Row="0" 
                                  Margin="10,10,22,8"
                                  TextWrapping="Wrap"
-                                 Text="TextBox"
+                                 Text="{Binding Central.KeyTextAl1}"
                                  Background="#FFE3F2FF"/>
                         <TextBox Margin="10,0,22,54" 
                                  TextWrapping="Wrap"
-                                 Text="TextBox" 
+                                 Text="{Binding Central.KeyTextAl2}" 
                                  Grid.Row="1"
                                  Background="#FFE3F2FF"/>
                     </Grid>
