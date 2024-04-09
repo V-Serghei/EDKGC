@@ -268,7 +268,7 @@
 
                     <ComboBox Margin="10,2,22,1" Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" 
                               ItemsSource="{Binding Central.ItemsAsymAl}" 
-                              SelectedItem="{Binding Central.Se, Mode=TwoWay}" />
+                              SelectedItem="{Binding Central.SelectedItemText, Mode=TwoWay}" />
 
                     <Grid Grid.ColumnSpan="4" Grid.Column="0" Margin="0,0,10,3" Grid.Row="1" Grid.RowSpan="4">
                         <Grid.RowDefinitions>

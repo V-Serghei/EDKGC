@@ -4,21 +4,22 @@
     using System.Security.Cryptography;
     using System.Text;
     using System.Threading.Tasks;
+    using Org.BouncyCastle.Crypto;
+    using Org.BouncyCastle.Security;
 
     namespace EDKGC.Encryption.RSA
     {
         public class DecryptRSA
         {
-            public static string Decrypt(byte[] encryptedBytes, RSAParameters privateKey)
-            {
-                using (var rsa = new RSACryptoServiceProvider())
-                {
-                    rsa.ImportParameters(privateKey); 
+            static readonly Encoding _encoding = Encoding.Default;
 
-                    byte[] decryptedBytes = rsa.Decrypt(encryptedBytes, true); 
-                    string decryptedText = Encoding.Default.GetString(decryptedBytes);
-                    return decryptedText;
-                }
+        public static string DecryptRsaT(byte[] encryptedBytes, AsymmetricCipherKeyPair _keyPair)
+            {
+                var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
+                cipher.Init(false, _keyPair.Private);
+
+                var decryptedBytes = cipher.DoFinal(encryptedBytes);
+                return _encoding.GetString(decryptedBytes);
             }
-        }
+    }
     }

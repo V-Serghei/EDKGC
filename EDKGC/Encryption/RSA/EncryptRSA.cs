@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Security;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EDKGC.Encryption.RSA
 {
     public class EncryptRSA
     {
-        public static byte[] Encrypt(byte[] enterText, RSAParameters publicKey)
-        {
-            using (var rsa = new RSACryptoServiceProvider())
-            {
-                rsa.ImportParameters(publicKey); 
+        static readonly Encoding _encoding = Encoding.Default;
 
-                byte[] plainBytes = enterText;
-                byte[] encryptedBytes = rsa.Encrypt(plainBytes, true); 
-                return encryptedBytes;
-            }
+        public static byte[] EncryptText(string plaintext, AsymmetricCipherKeyPair _keyPair)
+        {
+            var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
+            cipher.Init(true, _keyPair.Public);
+            var inputBytes = _encoding.GetBytes(plaintext);
+            return cipher.DoFinal(inputBytes);
         }
+
     }
 }

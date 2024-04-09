@@ -559,15 +559,15 @@ namespace EDKGC.ViewModel.CentralSolutions
                             if (TextNonEncrypt != null)
                             {
                                 ConvertByteStringContainer =
-                                    _encoding.GetString(_rsaAsymmetricalAlModel.GetEncryptTextRsa(TextNonEncrypt));
+                                    _encoding.GetString(_rsaAsymmetricalAlModel.EncryptTextRsa(TextNonEncrypt));
                                 EncryptTextAl = ConvertByteStringContainer;
-                                TextNonEncrypt = _rsaAsymmetricalAlModel.EnterText;
+                                
                             }
                             else TextNonEncrypt = "Enter text";
 
                             break;
                         case Effect.Decrypt:
-                            var res = _rsaAsymmetricalAlModel.GetDecryptTextRsa(_encoding.GetBytes(EncryptTextAl));
+                            var res = _rsaAsymmetricalAlModel.DecryptTextRsa(_encoding.GetBytes(TextNonEncrypt));
                             if (res == null) EncryptTextAl = "Inappropriate key";
                             else
                             {

@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
+using EDKGC.Encryption.DES;
 using EDKGC.Encryption.RSA;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Security;
 
 namespace EDKGC.Models.AsymmetricAlgorithms
 {
     public class RsaAsymmetricalAlModel
     {
         readonly Encoding encoding = Encoding.Default;
-        private GenerateKeysRSA _generateKeysRsa = new GenerateKeysRSA(); 
+        private GenerateKeysRSA _generateKeysRsa = new GenerateKeysRSA();
+        private AsymmetricCipherKeyPair _keyPair;
 
-        private RSAParameters _rsaParameters = new RSAParameters();
-        private RSA _rsaServiceProvider = RSA.Create();
-
-
-        public (RSAParameters publicKey, RSAParameters privateKey) Keys { get; set; }
+        public RsaAsymmetricalAlModel()
+        {
+            GenerateKeysRsa();
+        }
 
         public byte[] KeyPublic { get; set; }
         
@@ -37,19 +36,17 @@ namespace EDKGC.Models.AsymmetricAlgorithms
 
         private void GenerateKeysRsa()
         {
-            Keys = _generateKeysRsa.GenerateKeys();
+            var keyGenerationParameters = new KeyGenerationParameters(new SecureRandom(), 2048);
+            var keyPairGenerator = new RsaKeyPairGenerator();
+            keyPairGenerator.Init(keyGenerationParameters);
+            _keyPair = keyPairGenerator.GenerateKeyPair();
+
+            KeyPublic = ((RsaKeyParameters)_keyPair.Public).Modulus.ToByteArrayUnsigned();
+            KeyPrivate = ((RsaPrivateCrtKeyParameters)_keyPair.Private).Exponent.ToByteArrayUnsigned();
         }
 
         public byte[] GenPublicKey()
         {
-            GenerateKeysRsa();
-
-            var publicKeyBytes = SerializeRsaParameters(Keys.publicKey);
-            var privateKeyBytes = SerializeRsaParameters(Keys.privateKey);
-
-            KeyPublic = publicKeyBytes;
-            KeyPrivate = privateKeyBytes;
-
             return KeyPublic;
         }
 
@@ -58,24 +55,22 @@ namespace EDKGC.Models.AsymmetricAlgorithms
             return KeyPrivate;
         }
 
-        public byte[] GetEncryptTextRsa(string enterText)
+        public byte[] EncryptTextRsa(string plaintext)
         {
-            byte[] plainBytes = Encoding.Default.GetBytes(enterText);
-            EncryptedText = EncryptRSA.Encrypt(plainBytes, Keys.publicKey);
-            EnterText = enterText;
-            return EncryptedText;
+            EnterText = plaintext;
+            EncryptedText = EncryptRSA.EncryptText(plaintext, _keyPair);
+           return EncryptRSA.EncryptText(plaintext, _keyPair);
+            
         }
 
-        public string GetDecryptTextRsa(byte[] encryptedBytes)
+
+        public string DecryptTextRsa(byte[] encryptedBytes)
         {
-            var decryptedBytes = DecryptRSA.Decrypt(encryptedBytes, Keys.privateKey);
-            return decryptedBytes;
+           
+            return DecryptRSA.DecryptRsaT(encryptedBytes,_keyPair);
         }
-        private byte[] SerializeRsaParameters(RSAParameters parameters)
-        {
-            string parametersJson = JsonConvert.SerializeObject(parameters);
-            return Encoding.Default.GetBytes(parametersJson);
-        }
+
+
 
     }
 }
