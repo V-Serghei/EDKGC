@@ -8,13 +8,22 @@
         xmlns:Cddc="clr-namespace:EDKGC.Infrastructure.Command.Control"
         mc:Ignorable="d"
         Title="{Binding Path=Central.Title}" 
-        Background="#FF866B64" 
         d:DesignHeight="654.32" 
-        BorderBrush="#FF871515" 
+        BorderBrush="#FFE0DCDC" 
         Foreground="#FF679C8B"
+        Style="{StaticResource MaterialDesignWindow}"
         Width="940"
         MinWidth="900" 
-        MinHeight="650">
+        MinHeight="650"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        TextElement.Foreground="{DynamicResource MaterialDesign.Brush.Foreground}"
+        Background="{DynamicResource MaterialDesign.Brush.Background}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        Icon="../../Resources/cryptography_8948700.png"
+        FontFamily="{materialDesign:MaterialDesignFont}">
 
     <Window.DataContext>
         <vm:ViewModelLocator />
@@ -24,19 +33,26 @@
               Background="#FF525C59">
             <MenuItem Header="File" 
                       BorderBrush="#FF679C8B" 
-                      Background="#FFACACAC">
+                      Background="#FF6665C5" Width="90">
                 <MenuItem Header="Exit" 
                           Command="{Binding Central.CloseAppCommand}">
 
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Helper" 
-                      Background="#FFACACAC" 
-                      BorderBrush="#FF679C8B">
+            <MenuItem VerticalAlignment="Center" 
+                      HorizontalAlignment="Center" 
+                      Header="Helper" 
+                      Background="#FF6665C5" 
+                      BorderBrush="#FF679C8B" Width="124" RenderTransformOrigin="0.601,0.526">
                 <MenuItem Header="About Program">
 
                 </MenuItem>
             </MenuItem>
+            <TextBox TextWrapping="Wrap" 
+                     Text="{Binding Central.SelectedItemText, Mode=TwoWay}" 
+                     Width="90" 
+                     IsReadOnly="True"/>
+
         </Menu>
         <StatusBar DockPanel.Dock="Bottom" Height="24">
             <StatusBarItem VerticalAlignment="Bottom">
@@ -47,10 +63,10 @@
             </StatusBarItem>
             <ProgressBar DockPanel.Dock="Bottom" 
                          VerticalAlignment="Bottom" 
-                         Height="19" Value="67" 
+                         Height="19" Value="100" 
                          Width="758" 
                          HorizontalAlignment="Stretch" 
-                         HorizontalContentAlignment="Stretch"/>
+                         HorizontalContentAlignment="Stretch" Background="#FF83F409" BorderBrush="#FFDAFFFF" Foreground="#FF11720C"/>
 
         </StatusBar>
 
@@ -58,14 +74,17 @@
                     BorderBrush="#FFDB755A" 
                     Foreground="#FF679C8B" 
                     OpacityMask="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
-            <TabItem  Background="#FF679C8B">
+
+            <TabItem  Background="Black" BorderBrush="Black" Foreground="Black">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <fa5:ImageAwesome Icon="Solid_Key" Height="15" Margin="5,0,10,0"/>
+
+                        <fa5:ImageAwesome Icon="Solid_Key" Foreground="#FF00BCFC" Height="15" Margin="5,0,10,0" />
                         <TextBlock Text="Symmetric encryption"></TextBlock>
                     </StackPanel>
                 </TabItem.Header>
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="89*"/>
@@ -89,9 +108,20 @@
                         <ColumnDefinition Width="80*"/>
                         <ColumnDefinition Width="101*"/>
                     </Grid.ColumnDefinitions>
+                    <Rectangle Height="3" Stroke="Black" VerticalAlignment="Top" Grid.Row="0" Grid.ColumnSpan="11"
+                               Grid.Column="0" RenderTransformOrigin="0.5,0.5" Fill="#FF658D3A">
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="-1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
                     <GridSplitter Grid.Column="2" 
                                   x:Name="Splitter1"
-                                  Grid.RowSpan="7" 
+                                  Grid.Row="0" Grid.RowSpan="7" 
                                   Width="5"
                                   HorizontalAlignment="Stretch" 
                                   Margin="1,0,21,0"
@@ -104,89 +134,80 @@
                                   HorizontalAlignment="Left" 
                                   Margin="1,0,0,0" Width="6" Background="#FF536F5D"
                                   />
-                    <Grid Grid.Row="0" 
-                          Grid.ColumnSpan="2" 
-                          Grid.Column="0" 
-                          Height="89" 
-                          VerticalAlignment="Center">
-                        <Cddc:CustomDropdownButton Items="{Binding Central.FirstItems}" 
-                                                   SelectedItem="{Binding Central.SelectedFirstItem}" />
-                    </Grid>
 
-                    <Grid Grid.Row="2" 
+                    <Grid 
                           Grid.ColumnSpan="2" 
-                          Grid.Column="0" 
-                          Height="89" 
-                          VerticalAlignment="Center">
-                        <Cddc:CustomDropdownButton Items="{Binding Central.SecondItems}" 
-                                                   SelectedItem="{Binding Central.SelectedSecondItem}" 
-                                                   Margin="0,0,0,0" />
-                    </Grid>
+                          Grid.Column="0" Margin="0,81,4,58" Grid.Row="0" Grid.RowSpan="6">
+                        <ListView ItemsSource="{Binding Central.Items}" 
+                                  SelectedItem="{Binding Central.SelectedItem}" SelectionChanged="ListView_SelectionChanged"
+                                  >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Symmetric encryption algorithms" DisplayMemberBinding="{Binding}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
 
-                    <Grid Grid.Row="4" 
-                          Grid.ColumnSpan="2" 
-                          Grid.Column="0" 
-                          Height="89" 
-                          VerticalAlignment="Top"
-                          Margin="0,0,0,0" 
-                          Grid.RowSpan="3">
-                        <Cddc:CustomDropdownButton Items="{Binding Central.ThirdItems}" 
-                                                   SelectedItem="{Binding Central.SelectedThirdItem}" 
-                                                   Margin="0,0,0,0" />
+
+
                     </Grid>
 
 
                     <TextBox Grid.Column="3" 
+                             x:Name="AesTextNonEncrypt"
                              Margin="0,89,23,10" 
                              TextWrapping="Wrap" 
-                             Text="TextBox" 
+                             Text="{Binding Central.TextNonEncrypt}" 
                              Grid.RowSpan="4" 
                              Grid.Row="1" 
                              Grid.ColumnSpan="4"
-                             Background="#FFBFD7B5"/>
+                             Background="#FFE3F2FF"/>
                     <TextBox Grid.Row="0"
+                             x:Name="AesKeyText"
                              Grid.Column="3" 
                              Margin="11,22,39,79" 
                              TextWrapping="Wrap" 
-                             Text="TextBox" 
+                             Text="{Binding Central.KeyTextAl}"
                              Grid.ColumnSpan="4" 
                              Grid.RowSpan="2" 
-                             Background="#FFBFD7B5"/>
+                             Background="#FFE3F2FF" FontFamily="Segoe UI"/>
                     <TextBox Grid.Column="7" 
+                             x:Name="AesEncryptText"
                              Margin="48,89,36,10" 
                              TextWrapping="Wrap" 
-                             Text="TextBox" 
+                             Text="{Binding Central.EncryptTextAl}" 
                              Grid.Row="0"
                              Grid.RowSpan="5" 
                              Grid.ColumnSpan="4" 
-                             Background="#FFBFD7B5"/>
-                    <Button Grid.Column="7" 
-                            Content="Button" 
-                            Margin="0,31,0,58" 
-                            Grid.Row="3" 
-                            HorizontalAlignment="Left"
-                            Width="16"/>
+                             Background="#FFE3F2FF" FontFamily="Calibri"/>
+                    <Grid Grid.Column="7" Grid.Row="5" Margin="1,2,0,0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="76">
+                        <Button Command="{Binding Central.SwapEncryptDecryptcCommand}" Margin="10,0,0,0" Height="32" VerticalAlignment="Center" HorizontalAlignment="Left" Width="48" Foreground="#FFA73232" Background="#FFA7D6FF" />
+                        <Image Source="../../Resources/arrows.ico" Margin="26,0,0,0" Height="22" VerticalAlignment="Center" Focusable="False" IsHitTestVisible="False" HorizontalAlignment="Left" Width="16"/>
+                    </Grid>
                     <Button Grid.Column="4"
-                            Content="Button" 
-                            Margin="0,0,39,38" 
+                            x:Name="ButtonAesGenKey"
+                            Content="GenKey" 
+                            Margin="0,0,39,31" 
                             Grid.Row="1" 
                             VerticalAlignment="Bottom" 
                             Grid.ColumnSpan="3" 
-                            Height="23" 
+                            Height="30" 
                             HorizontalAlignment="Right"
-                            Width="123" 
-                            Background="#FFDB755A"/>
+                            Width="130" 
+                            Background="#FF0D0356"
+                            Command="{Binding Central.GenKeySymmetricalCommand}" Foreground="White" />
                     <Button Grid.Column="4"
-                            Content="Button" 
+                            Content="{Binding Central.ButtonEDecrypt}" 
                             Margin="0,0,31,10" 
                             Grid.Row="5" Grid.ColumnSpan="3"
                             HorizontalAlignment="Right" 
                             Width="139" 
                             Height="46" 
                             VerticalAlignment="Bottom" 
-                            Background="#FFDB755A"/>
+                            Background="#FF0D0356"
+                            Command="{Binding Central.EncryptTextCommand}" Foreground="White"/>
                     <Button Grid.Column="9" 
-                            Content="Button" 
+                            Content="Copy" 
                             HorizontalAlignment="Right"
                             Margin="0,0,36,16"
                             Grid.Row="5" 
@@ -194,18 +215,19 @@
                             Grid.ColumnSpan="2" 
                             Width="105" 
                             Height="38"
-                            Background="#FFDB755A"/>
+                            Background="#FF0D0356" Foreground="White"/>
+                    
                 </Grid>
 
             </TabItem>
 
-            <TabItem  Background="#FF679C8B">
+            <TabItem  Background="Black" BorderBrush="Black" Foreground="Black">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <fa5:ImageAwesome Icon="Brands_Keycdn"
                                           Height="15" 
-                                          Margin="5,0,10,0"/>
+                                          Margin="5,0,10,0" Foreground="#FF00BCFC"/>
                         <TextBlock Text="Asymmetric encryption"></TextBlock>
                     </StackPanel>
                 </TabItem.Header>
@@ -244,7 +266,10 @@
                                   ResizeDirection="Columns" 
                                   Width="5" Grid.Row="0" Grid.RowSpan="10" Background="#FF536F5D"/>
 
-                    <ComboBox Margin="10,2,22,1" Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" />
+                    <ComboBox Margin="10,2,22,1" Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" 
+                              ItemsSource="{Binding Central.ItemsAsymAl}" 
+                              SelectedItem="{Binding Central.SelectedItemText, Mode=TwoWay}" />
+
                     <Grid Grid.ColumnSpan="4" Grid.Column="0" Margin="0,0,10,3" Grid.Row="1" Grid.RowSpan="4">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="26*"/>
@@ -254,32 +279,35 @@
                         </Grid.RowDefinitions>
 
                         <TextBox TextWrapping="Wrap" 
-                                 Text="TextBox" 
+                                 Text="{Binding Central.KeyTextAl1}" 
                                  Margin="14,10,12,42" 
                                  Grid.RowSpan="2" 
-                                 Background="#FFBFD7B5"/>
-                        <Button Content="Button" 
-                                Margin="14,0,0,8"
+                                 Background="#FFE3F2FF"/>
+                        <Button Content="GenKey" 
+                                Command="{Binding Central.GenKeyAsymmetrical1Command}"
+                                Margin="14,0,0,5"
                                 Grid.Row="1" 
                                 Grid.Column="0" 
                                 HorizontalAlignment="Left" 
                                 Width="127" 
-                                Background="#FFDB755A" Height="22" VerticalAlignment="Bottom"
+                                Background="#FF0D0356" Height="25" VerticalAlignment="Bottom" Foreground="White"
                         />
                         <TextBox TextWrapping="Wrap" 
-                                 Text="TextBox" 
+                                 Text="{Binding Central.KeyTextAl2}" 
                                  Margin="14,9,12,40"
                                  Grid.Row="2"
-                                 Background="#FFBFD7B5"/>
-                        <Button Content="Button"
-                                Margin="14,0,0,10" 
+                                 Background="#FFE3F2FF"/>
+                        <Button Content="GenKey"
+                                Command="{Binding Central.GenKeyAsymmetrical2Command}"
+                                Margin="14,0,0,6" 
                                 Grid.Column="0" 
                                 Grid.Row="2" 
-                                Height="22" 
+                                Height="26" 
                                 VerticalAlignment="Bottom" 
                                 HorizontalAlignment="Left" 
                                 Width="127" 
-                                Background="#FFDB755A"/>
+                                Background="#FF0D0356" Foreground="White"/>
+
 
                     </Grid>
 
@@ -289,53 +317,68 @@
                             <ColumnDefinition Width="226*"/>
                         </Grid.ColumnDefinitions>
                         <TextBox TextWrapping="Wrap"
-                                 Text="TextBox" 
+                                 Text="{Binding Central.TextNonEncrypt}" 
                                  Margin="4,17,10,103" 
                                  Grid.Column="1" 
-                                 Background="#FFBFD7B5"/>
-                        <Button Content="Button" 
+                                 Background="#FFE3F2FF"/>
+                        <Button Content="{Binding Central.ButtonEDecrypt}" 
                                 Margin="4,0,0,46" 
                                 Grid.Column="1" 
                                 HorizontalAlignment="Left" 
                                 Width="172" 
                                 Height="40" 
                                 VerticalAlignment="Bottom"
-                                Background="#FFDB755A"/>
+                                Background="#FF0D0356" Foreground="White"
+                                Command="{Binding Central.EncryptAsymmetricalCommand}"/>
 
                     </Grid>
                     <TextBox Grid.Column="4" 
                              Grid.Row="1" 
                              TextWrapping="Wrap" 
-                             Text="TextBox" 
+                             Text="{Binding Central.EncryptTextAl}" 
                              Margin="10,10,10,10" 
                              Grid.RowSpan="7"
                              Grid.ColumnSpan="2"
-                             Background="#FFBFD7B5"/>
+                             Background="#FFE3F2FF"/>
 
                     <Button Grid.Column="5" 
-                            Content="Button" 
+                            Content="Copy" 
                             Margin="0,10,10,11" 
                             Grid.Row="8" 
                             HorizontalAlignment="Right"
                             Width="228" 
-                            Background="#FFDB755A"/>
-                    <Button Grid.Column="4" 
-                            Content="Button" 
-                            HorizontalAlignment="Left" 
-                            Margin="0,18,0,18"
-                            Grid.Row="6" 
-                            Width="11"/>
+                            Background="#FF0D0356" Foreground="#FFFDFDFD"/>
+                    <Grid Grid.Column="4" Grid.Row="8" HorizontalAlignment="Left" Width="209" Grid.ColumnSpan="2">
+                        <Button Command="{Binding Central.SwapEncryptDecryptcCommand}"
+                            Margin="10,6,136,0" Height="32" VerticalAlignment="Top" Background="#FFA7D6FF" />
+                        <Image Source="../../Resources/arrows.ico" Margin="26,10,151,0" Height="22" VerticalAlignment="Top" Focusable="False" IsHitTestVisible="False"/>
+                    </Grid>
+
+
+
+                    <Rectangle Height="3" Stroke="Black" VerticalAlignment="Top" Grid.Row="0" Grid.ColumnSpan="6"
+                               Grid.Column="0" RenderTransformOrigin="0.5,0.5" Fill="#FF658D3A">
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="-1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+
                 </Grid>
 
             </TabItem>
 
-            <TabItem  Background="#FF679C8B">
+            <TabItem  Background="Black" BorderBrush="Black" Foreground="Black">
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <fa5:ImageAwesome Icon="Solid_FileSignature" 
                                           Height="15" 
-                                          Margin="5,0,10,0"/>
+                                          Margin="5,0,10,0" Foreground="#FF00BCFC"/>
                         <TextBlock Text="Signing"></TextBlock>
                     </StackPanel>
                 </TabItem.Header>
@@ -373,24 +416,24 @@
                             <RowDefinition Height="20*"/>
                             <RowDefinition Height="33*"/>
                         </Grid.RowDefinitions>
-                        <Button Content="Button" 
+                        <Button Content="GenKeys" 
                                 HorizontalAlignment="Left"
                                 Margin="10,0,0,10"
                                 VerticalAlignment="Bottom"
                                 Height="26" 
                                 Width="118" 
                                 Grid.Row="1" 
-                                Background="#FFDB755A"/>
+                                Background="#FF0D0356" Foreground="White"/>
                         <TextBox Grid.Row="0" 
                                  Margin="10,10,22,8"
                                  TextWrapping="Wrap"
                                  Text="TextBox"
-                                 Background="#FFBFD7B5"/>
+                                 Background="#FFE3F2FF"/>
                         <TextBox Margin="10,0,22,54" 
                                  TextWrapping="Wrap"
                                  Text="TextBox" 
                                  Grid.Row="1"
-                                 Background="#FFBFD7B5"/>
+                                 Background="#FFE3F2FF"/>
                     </Grid>
                     <Grid Grid.Row="5"
                           Grid.RowSpan="3"
@@ -399,41 +442,41 @@
                         <TextBox TextWrapping="Wrap" 
                                  Text="TextBox"
                                  Margin="10,10,10,58"
-                                 Background="#FFBFD7B5"/>
-                        <Button Content="Button"
+                                 Background="#FFE3F2FF"/>
+                        <Button Content="GenSignature"
                                 HorizontalAlignment="Left"
                                 Margin="10,0,0,10"
-                                Width="95" 
+                                Width="117" 
                                 Height="34" 
                                 VerticalAlignment="Bottom"
-                                Background="#FFDB755A"/>
+                                Background="#FF0D0356" Foreground="White"/>
                     </Grid>
                     <Grid Grid.Column="3" Grid.Row="0" Grid.RowSpan="8" Grid.ColumnSpan="3">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="457*"/>
                             <RowDefinition Height="54*"/>
                         </Grid.RowDefinitions>
-                        <Button Content="Button" 
+                        <Button Content="Copy" 
                                 Margin="0,0,10,10" 
                                 RenderTransformOrigin="0.57,0.557" 
                                 HorizontalAlignment="Right" 
                                 Width="134"
                                 Height="42"
                                 VerticalAlignment="Bottom" 
-                                Background="#FFE8A056"/>
+                                Background="#FF09529D" Foreground="White"/>
                         <TextBox Grid.Row="0" 
                                  Margin="10,10,11,57"
                                  TextWrapping="Wrap"
                                  Text="TextBox" 
-                                 Background="#FFBFD7B5"/>
+                                 Background="#FFE3F2FF"/>
                         <Button Grid.Row="0" 
-                                Content="Button"
+                                Content="Verify"
                                 Margin="0,0,162,10"
                                 HorizontalAlignment="Right"
                                 Width="119" 
                                 Height="42" 
                                 VerticalAlignment="Bottom" 
-                                Background="#FFDB755A"/>
+                                Background="#FF0D0356" Foreground="White"/>
                     </Grid>
                     <ComboBox Margin="10,0,68,0"
                               VerticalAlignment="Center"
@@ -447,6 +490,17 @@
                                   Grid.Row="0"
                                   Grid.RowSpan="9"
                                   Background="#FF536F5D"/>
+                    <Rectangle Height="3" Stroke="Black" VerticalAlignment="Top" Grid.Row="0" Grid.ColumnSpan="6"
+                               Grid.Column="0" RenderTransformOrigin="0.5,0.5" Fill="#FF658D3A">
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="-1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
                 </Grid>
             </TabItem>
         </TabControl>

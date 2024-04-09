@@ -1,22 +1,18 @@
-using System;
-using System.Globalization;
 using EDKGC.Views.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Shapes;
 using EDKGC.Infrastructure.Command;
-using System.Configuration;
 using System.Windows.Controls;
 
 namespace EDKGC.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        #region Values to Work with Hide and Visibility Commands
 
+        public RelayCommand ExitCommand { get; private set; }
         public LCommand HideElementCommand { get; private set; }
         public ICommand ShowButtonsCommand { get; private set; }
         private Visibility _buttonsPanelVisibility = Visibility.Collapsed;
@@ -31,29 +27,38 @@ namespace EDKGC.ViewModel
             }
         }
 
-        #endregion
-
-
+       
+       
         public MainViewModel()
         {
+
             #region CommandInf
 
             ShowButtonsCommand = new LCommand(ExecuteShowButtonsCommand);
 
             HideElementCommand = new LCommand(HideElement);
 
+            ExitCommand = new RelayCommand(ExecutExitCommand);
+
             #endregion
+
 
         }
 
-       
+        private void ExecutExitCommand()
+        {
+            var confW = new ConfirmationWindow();
+            confW.Show();
+
+        }
+
 
         #region Hide Element - Execute Show Buttons Command
         /// <summary>
         /// Commands to drill and hide elements
         /// </summary>
         /// <param name="parameter"></param>
-        
+
 
 
         private static void HideElement(object parameter)

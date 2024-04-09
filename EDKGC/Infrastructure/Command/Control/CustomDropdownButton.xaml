@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="200">
     <Grid>
-        <Button x:Name="Button" Content="Dropdown" Click="Button_Click" Background="#FF59DBB1">
+        <Button x:Name="Button" Click="Button_Click" Background="#FF76ACDC">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Background" Value="#FF59DBB1"/>

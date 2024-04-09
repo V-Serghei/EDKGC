@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using EDKGC.Infrastructure.Command.Control;
 using EDKGC.ViewModel;
+using EDKGC.ViewModel.CentralSolutions;
 
 namespace EDKGC.Views.Windows
 {
@@ -28,7 +29,11 @@ namespace EDKGC.Views.Windows
             InitializeComponent();
             DataContext = new ViewModelLocator();
         }
-       
 
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var viewModel = DataContext as CentralViewModel; 
+            viewModel?.SelectionChangedCommand.Execute(sender); 
+        }
     }
 }

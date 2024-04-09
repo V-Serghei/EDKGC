@@ -1,0 +1,49 @@
+﻿<Window x:Class="EDKGC.Views.Windows.ConfirmationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EDKGC.Views.Windows"
+        xmlns:viewModel="clr-namespace:EDKGC.ViewModel"
+        mc:Ignorable="d"
+        Title="{Binding Title}" Height="173" Width="296" WindowStyle="ToolWindow"
+        MaxHeight="173" MaxWidth="296" MinHeight="173" MinWidth="196"
+        Icon="../../Resources/questionW.ico"
+        DataContext="{Binding Source={StaticResource Locator}, Path=ConfirmationViewM}"
+        >
+    
+    <Grid ZIndex="1">
+        <Grid Background="#FFA4CEA8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="49*"/>
+                <RowDefinition Height="108*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75*"/>
+                <ColumnDefinition Width="221*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1" Margin="0,1,0,0" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Yes" Content="Yes" Margin="10,17,10,19" Grid.RowSpan="2" Background="#FFFC00FF" 
+                        Command="{Binding YesCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+                <Button x:Name="No"  Grid.Column="1" Content="Come back" Margin="2,17,10,19" Grid.Row="0" Grid.RowSpan="2" Background="#FF00FF47" 
+                        Command="{Binding NoCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+
+
+
+            </Grid>
+
+            <Image Grid.Row="0" Grid.Column="0" Source="../../Resources/question.ico" Margin="16,0,0,0" OpacityMask="#FFE21717" Height="17" VerticalAlignment="Center" HorizontalAlignment="Left" Width="24"/>
+        </Grid>
+        <TextBlock Margin="44,26,0,0" TextWrapping="Wrap" Text="Are you sure you want to leave?" Background="#FFA4CEA8" OpacityMask="#FFC51C1C" HorizontalAlignment="Left" Width="173" Height="40" VerticalAlignment="Top" Foreground="#FF323756"/>
+
+
+    </Grid>
+</Window>
