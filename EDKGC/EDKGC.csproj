@@ -157,6 +157,7 @@
     </ApplicationDefinition>
     <Compile Include="Enams\AsymmetricAlgorithms.cs" />
     <Compile Include="Enams\Effect.cs" />
+    <Compile Include="Enams\EKeyEff.cs" />
     <Compile Include="Enams\SymmetricEncryption.cs" />
     <Compile Include="Enams\TypeOfAlgorithm.cs" />
     <Compile Include="Encryption\AES\DecryptAes.cs" />

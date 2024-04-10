@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using EDKGC.Enams;
 using EDKGC.Encryption.DES;
 using EDKGC.Encryption.RSA;
 using Newtonsoft.Json;
@@ -18,7 +19,11 @@ namespace EDKGC.Models.AsymmetricAlgorithms
         public RsaAsymmetricalAlModel()
         {
             GenerateKeysRsa();
+            KeyEnDe = EKeyEff.Public;
         }
+
+
+        public EKeyEff KeyEnDe { get; set; }
 
         public byte[] KeyPublic { get; set; }
         
@@ -34,7 +39,7 @@ namespace EDKGC.Models.AsymmetricAlgorithms
 
         public byte[] IV { get; set; }
 
-        private void GenerateKeysRsa()
+        public void GenerateKeysRsa()
         {
             var keyGenerationParameters = new KeyGenerationParameters(new SecureRandom(), 2048);
             var keyPairGenerator = new RsaKeyPairGenerator();
@@ -58,7 +63,7 @@ namespace EDKGC.Models.AsymmetricAlgorithms
         public byte[] EncryptTextRsa(string plaintext)
         {
             EnterText = plaintext;
-            EncryptedText = EncryptRSA.EncryptText(plaintext, _keyPair);
+            EncryptedText = EncryptRSA.EncryptText(plaintext, _keyPair,KeyEnDe);
             return EncryptedText;
 
         }
@@ -67,7 +72,7 @@ namespace EDKGC.Models.AsymmetricAlgorithms
         public string DecryptTextRsa(byte[] encryptedBytes)
         {
            
-            return DecryptRSA.DecryptRsaT(encryptedBytes,_keyPair);
+            return DecryptRSA.DecryptRsaT(encryptedBytes,_keyPair, KeyEnDe);
         }
 
 

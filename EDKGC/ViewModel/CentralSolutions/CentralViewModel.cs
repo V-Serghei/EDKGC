@@ -55,8 +55,8 @@ namespace EDKGC.ViewModel.CentralSolutions
         public CentralViewModel()
         {
             EncryptAsymmetricalCommand = new RelayCommand(EncryptDecryptAs);
-            GenKeyAsymmetrical1Command = new RelayCommand(GenKeyAs1);
-            GenKeyAsymmetrical2Command = new RelayCommand(GenKeyAs2);
+
+            GenKeyAsymmetrical2Command = new RelayCommand(GenKeyAs);
             _rsaAsymmetricalAlModel = new RsaAsymmetricalAlModel();
             _itemsAsymAl = new ObservableCollection<string>
             {
@@ -78,6 +78,8 @@ namespace EDKGC.ViewModel.CentralSolutions
 
             SwapEncryptDecryptcCommand = new RelayCommand(SwapEnDecrypt);
 
+            SwapKeyCommand = new RelayCommand(SwapKeyR);
+
             Items = new ObservableCollection<string>() { "Aes", "DES", "3DES", "SEAL", "Blowfish", "Twofish", "Serpent" };
             SelectionChangedCommand = new RelayCommand(UpdateCommand);
 
@@ -96,6 +98,7 @@ namespace EDKGC.ViewModel.CentralSolutions
         /// Algorithm selection list
         /// </summary>
         public ICommand SelectionChangedCommand { get; set; }
+
 
         private Effect _buttonEffect = Effect.Encrypt;
 
@@ -270,8 +273,45 @@ namespace EDKGC.ViewModel.CentralSolutions
             }
         }
 
+        private EKeyEff _eKeyEff = EKeyEff.Public;
 
+        public EKeyEff KeyState
+        {
+            get => _eKeyEff;
+            set
+            {
+                Set(ref _eKeyEff, value);
+                _rsaAsymmetricalAlModel.KeyEnDe = KeyState;
+            }
+           
+        }
 
+        public void SwapKeyR()
+        {
+            if (ButtonEffect == Effect.Decrypt) SwapEnDecrypt();
+            switch (KeyState)
+            {
+                case EKeyEff.Public:
+                    KeyState = EKeyEff.Private;
+                    (KeyTextAl1, KeyTextAl2) = (KeyTextAl2, KeyTextAl1);
+                    KeyEncState = "Private Key!";
+                    EncryptTextAl = "";
+                    TextNonEncrypt = "";
+                    SwapEnDecrypt();
+                    break;
+                case EKeyEff.Private:
+                    KeyState = EKeyEff.Public;
+                    (KeyTextAl1, KeyTextAl2) = (KeyTextAl2, KeyTextAl1);
+                    EncryptTextAl = "";
+                    KeyEncState = "Public Key!";
+                    
+                    TextNonEncrypt = "";
+                    break;
+                default:
+                    KeyState = EKeyEff.Public;
+                    break;
+            }
+        }
 
         public Effect ButtonEffect
         {
@@ -373,6 +413,8 @@ namespace EDKGC.ViewModel.CentralSolutions
         public ICommand EncryptTextCommand { get; set; }
 
         public ICommand SwapEncryptDecryptcCommand { get; set; }
+
+        public ICommand SwapKeyCommand { get; set; }
 
         public AesSymmetricEncryption AesSymmetricEncryptionM { get; set; }
 
@@ -512,7 +554,6 @@ namespace EDKGC.ViewModel.CentralSolutions
         /// <summary>
         /// ASYMMETRIC ALGORITHMS
         /// </summary>
-        public ICommand GenKeyAsymmetrical1Command { get; set; }
 
         public ICommand GenKeyAsymmetrical2Command { get; set; }
 
@@ -535,16 +576,24 @@ namespace EDKGC.ViewModel.CentralSolutions
             set => Set(ref _keyTextAl2, value);
         }
 
-        private void GenKeyAs2()
+
+        private string _keyEncState = "Public Key!";
+
+        public string KeyEncState
         {
-            KeyTextAl2 = _encoding.GetString(_rsaAsymmetricalAlModel.GenPrivateKey());
+            get => _keyEncState;
+            set => Set(ref _keyEncState, value);
         }
 
-        private void GenKeyAs1()
+        private void GenKeyAs()
         {
+            _rsaAsymmetricalAlModel.GenerateKeysRsa();
+            KeyTextAl2 = _encoding.GetString(_rsaAsymmetricalAlModel.GenPrivateKey());
             KeyTextAl1 = _encoding.GetString(_rsaAsymmetricalAlModel.GenPublicKey());
 
         }
+
+       
 
 
         private void EncryptDecryptAs()

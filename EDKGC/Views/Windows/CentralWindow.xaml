@@ -216,7 +216,7 @@
                             Width="105" 
                             Height="38"
                             Background="#FF0D0356" Foreground="White"/>
-                    
+
                 </Grid>
 
             </TabItem>
@@ -283,15 +283,6 @@
                                  Margin="14,10,12,42" 
                                  Grid.RowSpan="2" 
                                  Background="#FFE3F2FF"/>
-                        <Button Content="GenKey" 
-                                Command="{Binding Central.GenKeyAsymmetrical1Command}"
-                                Margin="14,0,0,5"
-                                Grid.Row="1" 
-                                Grid.Column="0" 
-                                HorizontalAlignment="Left" 
-                                Width="127" 
-                                Background="#FF0D0356" Height="25" VerticalAlignment="Bottom" Foreground="White"
-                        />
                         <TextBox TextWrapping="Wrap" 
                                  Text="{Binding Central.KeyTextAl2}" 
                                  Margin="14,9,12,40"
@@ -307,6 +298,14 @@
                                 HorizontalAlignment="Left" 
                                 Width="127" 
                                 Background="#FF0D0356" Foreground="White"/>
+                        <Button Command="{Binding Central.SwapKeyCommand}"
+                            Margin="15,0,0,4" Height="32" VerticalAlignment="Bottom" Background="#FFA7D6FF" Grid.Row="1" HorizontalAlignment="Left" Width="62" >
+                            <Image Source="/Resources/arrows.ico" Height="22" VerticalAlignment="Top" Focusable="False" IsHitTestVisible="False" Width="32"/>
+                        </Button>
+                        <TextBlock HorizontalAlignment="Left"
+
+                                   Margin="82,0,0,11" Grid.Row="1" TextWrapping="Wrap" 
+                                   Text="{Binding Central.KeyEncState}" Width="146" Background="#FF878080" LineHeight="12" TextAlignment="Center" Height="18" VerticalAlignment="Bottom"/>
 
 
                     </Grid>
