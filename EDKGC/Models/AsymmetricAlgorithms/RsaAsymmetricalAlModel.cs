@@ -47,20 +47,20 @@ namespace EDKGC.Models.AsymmetricAlgorithms
 
         public byte[] GenPublicKey()
         {
-            return KeyPublic;
+            return KeyPublic = ((RsaKeyParameters)_keyPair.Public).Modulus.ToByteArrayUnsigned();
         }
 
         public byte[] GenPrivateKey()
         {
-            return KeyPrivate;
+            return KeyPrivate = ((RsaPrivateCrtKeyParameters)_keyPair.Private).Exponent.ToByteArrayUnsigned();
         }
 
         public byte[] EncryptTextRsa(string plaintext)
         {
             EnterText = plaintext;
             EncryptedText = EncryptRSA.EncryptText(plaintext, _keyPair);
-           return EncryptRSA.EncryptText(plaintext, _keyPair);
-            
+            return EncryptedText;
+
         }
 
 

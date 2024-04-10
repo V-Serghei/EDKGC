@@ -28,7 +28,7 @@ namespace EDKGC.ViewModel.CentralSolutions
         /// </summary>
         readonly Encoding _encoding = Encoding.Default;
 
-        private readonly RsaAsymmetricalAlModel _rsaAsymmetricalAlModel = new RsaAsymmetricalAlModel();
+        private RsaAsymmetricalAlModel _rsaAsymmetricalAlModel;
 
         public string ConvertByteStringContainer { get; set; }
 
@@ -57,6 +57,7 @@ namespace EDKGC.ViewModel.CentralSolutions
             EncryptAsymmetricalCommand = new RelayCommand(EncryptDecryptAs);
             GenKeyAsymmetrical1Command = new RelayCommand(GenKeyAs1);
             GenKeyAsymmetrical2Command = new RelayCommand(GenKeyAs2);
+            _rsaAsymmetricalAlModel = new RsaAsymmetricalAlModel();
             _itemsAsymAl = new ObservableCollection<string>
             {
                 "RSA",
