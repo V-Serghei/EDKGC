@@ -653,6 +653,17 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         #endregion
 
+        #region Signature
+
+        /// <summary>
+        /// Signature
+        /// </summary>
+
+
+
+
+        #endregion
+
         public void Dispose()
         {
            

@@ -481,7 +481,8 @@
                               VerticalAlignment="Center"
                               Height="21" Grid.Row="0" 
                               Grid.ColumnSpan="2"
-                              Grid.Column="0" />
+                              Grid.Column="0" 
+                              />
                     <GridSplitter Grid.Column="3"
                                   HorizontalAlignment="Left" 
                                   Margin="0,4,0,0" 
