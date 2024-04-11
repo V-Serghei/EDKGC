@@ -636,7 +636,7 @@ namespace EDKGC.ViewModel.CentralSolutions
 
                             break;
                         case Effect.Decrypt:
-                            var res = _rsaAsymmetricalAlModel.DecryptTextRsa(_encoding.GetBytes(TextNonEncrypt));
+                            var res = _rsaAsymmetricalAlModel.DecryptTextRsa((GetHexModString.GetStringToHexMod(TextNonEncrypt)));
                             if (res == null) EncryptTextAl = "Inappropriate key";
                             else
                             {
