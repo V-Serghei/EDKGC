@@ -27,7 +27,7 @@
 
 
 
-    <Grid x:Name="MainW" Background="#FFA2FFD6">
+    <Grid x:Name="MainW" Background="#FF02353C">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="178*"/>
@@ -50,11 +50,11 @@
                      RenderTransformOrigin="0.5,0.5" 
                      Grid.Column="2" FontSize="36" 
                      FontFamily="Engravers MT" 
-                     Background="#FFA2FFD6" 
+                     Background="#FF2EAF7D" 
                      SelectionBrush="Transparent"
-                     CaretBrush="#FF65E6AD" 
+                     CaretBrush="#FF2EAF7D" 
                      OpacityMask="#FFDF1F1F" 
-                     Margin="0,14,0,14" Width="555" >
+                     Margin="0,14,0,14" Width="555" Foreground="#FF2EAF7D" >
             <RichTextBox.Style>
                 <Style TargetType="RichTextBox">
                     <Style.Triggers>
@@ -120,17 +120,17 @@
 
         </RichTextBox>
 
-        <Grid Grid.Column="1" Grid.Row="1" Height="147" VerticalAlignment="Center" Grid.ColumnSpan="3">
+        <Grid  Grid.Column="1" Grid.Row="1" Height="147" VerticalAlignment="Center" Grid.ColumnSpan="3">
 
 
             <Button  x:Name="StartButton" Grid.Column="0" Content="Start" 
                       Command="{Binding Main.ShowButtonsCommand}"  
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
                       VerticalAlignment="Center" 
-                      Background="#FF9EDA74" 
+                      Background="#FF337331" 
                       Height="194" FontFamily="Wide Latin" 
-                      FontSize="48" RenderTransformOrigin="0.505,0.513" >
-                <Button.Style>
+                      FontSize="48" RenderTransformOrigin="0.505,0.513" Foreground="#FF00D4B0" BorderBrush="#FF6D2A2A" >
+                <Button.Style> 
                     <Style TargetType="Button">
                         <Setter Property="RenderTransform">
                             <Setter.Value>
@@ -174,7 +174,7 @@
         <Grid Grid.Column="1" Grid.Row="1" Height="147" 
               VerticalAlignment="Center" Grid.ColumnSpan="3">
             <StackPanel x:Name="ButtonsPanel" 
-                        Background="#FFA2FFD6" 
+                        Background="#FF02353C" 
                         Margin="0,-24,-1,-23" 
                         Visibility="{Binding Main.ButtonsPanelVisibility}"
                         RenderTransformOrigin="0.511,0.496"
