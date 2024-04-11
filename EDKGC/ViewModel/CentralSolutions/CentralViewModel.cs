@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using CommunityToolkit.Mvvm.Input;
 using EDKGC.Enams;
 using EDKGC.Encryption.GeneralTools;
@@ -16,6 +17,12 @@ using EDKGC.Models.SymmetricEncryption;
 using GalaSoft.MvvmLight;
 using Org.BouncyCastle.Utilities;
 
+//TODO:Review all input variations and protect against critical errors.
+//Testing is required
+
+//TODO-CHECK:Add exception processing
+
+//correctly reorganize code
 
 namespace EDKGC.ViewModel.CentralSolutions
 {
@@ -505,8 +512,8 @@ namespace EDKGC.ViewModel.CentralSolutions
                             if (res == null) EncryptTextAl = "Inappropriate key";
                             else
                             {
-                                //ConvertByteStringContainer = _encoding.GetString(res);
-                                ConvertByteStringContainer = GetHexModString.GetHexModToString(res);
+                                ConvertByteStringContainer = _encoding.GetString(res);
+                               // ConvertByteStringContainer = GetHexModString.GetHexModToString(res);
                                 EncryptTextAl = ConvertByteStringContainer;
                             }
                             
@@ -750,10 +757,26 @@ namespace EDKGC.ViewModel.CentralSolutions
             EncryptVerTextBoxS =
                 GetHexModString.GetHexModToString(_rsaAsymmetricalAlModel.DecryptTextRsaB(enctyptTextBytes));
         }
+        private SolidColorBrush _textColor = Brushes.Green;
+        public SolidColorBrush TextColor
+        {
+            get { return _textColor; }
+            set
+            {
+                if (_textColor != value)
+                {
+                    _textColor = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        private void VerifySignRsa() => TextResp = _electronicSignatureRsa.
-            VerifySignature(HashEntTextS, EncryptVerTextBoxS);
-        
+        private void VerifySignRsa()
+        {
+            TextResp = _electronicSignatureRsa.VerifySignature(HashEntTextS, EncryptVerTextBoxS);
+            TextColor = TextResp == "Pass" ? Brushes.Green : Brushes.Red;
+        }
+
         #endregion
 
         public void Dispose()

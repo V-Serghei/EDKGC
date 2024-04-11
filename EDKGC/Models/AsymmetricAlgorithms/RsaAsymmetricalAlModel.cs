@@ -64,7 +64,7 @@ namespace EDKGC.Models.AsymmetricAlgorithms
         {
             return KeyPrivate = ((RsaPrivateCrtKeyParameters)_keyPair.Private).Exponent.ToByteArrayUnsigned();
         }
-
+        //TODO: Consider the maximum length of the text. Define deadening
         public byte[] EncryptTextRsa(string plaintext)
         {
             EnterText = plaintext;
