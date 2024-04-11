@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using EDKGC.Enams;
 using EDKGC.Encryption.DES;
 using EDKGC.Encryption.RSA;
 using Newtonsoft.Json;
@@ -18,7 +19,11 @@ namespace EDKGC.Models.AsymmetricAlgorithms
         public RsaAsymmetricalAlModel()
         {
             GenerateKeysRsa();
+            KeyEnDe = EKeyEff.Public;
         }
+
+
+        public EKeyEff KeyEnDe { get; set; }
 
         public byte[] KeyPublic { get; set; }
         
@@ -34,7 +39,12 @@ namespace EDKGC.Models.AsymmetricAlgorithms
 
         public byte[] IV { get; set; }
 
-        private void GenerateKeysRsa()
+        public AsymmetricCipherKeyPair GetKeyP()
+        {
+            return _keyPair;
+        }
+
+        public void GenerateKeysRsa()
         {
             var keyGenerationParameters = new KeyGenerationParameters(new SecureRandom(), 2048);
             var keyPairGenerator = new RsaKeyPairGenerator();
@@ -47,27 +57,39 @@ namespace EDKGC.Models.AsymmetricAlgorithms
 
         public byte[] GenPublicKey()
         {
-            return KeyPublic;
+            return KeyPublic = ((RsaKeyParameters)_keyPair.Public).Modulus.ToByteArrayUnsigned();
         }
 
         public byte[] GenPrivateKey()
         {
-            return KeyPrivate;
+            return KeyPrivate = ((RsaPrivateCrtKeyParameters)_keyPair.Private).Exponent.ToByteArrayUnsigned();
         }
 
         public byte[] EncryptTextRsa(string plaintext)
         {
             EnterText = plaintext;
-            EncryptedText = EncryptRSA.EncryptText(plaintext, _keyPair);
-           return EncryptRSA.EncryptText(plaintext, _keyPair);
-            
+            EncryptedText = EncryptRSA.EncryptText(plaintext, _keyPair,KeyEnDe);
+            return EncryptedText;
+
+        }
+        public byte[] EncryptTextRsa(byte[] plaintext)
+        {
+            EnterText = encoding.GetString(plaintext);
+            EncryptedText = EncryptRSA.EncryptTextBytes(plaintext, _keyPair, KeyEnDe);
+            return EncryptedText;
+
         }
 
 
         public string DecryptTextRsa(byte[] encryptedBytes)
         {
            
-            return DecryptRSA.DecryptRsaT(encryptedBytes,_keyPair);
+            return DecryptRSA.DecryptRsaT(encryptedBytes,_keyPair, KeyEnDe);
+        }
+        public byte[] DecryptTextRsaB(byte[] encryptedBytes)
+        {
+
+            return DecryptRSA.DecryptRsaToByte(encryptedBytes, _keyPair, KeyEnDe);
         }
 
 
