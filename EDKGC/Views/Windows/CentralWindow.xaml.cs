@@ -35,5 +35,7 @@ namespace EDKGC.Views.Windows
             var viewModel = DataContext as CentralViewModel; 
             viewModel?.SelectionChangedCommand.Execute(sender); 
         }
+
+       
     }
 }

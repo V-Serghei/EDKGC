@@ -422,7 +422,8 @@
                                 Height="26" 
                                 Width="118" 
                                 Grid.Row="1" 
-                                Background="#FF0D0356" Foreground="White"/>
+                                Background="#FF0D0356" Foreground="White"
+                                Command="{Binding Central.ButGenKeyPCommand}"/>
                         <TextBox Grid.Row="0" 
                                  Margin="10,10,22,8"
                                  TextWrapping="Wrap"
@@ -439,7 +440,7 @@
                           Grid.ColumnSpan="3"
                           Grid.Column="0">
                         <TextBox TextWrapping="Wrap" 
-                                 Text="TextBox"
+                                 Text="{Binding Central.EnterTextS}"
                                  Margin="10,10,10,58"
                                  Background="#FFE3F2FF"/>
                         <Button Content="GenSignature"
@@ -448,40 +449,61 @@
                                 Width="117" 
                                 Height="34" 
                                 VerticalAlignment="Bottom"
-                                Background="#FF0D0356" Foreground="White"/>
+                                Background="#FF0D0356" Foreground="White"
+                                Command="{Binding Central.GenHashAndEncryptSignatureCommand}"/>
                     </Grid>
                     <Grid Grid.Column="3" Grid.Row="0" Grid.RowSpan="8" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="139*"/>
+                            <ColumnDefinition Width="144*"/>
+                        </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="457*"/>
-                            <RowDefinition Height="54*"/>
+                            <RowDefinition Height="208*"/>
+                            <RowDefinition Height="208*"/>
+                            <RowDefinition Height="49*"/>
                         </Grid.RowDefinitions>
                         <Button Content="Copy" 
-                                Margin="0,0,10,10" 
+                                Margin="0,10,12,0" 
                                 RenderTransformOrigin="0.57,0.557" 
                                 HorizontalAlignment="Right" 
-                                Width="134"
-                                Height="42"
-                                VerticalAlignment="Bottom" 
-                                Background="#FF09529D" Foreground="White"/>
+                                Width="134" 
+                                Background="#FF09529D" Foreground="White" Height="32" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1"/>
                         <TextBox Grid.Row="0" 
-                                 Margin="10,10,11,57"
+                                 Margin="5,10,11,10"
                                  TextWrapping="Wrap"
-                                 Text="TextBox" 
-                                 Background="#FFE3F2FF"/>
-                        <Button Grid.Row="0" 
+                                 Text="{Binding Central.EncryptVerTextBoxS}" 
+                                 Background="#FFE3F2FF" Grid.Column="1"/>
+                        <Button Grid.Row="1" 
                                 Content="Verify"
-                                Margin="0,0,162,10"
+                                Margin="0,166,20,0"
                                 HorizontalAlignment="Right"
                                 Width="119" 
-                                Height="42" 
-                                VerticalAlignment="Bottom" 
-                                Background="#FF0D0356" Foreground="White"/>
+                                Command="{Binding Central.VerifySignatureCommand}"
+                                Background="#FF0D0356" Foreground="White" Height="32" VerticalAlignment="Top" Grid.Column="1"/>
+                        <TextBlock Height="53" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Central.TextResp}" VerticalAlignment="Top" Background="#FF798C76" FontFamily="Bauhaus 93" FontSize="36" TextAlignment="Center" Margin="59,104,59,0" Foreground="#FF1B2268" Grid.ColumnSpan="2"
+                                   Grid.Column="0"
+                                   />
+                        <Button Content="Decrypt" 
+                            Margin="0,52,12,0" 
+                            RenderTransformOrigin="0.57,0.557" 
+                            HorizontalAlignment="Right" 
+                            Width="134" 
+                            Command="{Binding Central.DecryptEncryptHashCommand}"
+                            Background="#FF09529D" Foreground="White" Grid.Row="1" Height="32" VerticalAlignment="Top" Grid.Column="1"/>
+                        <TextBox Grid.Row="0" Grid.Column="0"
+                                 Margin="3,10,3,10"
+                            TextWrapping="Wrap"
+                            Text="{Binding Central.HashEntTextS}" 
+                            Background="#FFE3F2FF"/>
                     </Grid>
                     <ComboBox Margin="10,0,68,0"
                               VerticalAlignment="Center"
                               Height="21" Grid.Row="0" 
                               Grid.ColumnSpan="2"
-                              Grid.Column="0" 
+                              Grid.Column="0" Cursor="" 
+                              Text="RSA"
+                              ItemsSource="{Binding Central.ItemsAsymAl}" 
+                              SelectedItem="{Binding Central.SelectedItemText, Mode=TwoWay}"
                               />
                     <GridSplitter Grid.Column="3"
                                   HorizontalAlignment="Left" 

@@ -166,6 +166,8 @@
     <Compile Include="Encryption\DES\DecryptDes.cs" />
     <Compile Include="Encryption\DES\EncryptDes.cs" />
     <Compile Include="Encryption\DES\GenerateKeyDes.cs" />
+    <Compile Include="Encryption\GeneralTools\GenHash.cs" />
+    <Compile Include="Encryption\GeneralTools\GetHexModString.cs" />
     <Compile Include="Encryption\RSA\DecryptRSA.cs" />
     <Compile Include="Encryption\RSA\EncryptRSA.cs" />
     <Compile Include="Encryption\RSA\GenerateKeysRSA.cs" />
@@ -177,7 +179,7 @@
     </Compile>
     <Compile Include="Infrastructure\Command\LCommand.cs" />
     <Compile Include="Models\AsymmetricAlgorithms\RsaAsymmetricalAlModel.cs" />
-    <Compile Include="Models\ElectronicSignature\ElectronicSignatureAes.cs" />
+    <Compile Include="Models\ElectronicSignature\ElectronicSignatureRSA.cs" />
     <Compile Include="Models\SymmetricEncryption\AESsymmetricEncryption.cs" />
     <Compile Include="Models\SymmetricEncryption\DESsymmetricEncryption.cs" />
     <Compile Include="Models\SymmetricEncryption\TripleDesSymmetricEncryption.cs" />
