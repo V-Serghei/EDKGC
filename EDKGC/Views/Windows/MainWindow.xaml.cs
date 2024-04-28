@@ -35,11 +35,14 @@ namespace EDKGC.Views.Windows
             }
         }
 
-     
 
+        private void Button_Click_Iso(object sender, MouseButtonEventArgs e)
+        {
+            var window = new ISOWindow();
 
+            window.Show();
 
-
-
+            this.Hide();
+        }
     }
 }
