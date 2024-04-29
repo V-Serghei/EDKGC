@@ -218,6 +218,7 @@
     <Compile Include="Infrastructure\Command\LCommand.cs" />
     <Compile Include="Models\AsymmetricAlgorithms\RsaAsymmetricalAlModel.cs" />
     <Compile Include="Models\ElectronicSignature\ElectronicSignatureRSA.cs" />
+    <Compile Include="Models\ISO27001\PieChartData.cs" />
     <Compile Include="Models\ISO27001\QuestionModel.cs" />
     <Compile Include="Models\SymmetricEncryption\AESsymmetricEncryption.cs" />
     <Compile Include="Models\SymmetricEncryption\DESsymmetricEncryption.cs" />

@@ -146,7 +146,7 @@
                         <Grid>
                             <Grid Name="grid1">
 
-                                <wpf1:PieChart Name="PieChart" Width="200" Height="200">
+                                <wpf1:PieChart  Width="200" Height="200"  Name="ChartPie" Series="{Binding IsoViewModelInstance.ChartSeries}">
 
                                 </wpf1:PieChart>
 

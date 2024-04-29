@@ -2,10 +2,13 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Windows.Media;
 using EDKGC.Enams;
 using EDKGC.Models.ISO27001;
 using EDKGC.ViewModel.SatelliteWindows;
 using GrapeCity.DataVisualization.TypeScript;
+using LiveCharts;
+using LiveCharts.Wpf;
 using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
 namespace EDKGC.ViewModel.ISO27001
@@ -42,6 +45,11 @@ namespace EDKGC.ViewModel.ISO27001
         public int CurrentIndex = 0;
 
         public QuestionModel CurrentQuestion { get; set; }
+
+        public SeriesCollection ChartSeries { get; set; }
+
+        public PieChartData SeriesData { get; set; }
+
 
         #endregion
 
@@ -85,15 +93,53 @@ namespace EDKGC.ViewModel.ISO27001
 
             });
 
-            RespYesCommand = new RelayCommand(ResolveQuestionCommand);
+            ChartSeries = new SeriesCollection
+            {
+                new PieSeries
+                {
+                    Title = "Да",
+                    Values = new ChartValues<int>(),
+                    Fill = Brushes.Green
+                },
+                new PieSeries
+                {
+                    Title = "Нет",
+                    Values = new ChartValues<int>(),
+                    Fill = Brushes.Red
+                },
+                new PieSeries
+                {
+                    Title = "Не знаю",
+                    Values = new ChartValues<int>(),
+                    Fill = Brushes.Yellow
+                },
+                new PieSeries
+                {
+                    Title = "Не определён",
+                    Values = new ChartValues<int>{4},
+                    Fill = Brushes.Gray
+                }
+            };
 
-            RespNoCommand = new RelayCommand(ResolveQuestionCommand);
 
-            RespDonTKnowCommand = new RelayCommand(ResolveQuestionCommand);
+
+            RespYesCommand = new RelayCommand(ResolveYesCommand);
+
+            RespNoCommand = new RelayCommand(ResolveNoCommand);
+
+            RespDonTKnowCommand = new RelayCommand(ResolveDonTKnowCommand);
 
             CurrentQuestion = Question[CurrentIndex];
 
             _question = CurrentQuestion.Description;
+
+            SeriesData = new PieChartData
+            {
+                RespYes = 0,
+                RespNo = 0,
+                RespDonTKnow = 0,
+                RespNone = Question.Count
+            };
 
         }
 
@@ -101,7 +147,7 @@ namespace EDKGC.ViewModel.ISO27001
 
         #region questions
 
-        private string _question = "Welcome";
+        private string _question;
         private ICommand _respYesCommand;
         private ICommand _respNoCommand;
         private ICommand _respDonTKnowCommand;
@@ -119,6 +165,7 @@ namespace EDKGC.ViewModel.ISO27001
             get => _respYesCommand;
             set
             {
+                
                 Set(ref _respYesCommand, value);
                 CurrAnswer = Answer.Yes;
             }
@@ -145,30 +192,77 @@ namespace EDKGC.ViewModel.ISO27001
             }
         }
 
-
-        private void ResolveQuestionCommand(object obj)
+        private void ResolveYesCommand(object obj)
         {
-            // Установка ответа для текущего вопроса
+            CurrAnswer = Answer.Yes;
+            ResolveQuestion();
+        }
+
+        private void ResolveNoCommand(object obj)
+        {
+            CurrAnswer = Answer.No;
+            ResolveQuestion();
+        }
+
+        private void ResolveDonTKnowCommand(object obj)
+        {
+            CurrAnswer = Answer.DonTKnow;
+            ResolveQuestion();
+        }
+
+
+        private void ResolveQuestion()
+        {
             CurrentQuestion.Resolved = CurrAnswer;
 
-            // Переход к следующему вопросу
+           if(CurrentIndex < Question.Count) {
+                foreach (var series in ChartSeries)
+                {
+                    series.Values.Clear();
+                }
+
+
+                switch (CurrAnswer)
+                {
+                    case Answer.Yes:
+                        SeriesData.RespYes += 1;
+                        SeriesData.RespNone -= 1;
+                        break;
+                    case Answer.No:
+                        SeriesData.RespNo += 1;
+                        SeriesData.RespNone -= 1;
+                        break;
+                    case Answer.DonTKnow:
+                        SeriesData.RespDonTKnow += 1;
+                        SeriesData.RespNone -= 1;
+                        break;
+                    default:
+                        SeriesData.RespNone -= 1;
+                        break;
+                }
+
+                ChartSeries[0].Values.Add(SeriesData.RespYes);
+                ChartSeries[1].Values.Add(SeriesData.RespNo);
+                ChartSeries[2].Values.Add(SeriesData.RespDonTKnow);
+                ChartSeries[3].Values.Add(SeriesData.RespNone);
+            }
+
             NextQuestion();
 
 
         }
         private void NextQuestion()
         {
-            // Переход к следующему вопросу
             CurrentIndex++;
 
-            // Если все вопросы пройдены, можете предпринять нужные действия (например, вывести результаты)
             if (CurrentIndex >= Question.Count)
             {
-                // Действия при завершении викторины
+
+
+                //here we add logic to the conclusion of the number of questions
                 return;
             }
 
-            // Обновление текстового поля с новым вопросом
             QuestionCurr = Question[CurrentIndex].Description;
         }
 
