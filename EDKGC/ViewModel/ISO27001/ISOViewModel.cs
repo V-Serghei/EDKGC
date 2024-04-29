@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -9,6 +11,7 @@ using EDKGC.ViewModel.SatelliteWindows;
 using GrapeCity.DataVisualization.TypeScript;
 using LiveCharts;
 using LiveCharts.Wpf;
+using Newtonsoft.Json;
 using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
 namespace EDKGC.ViewModel.ISO27001
@@ -56,42 +59,11 @@ namespace EDKGC.ViewModel.ISO27001
         public ISOViewModel()
         {
             Question = new List<QuestionModel>();
-            Question.push(new QuestionModel
-            {
-                Description = "1)sdjfsdfsdfsfsdfsdfsdfsfsfsdfsdfsfs",
-                Number = 1,
-                Quality = Quality.High,
-                Resolved = Answer.None,
-                Title = "Prom"
+            string basePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string jsonPath = Path.Combine(basePath, @"Data\Seed\ISOQuestion.json");
+            string json = File.ReadAllText(jsonPath);
+            Question = JsonConvert.DeserializeObject<List<QuestionModel>>(json);
 
-            });
-            Question.push(new QuestionModel
-            {
-                Description = "2)sdjfsdfsdfsfsdfsdfsdfsfsfsdfsdfsfs",
-                Number = 2,
-                Quality = Quality.High,
-                Resolved = Answer.None,
-                Title = "Prom"
-
-            });
-            Question.push(new QuestionModel
-            {
-                Description = "3)sdjfsdfsdfsfsdfsdfsdfsfsfsdfsdfsfs",
-                Number = 3,
-                Quality = Quality.High,
-                Resolved = Answer.None,
-                Title = "Prom"
-
-            });
-            Question.push(new QuestionModel
-            {
-                Description = "4)sdjfsdfsdfsfsdfsdfsdfsfsfsdfsdfsfs",
-                Number = 4,
-                Quality = Quality.High,
-                Resolved = Answer.None,
-                Title = "Prom"
-
-            });
 
             ChartSeries = new SeriesCollection
             {
@@ -115,8 +87,8 @@ namespace EDKGC.ViewModel.ISO27001
                 },
                 new PieSeries
                 {
-                    Title = "Не определён",
-                    Values = new ChartValues<int>{4},
+                    Title = "Ждет ответа",
+                    Values = new ChartValues<int>{Question.Count},
                     Fill = Brushes.Gray
                 }
             };
@@ -140,6 +112,7 @@ namespace EDKGC.ViewModel.ISO27001
                 RespDonTKnow = 0,
                 RespNone = Question.Count
             };
+            CurrentIndexQuestion = CurrentIndex + "/" + Question.Count;
 
         }
 
@@ -151,6 +124,23 @@ namespace EDKGC.ViewModel.ISO27001
         private ICommand _respYesCommand;
         private ICommand _respNoCommand;
         private ICommand _respDonTKnowCommand;
+        private int _percentage;
+        private string _currIndexQuestion;
+
+        public string CurrentIndexQuestion
+        {
+            get => _currIndexQuestion;
+
+            set => Set(ref _currIndexQuestion, value);
+        }
+
+        public int Percentage
+        {
+            get => _percentage;
+            set =>
+                Set(ref _percentage, value);
+
+        }
 
         public string QuestionCurr
         {
@@ -214,8 +204,9 @@ namespace EDKGC.ViewModel.ISO27001
         private void ResolveQuestion()
         {
             CurrentQuestion.Resolved = CurrAnswer;
-
            if(CurrentIndex < Question.Count) {
+               Question[CurrentIndex].Resolved = CurrAnswer;
+
                 foreach (var series in ChartSeries)
                 {
                     series.Values.Clear();
@@ -247,13 +238,18 @@ namespace EDKGC.ViewModel.ISO27001
                 ChartSeries[3].Values.Add(SeriesData.RespNone);
             }
 
+            ResponseCurrUpdate();
             NextQuestion();
 
 
         }
         private void NextQuestion()
         {
+
+
             CurrentIndex++;
+            Percentage = (int)((double)CurrentIndex / Question.Count * 100);
+            CurrentIndexQuestion = CurrentIndex + "/" + Question.Count;
 
             if (CurrentIndex >= Question.Count)
             {
@@ -270,6 +266,119 @@ namespace EDKGC.ViewModel.ISO27001
 
 
         #endregion
+
+        #region Response
+
+        private string _responseCurr;
+
+        public string ResponseCurr
+        {
+            get => _responseCurr;
+            set => Set(ref _responseCurr,value);
+        }
+
+        private string _threatLevel;
+
+        public string ThreatLevel
+        {
+            get => _threatLevel;
+            set => Set(ref _threatLevel, value);
+
+        }
+
+        private void ResponseCurrUpdate()
+        {
+           if(CurrentIndex < Question.Count) {
+                if (Question[CurrentIndex].Resolved == Answer.Yes)
+                {
+                    ThreatLevel = "Safely";
+                    ResponseCurr = Question[CurrentIndex].Title + "\n" + Question[CurrentIndex].RespPos;
+
+                }
+                else if (Question[CurrentIndex].Resolved == Answer.No)
+                {
+                    ResponseCurr = Question[CurrentIndex].Title + "\n" + Question[CurrentIndex].RespNeg;
+                    if (Question[CurrentIndex].Quality == Quality.High)
+                    {
+                        ThreatLevel = "High";
+                    }
+                    else if (Question[CurrentIndex].Quality == Quality.Low)
+                    {
+                        ThreatLevel = "Low";
+                    }
+                    else if (Question[CurrentIndex].Quality == Quality.Critical)
+                    {
+                        ThreatLevel = "Critical";
+                    }
+                    else if (Question[CurrentIndex].Quality == Quality.Medium)
+                    {
+                        ThreatLevel = "Medium";
+                    }
+                    else
+                    {
+                        ThreatLevel = "None";
+                    }
+
+                }
+                else if (Question[CurrentIndex].Resolved == Answer.DonTKnow)
+                {
+                    ResponseCurr = Question[CurrentIndex].Title + "\n" + Question[CurrentIndex].RespNeg;
+                    if (Question[CurrentIndex].Quality == Quality.High)
+                    {
+                        ThreatLevel = "High";
+                    }
+                    else if (Question[CurrentIndex].Quality == Quality.Low)
+                    {
+                        ThreatLevel = "Low";
+                    }
+                    else if (Question[CurrentIndex].Quality == Quality.Critical)
+                    {
+                        ThreatLevel = "Critical";
+                    }
+                    else if (Question[CurrentIndex].Quality == Quality.Medium)
+                    {
+                        ThreatLevel = "Medium";
+                    }
+                    else
+                    {
+                        ThreatLevel = "None";
+                    }
+                }
+                else
+                {
+                    ResponseCurr = Question[CurrentIndex].Title + "\n" + Question[CurrentIndex].RespNeg;
+                    if (Question[CurrentIndex].Quality == Quality.High)
+                    {
+                        ThreatLevel = "High";
+                    }
+                    else if (Question[CurrentIndex].Quality == Quality.Low)
+                    {
+                        ThreatLevel = "Low";
+                    }
+                    else if (Question[CurrentIndex].Quality == Quality.Critical)
+                    {
+                        ThreatLevel = "Critical";
+                    }
+                    else if (Question[CurrentIndex].Quality == Quality.Medium)
+                    {
+                        ThreatLevel = "Medium";
+                    }
+                    else
+                    {
+                        ThreatLevel = "None";
+                    }
+                }
+           }
+        }
+
+
+
+
+
+        #endregion
+
+
+#
 
     }
 }

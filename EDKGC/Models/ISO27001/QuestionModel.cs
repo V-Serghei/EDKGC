@@ -14,6 +14,8 @@ namespace EDKGC.Models.ISO27001
         public Quality Quality { get; set; } = Quality.None;
         public int Number { get; set; }
         public Answer Resolved { get; set; } = Answer.None;
+        public string RespPos { get; set; }
+        public string RespNeg { get; set;}
 
     }
 }
