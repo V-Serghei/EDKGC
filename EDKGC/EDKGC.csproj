@@ -27,6 +27,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,6 +37,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
@@ -212,14 +214,18 @@
     <Compile Include="Infrastructure\Command\Base\CommandInf.cs" />
     <Compile Include="Infrastructure\Command\BasicCommands\CloseAppCommand.cs" />
     <Compile Include="Infrastructure\Command\BasicCommands\HideElementCommand.cs" />
+    <Compile Include="Infrastructure\Command\BasicCommands\OpenIsoResultsWindowCommand.cs" />
     <Compile Include="Infrastructure\Command\Control\CustomDropdownButton.xaml.cs">
       <DependentUpon>CustomDropdownButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Command\LCommand.cs" />
+    <Compile Include="Infrastructure\Command\ValueConverter\RedTextConverter.cs" />
     <Compile Include="Models\AsymmetricAlgorithms\RsaAsymmetricalAlModel.cs" />
     <Compile Include="Models\ElectronicSignature\ElectronicSignatureRSA.cs" />
+    <Compile Include="Models\ISO27001\CharResultData.cs" />
     <Compile Include="Models\ISO27001\PieChartData.cs" />
     <Compile Include="Models\ISO27001\QuestionModel.cs" />
+    <Compile Include="Models\ISO27001\TextInfo.cs" />
     <Compile Include="Models\SymmetricEncryption\AESsymmetricEncryption.cs" />
     <Compile Include="Models\SymmetricEncryption\DESsymmetricEncryption.cs" />
     <Compile Include="Models\SymmetricEncryption\TripleDesSymmetricEncryption.cs" />
@@ -231,11 +237,18 @@
     <Compile Include="Views\Windows\CentralWindow.xaml.cs">
       <DependentUpon>CentralWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Windows\WhistleBlowingWindow.xaml.cs">
+      <DependentUpon>WhistleBlowingWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Infrastructure\Command\Control\CustomDropdownButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Windows\ConfirmationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\IsoResultsWidow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -251,6 +264,9 @@
     <Compile Include="Views\Windows\ConfirmationWindow.xaml.cs">
       <DependentUpon>ConfirmationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Windows\IsoResultsWidow.xaml.cs">
+      <DependentUpon>IsoResultsWidow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Windows\ISOWindow.xaml.cs">
       <DependentUpon>ISOWindow.xaml</DependentUpon>
     </Compile>
@@ -259,6 +275,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Windows\CentralWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\WhistleBlowingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

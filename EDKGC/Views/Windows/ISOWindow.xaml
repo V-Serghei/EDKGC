@@ -114,7 +114,7 @@
                         </Grid.RowDefinitions>
                         <TextBox TextWrapping="Wrap" 
                             Text="{Binding IsoViewModelInstance.QuestionCurr, Mode=TwoWay}" 
-                            IsReadOnly="True" Background="#FF647973" Margin="10,10,10,10" />
+                            IsReadOnly="True" Background="#FF647973" Margin="10,10,10,10" TextAlignment="Center" />
                         <Grid Grid.Row="1" Margin="0,0,0,127" Grid.RowSpan="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="148*"/>
@@ -136,13 +136,14 @@
                                 <RowDefinition Height="35*"/>
                             </Grid.RowDefinitions>
                             <ProgressBar Height="25" Margin="36,7,36,0" VerticalAlignment="Top" Grid.Row="1" Value="{Binding IsoViewModelInstance.Percentage}" Background="#FF2E372D" Foreground="#FF2CC66D"/>
-                            <TextBox IsReadOnly="True" TextWrapping="Wrap" Text="{Binding IsoViewModelInstance.CurrentIndexQuestion}" VerticalAlignment="Center" Height="24" HorizontalAlignment="Center" Width="48" TextAlignment="Center"/>
-                            <TextBox Margin="142,70,142,37" Grid.Row="1" TextWrapping="Wrap" Text="{Binding IsoViewModelInstance.ThreatLevel}" TextAlignment="Center"/>
-                            <Button  Margin="0,61,27,0" Grid.Row="1" Height="50" Foreground="#FF467197" Background="#FF2FA0A0" HorizontalAlignment="Right" Width="68" VerticalAlignment="Top">
+                            <TextBox IsReadOnly="True" TextWrapping="Wrap" Text="{Binding IsoViewModelInstance.CurrentIndexQuestion}" VerticalAlignment="Center" Height="24" HorizontalAlignment="Center" Width="84" TextAlignment="Center"/>
+                            <TextBox Margin="0,70,142,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding IsoViewModelInstance.ThreatLevel}" TextAlignment="Center" Height="33" VerticalAlignment="Top" HorizontalAlignment="Right" Width="188"/>
+                            <Button Margin="0,61,27,0" Grid.Row="1" Height="50" Foreground="#FF467197" Background="#FF2FA0A0" HorizontalAlignment="Right" Width="68" VerticalAlignment="Top" Command="{Binding IsoViewModelInstance.OpenIsoResultsWindowCommand}">
                                 <fa5:ImageAwesome Icon="Regular_ArrowAltCircleRight"
                                                   Height="31" 
                                                   Width="30" Foreground="#FFFCE400"/>
                             </Button>
+
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="4" Grid.ColumnSpan="2">
@@ -188,61 +189,16 @@
                 </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="25*"/>
-                        <RowDefinition Height="70*"/>
-                        <RowDefinition Height="36*"/>
-                        <RowDefinition Height="47*"/>
-                        <RowDefinition Height="51*"/>
-                        <RowDefinition Height="91*"/>
-                        <RowDefinition Height="53*"/>
-                        <RowDefinition Height="87*"/>
-                        <RowDefinition Height="61*"/>
-                        <RowDefinition Height="47*"/>
+                        <RowDefinition Height="12*"/>
+                        <RowDefinition Height="259*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="163*"/>
-                        <ColumnDefinition Width="69*"/>
-                        <ColumnDefinition Width="58*"/>
-                        <ColumnDefinition Width="173*"/>
-                        <ColumnDefinition Width="198*"/>
-                        <ColumnDefinition Width="273*"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <GridSplitter Grid.Row="5"
-                                  HorizontalAlignment="Stretch" 
-                                  ResizeDirection="Rows"
-                                  Margin="0,0,0,0" 
-                                  Height="5" 
-                                  VerticalAlignment="Top" 
-                                  Grid.ColumnSpan="4" 
-                                  Background="#FF536F5D" 
-                                  />
-
-                    <GridSplitter Grid.Column="3" 
-                                  ResizeDirection="Columns" 
-                                  Width="5" Grid.Row="0" Grid.RowSpan="10" Background="#FF536F5D"/>
-
-                    <Grid Grid.ColumnSpan="4" Grid.Column="0" Margin="0,0,10,3" Grid.Row="1" Grid.RowSpan="4">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="26*"/>
-                            <RowDefinition Height="89*"/>
-                            <RowDefinition Height="112*"/>
-
-                        </Grid.RowDefinitions>
-
-
-                    </Grid>
-
-                    <Grid Margin="0,13,5,10" Grid.Row="5" Grid.ColumnSpan="4" Grid.Column="0" Grid.RowSpan="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="226*"/>
-                        </Grid.ColumnDefinitions>
-
-                    </Grid>
 
 
 
-                    <Rectangle Height="3" Stroke="Black" VerticalAlignment="Top" Grid.Row="0" Grid.ColumnSpan="6"
+                    <Rectangle Height="3" Stroke="Black" VerticalAlignment="Top" Grid.Row="0"
                                Grid.Column="0" RenderTransformOrigin="0.5,0.5" Fill="#FF658D3A">
                         <Rectangle.RenderTransform>
                             <TransformGroup>
@@ -253,6 +209,7 @@
                             </TransformGroup>
                         </Rectangle.RenderTransform>
                     </Rectangle>
+                    <TextBox Margin="10,24,10,22" TextWrapping="Wrap" Text="{Binding IsoViewModelInstance.TextInfoIso , Mode=OneWay}" Grid.RowSpan="2" IsReadOnly="True"/>
 
                 </Grid>
 

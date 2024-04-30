@@ -1,0 +1,88 @@
+﻿<Window x:Class="EDKGC.Views.Windows.IsoResultsWidow"
+        Height="450"
+        Title="ISOWindow"
+        Width="800"
+        mc:Ignorable="d"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:EDKGC.Views.Windows"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        Icon="../../Resources/cryptography_8948700.png"
+        FontFamily="{wpf:MaterialDesignFont}"
+        TextElement.Foreground="{DynamicResource MaterialDesign.Brush.Foreground}"
+        Background="{DynamicResource MaterialDesign.Brush.Background}"
+        d:DesignHeight="654.32" 
+        BorderBrush="#FFE0DCDC" 
+        Foreground="#FF679C8B"
+        Style="{StaticResource MaterialDesignWindow}"
+        MinWidth="900" 
+        MinHeight="650"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:viewModel="clr-namespace:EDKGC.ViewModel"
+        xmlns:fa5="http://schemas.fontawesome.com/icons/"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:series="clr-namespace:OxyPlot.Series;assembly=OxyPlot"
+        xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
+        xmlns:objectModel="clr-namespace:System.Collections.ObjectModel;assembly=System"
+        xmlns:wpf1="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:valueConverter="clr-namespace:EDKGC.Infrastructure.Command.ValueConverter">
+
+    <Window.DataContext>
+        <viewModel:ViewModelLocator />
+    </Window.DataContext>
+    <Window.Resources>
+        <valueConverter:RedTextConverter x:Key="RedTextConverter"/>
+    </Window.Resources>
+
+
+    <Grid Background="#FF525C59">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="74*"/>
+            <ColumnDefinition Width="151*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <!-- Hidden TextBox -->
+        <RichTextBox x:Name="richTextBox" Margin="10,10,22,10" Grid.Column="1" IsReadOnly="True" ScrollViewer.CanContentScroll="True">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="{Binding IsoViewModelInstance.TextResult}">
+                        <Run.Foreground>
+                            <Binding Path="Text" RelativeSource="{RelativeSource Self}" Converter="{StaticResource RedTextConverter}"/>
+                        </Run.Foreground>
+                    </Run>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="122*"/>
+                <RowDefinition Height="197*"/>
+            </Grid.RowDefinitions>
+
+            <ListView ItemsSource="{Binding IsoViewModelInstance.Items}" 
+                      SelectedItem="{Binding IsoViewModelInstance.SelectedItemMiniCommand}" Background="#FFD21313" BorderBrush="#7F170404" Margin="0,10,0,61"
+            >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Уровни угрозы" DisplayMemberBinding="{Binding}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+
+            <wpf1:PieChart  Name="ChartPie" Series="{Binding IsoViewModelInstance.ChartResult}" Margin="29,10,29,113" Grid.Row="1"/>
+            <TextBox Margin="10,0,10,10" TextWrapping="Wrap" Text="{Binding IsoViewModelInstance.ResultPercent}" Height="34" VerticalAlignment="Bottom" IsReadOnly="True" TextAlignment="Center"/>
+        </Grid>
+
+
+
+
+    </Grid>
+</Window>

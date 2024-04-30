@@ -116,3 +116,7 @@ D:\web project\EDKGC.desk\EDKGC\bin\Debug\System.ValueTuple.xml
 D:\web project\EDKGC.desk\EDKGC\bin\Debug\zh\GrapeCity.DataVisualization.Chart.resources.dll
 D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\ISOWindow.g.cs
 D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\ISOWindow.baml
+D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\IsoResultsWidow.g.cs
+D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\IsoResultsWidow.baml
+D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\WhistleBlowingWindow.g.cs
+D:\web project\EDKGC.desk\EDKGC\obj\Debug\Views\Windows\WhistleBlowingWindow.baml

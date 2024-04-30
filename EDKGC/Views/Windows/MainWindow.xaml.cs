@@ -42,7 +42,11 @@ namespace EDKGC.Views.Windows
 
             window.Show();
 
-            this.Hide();
+            var window1 = new WhistleBlowingWindow();
+
+            window1.Show();
+
+            this.Close();
         }
     }
 }

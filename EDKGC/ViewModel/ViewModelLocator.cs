@@ -60,6 +60,7 @@ namespace EDKGC.ViewModel
         public CentralViewModel Central => ServiceLocator.Current.GetInstance<CentralViewModel>();
         public ConfirmationWindowViewModel ConfirmationViewM => ServiceLocator.Current.GetInstance<ConfirmationWindowViewModel>();
         public ISOViewModel IsoViewModelInstance => SimpleIoc.Default.GetInstance<ISOViewModel>();
+        public ISOViewModel Iso => SimpleIoc.Default.GetInstance<ISOViewModel>();
 
 
         public static void Cleanup()
