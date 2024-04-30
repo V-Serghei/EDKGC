@@ -448,7 +448,7 @@ namespace EDKGC.ViewModel.ISO27001
                 }
                 else
                 {
-                    ResponseCurr = Question[CurrentIndex].Title + "\n" + Question[CurrentIndex].RespNeg;
+                    ResponseCurr ="<<<"+ Question[CurrentIndex].Title +">>>" + "\n" + Question[CurrentIndex].RespNeg;
                     if (Question[CurrentIndex].Quality == Quality.High)
                     {
                         ThreatLevel = "High";

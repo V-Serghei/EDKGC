@@ -137,7 +137,7 @@
                             </Grid.RowDefinitions>
                             <ProgressBar Height="25" Margin="36,7,36,0" VerticalAlignment="Top" Grid.Row="1" Value="{Binding IsoViewModelInstance.Percentage}" Background="#FF2E372D" Foreground="#FF2CC66D"/>
                             <TextBox IsReadOnly="True" TextWrapping="Wrap" Text="{Binding IsoViewModelInstance.CurrentIndexQuestion}" VerticalAlignment="Center" Height="24" HorizontalAlignment="Center" Width="84" TextAlignment="Center"/>
-                            <TextBox Margin="0,70,142,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding IsoViewModelInstance.ThreatLevel}" TextAlignment="Center" Height="33" VerticalAlignment="Top" HorizontalAlignment="Right" Width="188"/>
+                            <TextBox Margin="0,70,142,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding IsoViewModelInstance.ThreatLevel}" TextAlignment="Center" Height="33" VerticalAlignment="Top" HorizontalAlignment="Right" Width="188" TextChanged="TextBox_TextChanged"/>
                             <Button Margin="0,61,27,0" Grid.Row="1" Height="50" Foreground="#FF467197" Background="#FF2FA0A0" HorizontalAlignment="Right" Width="68" VerticalAlignment="Top" Command="{Binding IsoViewModelInstance.OpenIsoResultsWindowCommand}">
                                 <fa5:ImageAwesome Icon="Regular_ArrowAltCircleRight"
                                                   Height="31" 
