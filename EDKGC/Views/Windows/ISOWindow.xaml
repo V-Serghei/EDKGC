@@ -1,0 +1,226 @@
+﻿<Window
+    Height="450"
+    Title="ISOWindow"
+    Width="800"
+    mc:Ignorable="d"
+    x:Class="EDKGC.Views.Windows.ISOWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:EDKGC.Views.Windows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    TextElement.FontWeight="Medium"
+    TextElement.FontSize="14"
+    Icon="../../Resources/cryptography_8948700.png"
+    FontFamily="{wpf:MaterialDesignFont}"
+    TextElement.Foreground="{DynamicResource MaterialDesign.Brush.Foreground}"
+    Background="{DynamicResource MaterialDesign.Brush.Background}"
+    d:DesignHeight="654.32" 
+    BorderBrush="#FFE0DCDC" 
+    Foreground="#FF679C8B"
+    Style="{StaticResource MaterialDesignWindow}"
+    MinWidth="900" 
+    MinHeight="650"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:command="http://www.galasoft.ch/mvvmlight"
+    xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:viewModel="clr-namespace:EDKGC.ViewModel"
+    xmlns:fa5="http://schemas.fontawesome.com/icons/"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:series="clr-namespace:OxyPlot.Series;assembly=OxyPlot"
+    xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
+    xmlns:objectModel="clr-namespace:System.Collections.ObjectModel;assembly=System"
+    xmlns:oxy="http://oxyplot.org/wpf"
+    xmlns:wpf1="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf">
+
+    <Window.DataContext>
+        <viewModel:ViewModelLocator />
+    </Window.DataContext>
+
+    <DockPanel Background="#FF525C59">
+        <Menu DockPanel.Dock="Top" 
+              Background="#FF525C59">
+            <MenuItem Header="File" 
+                      BorderBrush="#FF679C8B" 
+                      Background="#FF495E4A" Width="90">
+                <MenuItem Header="Exit" 
+                          Command="{Binding Central.CloseAppCommand}">
+
+                </MenuItem>
+            </MenuItem>
+            <MenuItem VerticalAlignment="Center" 
+                      HorizontalAlignment="Center" 
+                      Header="Helper" 
+                      Background="#FF495E4A" 
+                      BorderBrush="#FF679C8B" Width="123" RenderTransformOrigin="0.889,0.551">
+                <MenuItem Header="About Program">
+
+                </MenuItem>
+            </MenuItem>
+
+        </Menu>
+
+        <TabControl Background="#FF679C8B" 
+                    BorderBrush="#FFDB755A" 
+                    Foreground="#FF679C8B" 
+                    OpacityMask="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
+
+            <TabItem  Background="Black" BorderBrush="Black" Foreground="Black">
+
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+
+                        <fa5:ImageAwesome Icon="Regular_ChartBar" Foreground="#FF00BCFC" Height="15" Margin="5,0,10,0" />
+                        <TextBlock Text="ISO 27001"></TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="295*"/>
+                        <ColumnDefinition Width="90*"/>
+                        <ColumnDefinition Width="87*"/>
+                        <ColumnDefinition Width="13*"/>
+                        <ColumnDefinition Width="170*"/>
+                        <ColumnDefinition Width="245*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Height="3" Stroke="Black" VerticalAlignment="Top" Grid.Row="0" Grid.ColumnSpan="6"
+                               Grid.Column="0" RenderTransformOrigin="0.5,0.5" Fill="#FF658D3A">
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="-1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                    <GridSplitter Grid.Column="3" 
+                                  x:Name="Splitter1"
+                                  Grid.Row="0" 
+                                  Margin="0,0,0,10"
+                                  ResizeDirection="Columns"
+                                  ResizeBehavior="PreviousAndNext"
+                                  MaxWidth="100" Background="#FF536F5D" Width="4" HorizontalAlignment="Center"/>
+                    <Grid Grid.Column="0" Grid.ColumnSpan="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="226*"/>
+                            <RowDefinition Height="61*"/>
+                            <RowDefinition Height="256*"/>
+                        </Grid.RowDefinitions>
+                        <TextBox TextWrapping="Wrap" 
+                            Text="{Binding IsoViewModelInstance.QuestionCurr, Mode=TwoWay}" 
+                            IsReadOnly="True" Background="#FF647973" Margin="10,10,10,10" TextAlignment="Center" />
+                        <Grid Grid.Row="1" Margin="0,0,0,127" Grid.RowSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="148*"/>
+                                <ColumnDefinition Width="159*"/>
+                                <ColumnDefinition Width="165*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Command="{Binding IsoViewModelInstance.RespYesCommand}" Content="Yes" Margin="38,10,38,0" Height="32" VerticalAlignment="Top" Background="#FF5CC384"/>
+                            <Button Command="{Binding IsoViewModelInstance.RespNoCommand}" Grid.Column="1" Content="Not" Margin="43,10,43,0" Height="32" VerticalAlignment="Top" Background="#FFA03E65"/>
+                            <Button Command="{Binding IsoViewModelInstance.RespDonTKnowCommand}" Grid.Column="2"  Margin="46,13,46,0" Height="32" VerticalAlignment="Top" Background="#FFBAE91A">
+                                <Button.Content>
+                                    <TextBox  IsReadOnly="True" Focusable="False" IsHitTestVisible="False" FontSize="8">don't know</TextBox>
+
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="29*"/>
+                                <RowDefinition Height="35*"/>
+                            </Grid.RowDefinitions>
+                            <ProgressBar Height="25" Margin="36,7,36,0" VerticalAlignment="Top" Grid.Row="1" Value="{Binding IsoViewModelInstance.Percentage}" Background="#FF2E372D" Foreground="#FF2CC66D"/>
+                            <TextBox IsReadOnly="True" TextWrapping="Wrap" Text="{Binding IsoViewModelInstance.CurrentIndexQuestion}" VerticalAlignment="Center" Height="24" HorizontalAlignment="Center" Width="84" TextAlignment="Center"/>
+                            <TextBox Margin="0,70,142,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding IsoViewModelInstance.ThreatLevel}" TextAlignment="Center" Height="33" VerticalAlignment="Top" HorizontalAlignment="Right" Width="188" TextChanged="TextBox_TextChanged"/>
+                            <Button Margin="0,61,27,0" Grid.Row="1" Height="50" Foreground="#FF467197" Background="#FF2FA0A0" HorizontalAlignment="Right" Width="68" VerticalAlignment="Top" Command="{Binding IsoViewModelInstance.OpenIsoResultsWindowCommand}">
+                                <fa5:ImageAwesome Icon="Regular_ArrowAltCircleRight"
+                                                  Height="31" 
+                                                  Width="30" Foreground="#FFFCE400"/>
+                            </Button>
+
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Column="4" Grid.ColumnSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="235*"/>
+                            <RowDefinition Height="284*"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid Name="grid1">
+
+                                <wpf1:PieChart  Width="200" Height="200"  Name="ChartPie" Series="{Binding IsoViewModelInstance.ChartSeries}">
+
+                                </wpf1:PieChart>
+
+
+                            </Grid>
+
+
+
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                <TextBox TextWrapping="Wrap" 
+                                         Text="{Binding IsoViewModelInstance.ResponseCurr, Mode=TwoWay}" 
+                                         IsReadOnly="True" Background="#FF51645E" Margin="10,10,33,10" Width="326" Height="254"  />
+                            </ScrollViewer>
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+
+            </TabItem>
+
+            <TabItem  Background="Black" BorderBrush="Black" Foreground="Black">
+
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <fa5:ImageAwesome Icon="Solid_InfoCircle"
+                                          Height="15" 
+                                          Margin="5,0,10,0" Foreground="#FF00BCFC"/>
+                        <TextBlock Text="Info"></TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="12*"/>
+                        <RowDefinition Height="259*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+
+
+                    <Rectangle Height="3" Stroke="Black" VerticalAlignment="Top" Grid.Row="0"
+                               Grid.Column="0" RenderTransformOrigin="0.5,0.5" Fill="#FF658D3A">
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="-1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                    <TextBox Margin="10,24,10,22" TextWrapping="Wrap" Text="{Binding IsoViewModelInstance.TextInfoIso , Mode=OneWay}" Grid.RowSpan="2" IsReadOnly="True"/>
+
+                </Grid>
+
+            </TabItem>
+
+        </TabControl>
+
+    </DockPanel>
+
+
+
+
+
+</Window> 

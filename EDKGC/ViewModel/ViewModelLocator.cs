@@ -14,6 +14,7 @@
 
 using CommonServiceLocator;
 using EDKGC.ViewModel.CentralSolutions;
+using EDKGC.ViewModel.ISO27001;
 using EDKGC.ViewModel.SatelliteWindows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -47,6 +48,8 @@ namespace EDKGC.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<CentralViewModel>();
            SimpleIoc.Default.Register<ConfirmationWindowViewModel>();
+           SimpleIoc.Default.Register<ISOViewModel>();
+
 
 
 
@@ -56,6 +59,9 @@ namespace EDKGC.ViewModel
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
         public CentralViewModel Central => ServiceLocator.Current.GetInstance<CentralViewModel>();
         public ConfirmationWindowViewModel ConfirmationViewM => ServiceLocator.Current.GetInstance<ConfirmationWindowViewModel>();
+        public ISOViewModel IsoViewModelInstance => SimpleIoc.Default.GetInstance<ISOViewModel>();
+        public ISOViewModel Iso => SimpleIoc.Default.GetInstance<ISOViewModel>();
+
 
         public static void Cleanup()
         {

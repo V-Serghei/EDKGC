@@ -330,6 +330,8 @@
                         </Grid.Resources>
                         <Rectangle Fill="#FFCBB9E0" 
                                    RadiusX="29" RadiusY="29" 
+                                   MouseDown="Button_Click_Iso" 
+
                                    Style="{StaticResource ButtonStyle}"
                                    HorizontalAlignment="Stretch"  
                                    RenderTransformOrigin="0.558,0.498" 
@@ -337,7 +339,7 @@
 
 
                         </Rectangle>
-                        <TextBlock Text="Setting" 
+                        <TextBlock Text="ISO" 
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center" Foreground="Black" FontFamily="Segoe UI Black" />
                     </Grid>
