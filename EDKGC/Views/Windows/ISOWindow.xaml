@@ -32,11 +32,10 @@
     xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
     xmlns:objectModel="clr-namespace:System.Collections.ObjectModel;assembly=System"
     xmlns:oxy="http://oxyplot.org/wpf"
-    xmlns:wpf1="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf">
+    xmlns:wpf1="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    DataContext="{Binding Source={StaticResource Locator}}">
 
-    <Window.DataContext>
-        <viewModel:ViewModelLocator />
-    </Window.DataContext>
+
 
     <DockPanel Background="#FF525C59">
         <Menu DockPanel.Dock="Top" 
@@ -214,7 +213,70 @@
                 </Grid>
 
             </TabItem>
+            <TabItem  Background="Black" BorderBrush="Black" Foreground="Black">
 
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <fa5:ImageAwesome Icon="Solid_InfoCircle"
+                                          Height="15" 
+                                          Margin="5,0,10,0" Foreground="#FF00BCFC"/>
+                        <TextBlock Text="Info"></TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" CanUserAddRows="True" ItemsSource="{Binding ThreatDataCollection}" SelectionChanged="dataGrid_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Threat Event" Binding="{Binding ThreatEvent}"/>
+
+                            <!-- SLE с $ в начале -->
+                            <DataGridTextColumn Header="SLE" Binding="{Binding  SLE, StringFormat={}{0:C}}"/>
+
+                            <!-- EF с % в конце -->
+                            <DataGridTextColumn Header="EF" Binding="{Binding EF, StringFormat={}{0:P2}}"/>
+
+                            <!-- Rate of Occurrence с пользовательским форматом -->
+                            <DataGridTemplateColumn Header="Rate of Occurrence">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox Text="{Binding RateOfOccurrence.FirstValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="50"/>
+                                            <TextBlock Text=" раз в "/>
+                                            <TextBox Text="{Binding RateOfOccurrence.SecondValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="50"/>
+                                            <ComboBox SelectedItem="{Binding RateOfOccurrence.Unit, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                                <ComboBoxItem Content="лет"/>
+                                                <ComboBoxItem Content="месяцев"/>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- ARO с $ в начале -->
+                            <DataGridTextColumn Header="ARO" Binding="{Binding ARO, StringFormat={}{0:P2}}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="ALE" Binding="{Binding ALE, StringFormat={}{0:C}}" IsReadOnly="True"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBox Margin="0,0,57,42" TextWrapping="Wrap"  x:Name="TextBoxResult" HorizontalAlignment="Right" Width="184" Height="74" VerticalAlignment="Bottom" TextAlignment="Center"/>
+
+
+
+
+
+
+
+
+
+
+                </Grid>
+            </TabItem>
         </TabControl>
 
     </DockPanel>

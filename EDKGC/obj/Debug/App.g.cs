@@ -9,6 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using DevExpress.Xpf.DXBinding;
 using EDKGC;
 using EDKGC.ViewModel;
 using MaterialDesignThemes.MahApps;

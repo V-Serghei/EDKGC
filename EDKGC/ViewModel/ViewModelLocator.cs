@@ -49,6 +49,7 @@ namespace EDKGC.ViewModel
             SimpleIoc.Default.Register<CentralViewModel>();
            SimpleIoc.Default.Register<ConfirmationWindowViewModel>();
            SimpleIoc.Default.Register<ISOViewModel>();
+           SimpleIoc.Default.Register<DataTable>();
 
 
 
@@ -60,7 +61,8 @@ namespace EDKGC.ViewModel
         public CentralViewModel Central => ServiceLocator.Current.GetInstance<CentralViewModel>();
         public ConfirmationWindowViewModel ConfirmationViewM => ServiceLocator.Current.GetInstance<ConfirmationWindowViewModel>();
         public ISOViewModel IsoViewModelInstance => SimpleIoc.Default.GetInstance<ISOViewModel>();
-        public ISOViewModel Iso => SimpleIoc.Default.GetInstance<ISOViewModel>();
+        public DataTable DataTableMv => SimpleIoc.Default.GetInstance<DataTable>();
+
 
 
         public static void Cleanup()

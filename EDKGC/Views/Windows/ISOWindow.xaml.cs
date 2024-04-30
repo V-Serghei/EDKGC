@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using EDKGC.ViewModel;
@@ -11,11 +13,15 @@ namespace EDKGC.Views.Windows
 {
     public partial class ISOWindow : Window
     {
+        public ObservableCollection<DataTable> ThreatDataCollection { get; set; }
         public ISOWindow()
         {
             InitializeComponent();
             DataContext = new ViewModelLocator();
-           
+
+            ThreatDataCollection = new ObservableCollection<DataTable>();
+            dataGrid.ItemsSource = ThreatDataCollection;
+
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -43,6 +49,17 @@ namespace EDKGC.Views.Windows
             {
                 textBox.Background = Brushes.Green;
             }
+        }
+
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            double totalAle = 0;
+
+            foreach (var data in ThreatDataCollection)
+            {
+                totalAle += data.ALE;
+            }
+            TextBoxResult.Text ="Результат подсчета, общие траты могут составить: $"+ totalAle.ToString(CultureInfo.InvariantCulture);
         }
 
 
