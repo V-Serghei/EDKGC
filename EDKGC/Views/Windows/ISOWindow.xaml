@@ -217,10 +217,10 @@
 
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <fa5:ImageAwesome Icon="Solid_InfoCircle"
+                        <fa5:ImageAwesome Icon="Solid_Table"
                                           Height="15" 
                                           Margin="5,0,10,0" Foreground="#FF00BCFC"/>
-                        <TextBlock Text="Info"></TextBlock>
+                        <TextBlock Text="Risk Analysis"></TextBlock>
                     </StackPanel>
                 </TabItem.Header>
 

@@ -11,7 +11,7 @@ namespace EDKGC.ViewModel.ISO27001
     {
         private string _threatEvent;
         private double _sle;
-        private float _ef;
+        private double _ef;
         private RateOfOccurrence _rateOfOccurrence;
         private double _aro;
         private double _ale;
@@ -48,9 +48,20 @@ namespace EDKGC.ViewModel.ISO27001
             }
         }
 
-        public float EF
+        public double EF
         {
-            get => _ef;
+            get
+            {
+                if (_ef < SLE)
+                {
+                    return (SLE / _ef)/100;
+
+                }
+                else
+                {
+                    return (_ef / SLE);
+                }
+            }
             set
             {
                 _ef = value;
@@ -83,7 +94,7 @@ namespace EDKGC.ViewModel.ISO27001
 
         public double ARO
         {
-            get => _aro;
+            get => _aro/100;
             set
             {
                 _aro = value;
@@ -123,7 +134,7 @@ namespace EDKGC.ViewModel.ISO27001
             {
                 if (_rateOfOccurrence != null && _rateOfOccurrence.FirstValue!=0 && _rateOfOccurrence.SecondValue!=0)
                 {
-                    var percentage = (double)(_rateOfOccurrence.FirstValue * 100) / (_rateOfOccurrence.SecondValue/12);
+                    var percentage = (double)((_rateOfOccurrence.FirstValue * 100) /(double) ((double)_rateOfOccurrence.SecondValue/12));
 
                     ARO = percentage;
                 }
@@ -135,7 +146,9 @@ namespace EDKGC.ViewModel.ISO27001
         {
             try
             {
-                ALE = (ARO * (EF * SLE)) / 100;
+                    ALE = (ARO * _ef);
+
+                
             }
             catch (Exception e)
             {
