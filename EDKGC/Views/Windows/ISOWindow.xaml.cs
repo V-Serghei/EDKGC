@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
@@ -6,10 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using EDKGC.ViewModel;
-using EDKGC.ViewModel.CentralSolutions;
 using EDKGC.ViewModel.ISO27001;
-using LiveCharts;
-using LiveCharts.Wpf;
 
 namespace EDKGC.Views.Windows
 {

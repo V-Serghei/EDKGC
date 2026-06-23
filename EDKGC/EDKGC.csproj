@@ -36,8 +36,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Copy seed data to output so the app can read it at runtime -->
-    <None Update="Data\Seed\ISOQuestion.json">
+    <!-- Copy localized data to output so the app can read it at runtime -->
+    <None Update="Data\Seed\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Localization\*.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

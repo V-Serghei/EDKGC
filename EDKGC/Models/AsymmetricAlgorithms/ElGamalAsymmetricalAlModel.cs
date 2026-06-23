@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Text;
-using EDKGC.Encryption.GeneralTools;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Generators;

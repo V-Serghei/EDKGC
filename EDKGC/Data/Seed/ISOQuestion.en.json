@@ -1,0 +1,218 @@
+[
+  {
+    "Description": "Is the information security policy approved, understood by employees, and reviewed regularly?",
+    "Number": 1,
+    "Quality": "Critical",
+    "Resolved": "None",
+    "Title": "Information security policy",
+    "RespNeg": "Create and approve an information security policy, communicate it to employees, and set a regular review cycle. Without this baseline, other controls remain fragmented.",
+    "RespPos": "The information security policy is defined, approved, and maintained. This is a strong baseline control for the ISMS."
+  },
+  {
+    "Description": "Are information security responsibilities assigned and are conflicting duties separated?",
+    "Number": 2,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Roles, responsibilities, and segregation of duties",
+    "RespNeg": "Assign process owners and security responsibilities, and separate conflicting duties so one person cannot perform critical actions without control.",
+    "RespPos": "Responsibilities are assigned and conflicting duties are separated. This reduces errors, abuse, and unauthorized changes."
+  },
+  {
+    "Description": "Is information security risk assessment performed regularly and are risk treatment decisions recorded?",
+    "Number": 3,
+    "Quality": "Critical",
+    "Resolved": "None",
+    "Title": "Risk assessment and treatment",
+    "RespNeg": "Maintain a risk register, assess likelihood and impact, choose treatment options, and track owners and due dates.",
+    "RespPos": "Risk assessment is performed regularly and risk treatment decisions are recorded. This matches the risk-based approach of ISO 27001."
+  },
+  {
+    "Description": "Is there an up-to-date inventory of information assets with owners and usage rules?",
+    "Number": 4,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Asset inventory and ownership",
+    "RespNeg": "Identify critical assets, assign owners, define usage rules, and update the inventory regularly.",
+    "RespPos": "Assets are inventoried, owners are assigned, and usage rules are clear. This improves protection and accountability."
+  },
+  {
+    "Description": "Is information classified by sensitivity and handled according to marking and handling rules?",
+    "Number": 5,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Information classification",
+    "RespNeg": "Define classification levels and rules for marking, storage, transfer, and disposal for each level.",
+    "RespPos": "Information is classified and handled by clear rules. This lowers the risk of leakage and mishandling."
+  },
+  {
+    "Description": "Are access rights managed by least privilege and reviewed after role changes?",
+    "Number": 6,
+    "Quality": "Critical",
+    "Resolved": "None",
+    "Title": "Access control",
+    "RespNeg": "Implement a process for granting, changing, reviewing, and revoking access, especially when employees transfer or leave.",
+    "RespPos": "Access rights are granted by need, reviewed, and revoked on time. This is a key organizational and technical control."
+  },
+  {
+    "Description": "Is multi-factor authentication used for critical systems and remote access?",
+    "Number": 7,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Authentication",
+    "RespNeg": "Enable MFA for administrators, remote access, cloud services, and systems containing critical data.",
+    "RespPos": "MFA is used for critical scenarios. This significantly reduces account compromise risk."
+  },
+  {
+    "Description": "Are approved cryptographic measures used to protect confidential data in storage and transit?",
+    "Number": 8,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Cryptographic protection",
+    "RespNeg": "Define where encryption is required, which algorithms are allowed, how keys are managed, and who owns the key lifecycle.",
+    "RespPos": "Cryptographic controls and key management are defined. This improves protection of data in transit and at rest."
+  },
+  {
+    "Description": "Is there a process for reporting, investigating, and resolving information security incidents?",
+    "Number": 9,
+    "Quality": "Critical",
+    "Resolved": "None",
+    "Title": "Incident management",
+    "RespNeg": "Define incident channels, roles, response times, evidence handling, root-cause analysis, and corrective actions.",
+    "RespPos": "The incident management process is defined and used. This helps limit damage faster and prevent recurrence."
+  },
+  {
+    "Description": "Are supplier risks assessed and are security requirements included in contracts or agreements?",
+    "Number": 10,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Supplier security",
+    "RespNeg": "Assess suppliers by risk, document security requirements in contracts, and monitor compliance for critical services.",
+    "RespPos": "Supplier risks are considered and security requirements are contractually defined. This reduces exposure through third parties."
+  },
+  {
+    "Description": "Are backup, recovery, and continuity plans defined for critical processes?",
+    "Number": 11,
+    "Quality": "Critical",
+    "Resolved": "None",
+    "Title": "Continuity and recovery",
+    "RespNeg": "Define critical processes, RTO/RPO, backup and recovery procedures, and test them regularly.",
+    "RespPos": "Recovery and continuity plans are defined and tested. This reduces the impact of outages, attacks, and data loss."
+  },
+  {
+    "Description": "Are internal reviews, management review, and corrective actions performed based on security assessment results?",
+    "Number": 12,
+    "Quality": "Medium",
+    "Resolved": "None",
+    "Title": "Monitoring, audit, and improvement",
+    "RespNeg": "Perform internal reviews, record nonconformities, assign corrective actions, and review results with management.",
+    "RespPos": "The organization reviews and improves the ISMS. This supports the continual improvement cycle."
+  },
+  {
+    "Description": "Is security awareness training performed and is employee understanding of phishing, passwords, and data handling checked?",
+    "Number": 13,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Awareness and training",
+    "RespNeg": "Run regular training, phishing exercises, and keep completion evidence for employees and contractors.",
+    "RespPos": "Security awareness and training are performed. This reduces user error and social engineering risk."
+  },
+  {
+    "Description": "Are security events logged and are logs from critical systems reviewed?",
+    "Number": 14,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Logging and monitoring",
+    "RespNeg": "Enable access, administration, error, and security logs; define retention periods and review responsibilities.",
+    "RespPos": "Logging and event review are configured. This supports attack detection, investigations, and accountability."
+  },
+  {
+    "Description": "Is there a vulnerability management process covering scanning, prioritization, and remediation tracking?",
+    "Number": 15,
+    "Quality": "Critical",
+    "Resolved": "None",
+    "Title": "Vulnerability management",
+    "RespNeg": "Scan regularly, prioritize findings, assign remediation owners, and track deadlines.",
+    "RespPos": "Vulnerability management is operating. This lowers the likelihood of known weaknesses being exploited."
+  },
+  {
+    "Description": "Is malware protection used and is the health of protection tools monitored?",
+    "Number": 16,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Malware protection",
+    "RespNeg": "Use up-to-date protection tools, monitor updates, detections, and exclusions.",
+    "RespPos": "Malware protection is deployed and monitored. This lowers infection and lateral movement risk."
+  },
+  {
+    "Description": "Are secure baseline configurations used for servers, workstations, network devices, and cloud services?",
+    "Number": 17,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Secure configuration",
+    "RespNeg": "Define configuration baselines, disable unnecessary services, control changes, and review compliance.",
+    "RespPos": "Secure baselines are defined and monitored. This reduces the attack surface."
+  },
+  {
+    "Description": "Are information transfer channels protected and are rules defined for confidential data exchange?",
+    "Number": 18,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Information transfer",
+    "RespNeg": "Define approved transfer channels, encryption requirements, recipients, logging, and confirmation rules.",
+    "RespPos": "Information transfer is controlled and protected. This reduces leakage risk during data exchange."
+  },
+  {
+    "Description": "Are system changes managed through approval, testing, rollback planning, and recording?",
+    "Number": 19,
+    "Quality": "Medium",
+    "Resolved": "None",
+    "Title": "Change management",
+    "RespNeg": "Use a change process with request, risk review, testing, rollback plan, and outcome record.",
+    "RespPos": "Changes are managed and documented. This reduces outage and unauthorized modification risk."
+  },
+  {
+    "Description": "Are security requirements considered during software development, testing, and release?",
+    "Number": 20,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Secure development",
+    "RespNeg": "Include security requirements, code review, testing, secrets management, and environment separation.",
+    "RespPos": "Security is built into development and testing. This reduces application vulnerability risk."
+  },
+  {
+    "Description": "Are cloud service risks assessed and are access control, logging, and data protection configured?",
+    "Number": 21,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Cloud security",
+    "RespNeg": "Assess cloud risks and configure MFA, roles, logs, encryption, backups, and supplier responsibilities.",
+    "RespPos": "Cloud services are managed according to risk. This reduces misconfiguration and leakage risk."
+  },
+  {
+    "Description": "Is physical access to premises, equipment, and information media controlled?",
+    "Number": 22,
+    "Quality": "Medium",
+    "Resolved": "None",
+    "Title": "Physical security",
+    "RespNeg": "Define access zones, visitor rules, media handling, equipment protection, and asset removal controls.",
+    "RespPos": "Physical access is controlled. This reduces theft, damage, and unauthorized access risk."
+  },
+  {
+    "Description": "Are legal, contractual, and regulatory requirements applicable to information and systems identified?",
+    "Number": 23,
+    "Quality": "High",
+    "Resolved": "None",
+    "Title": "Legal and contractual requirements",
+    "RespNeg": "Maintain a list of applicable requirements, assign owners, and review compliance regularly.",
+    "RespPos": "Legal and contractual requirements are identified and monitored. This reduces breach of obligation and penalty risk."
+  },
+  {
+    "Description": "Is the effectiveness of security controls checked through metrics, tests, audits, or incident analysis?",
+    "Number": 24,
+    "Quality": "Medium",
+    "Resolved": "None",
+    "Title": "Control effectiveness",
+    "RespNeg": "Define security metrics, test controls periodically, and use results for improvement.",
+    "RespPos": "Control effectiveness is reviewed. This helps verify that controls work in practice, not only on paper."
+  }
+]
