@@ -1,41 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using EDKGC.Infrastructure.Command.Control;
 using EDKGC.ViewModel;
 using EDKGC.ViewModel.CentralSolutions;
 
 namespace EDKGC.Views.Windows
 {
-    /// <summary>
-    /// Interaction logic for CentralWindow.xaml
-    /// </summary>
     public partial class CentralWindow : Window
     {
-       
         public CentralWindow()
         {
             InitializeComponent();
-            DataContext = new ViewModelLocator();
+            DataContext = Application.Current.Resources["Locator"];
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var viewModel = DataContext as CentralViewModel; 
-            viewModel?.SelectionChangedCommand.Execute(sender); 
+            if (DataContext is CentralViewModel vm)
+                vm.SelectionChangedCommand.Execute(sender);
         }
 
-       
+        private void CopyCentralResult_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ViewModelLocator locator && !string.IsNullOrEmpty(locator.Central.EncryptTextAl))
+                Clipboard.SetText(locator.Central.EncryptTextAl);
+        }
+
+        private void CopySignature_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ViewModelLocator locator && !string.IsNullOrEmpty(locator.Central.EncryptVerTextBoxS))
+                Clipboard.SetText(locator.Central.EncryptVerTextBoxS);
+        }
+
+        private void BackToHome_Click(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show();
+            Close();
+        }
     }
 }

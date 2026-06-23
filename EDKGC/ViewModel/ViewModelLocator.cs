@@ -45,6 +45,7 @@ namespace EDKGC.ViewModel
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
 
+           SimpleIoc.Default.Register<LocalizationViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<CentralViewModel>();
            SimpleIoc.Default.Register<ConfirmationWindowViewModel>();
@@ -62,6 +63,7 @@ namespace EDKGC.ViewModel
         public ConfirmationWindowViewModel ConfirmationViewM => ServiceLocator.Current.GetInstance<ConfirmationWindowViewModel>();
         public ISOViewModel IsoViewModelInstance => SimpleIoc.Default.GetInstance<ISOViewModel>();
         public DataTable DataTableMv => SimpleIoc.Default.GetInstance<DataTable>();
+        public LocalizationViewModel Localization => SimpleIoc.Default.GetInstance<LocalizationViewModel>();
 
 
 

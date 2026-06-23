@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EDKGC.Enams;
+﻿using EDKGC.Enams;
 
 namespace EDKGC.Models.ISO27001
 {

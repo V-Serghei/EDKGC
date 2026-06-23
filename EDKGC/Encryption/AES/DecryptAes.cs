@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EDKGC.Encryption.AES
 {
-    public class DecryptAes
+    public static class DecryptAes
     {
-        public byte[] Decrypt(byte[] cipherText, byte[] key)
+        public static byte[] Decrypt(byte[] cipherText, byte[] key)
         {
             using (Aes aes = Aes.Create())
             {
@@ -24,7 +19,7 @@ namespace EDKGC.Encryption.AES
             }
         }
 
-        public byte[] DecryptCBC(byte[] cipherText, byte[] key, byte[] iv)
+        public static byte[] DecryptCbc(byte[] cipherText, byte[] key, byte[] iv)
         {
             using (Aes aes = Aes.Create())
             {

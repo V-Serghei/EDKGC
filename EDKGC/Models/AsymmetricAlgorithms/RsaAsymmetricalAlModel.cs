@@ -1,19 +1,15 @@
 ﻿using System.Text;
 using EDKGC.Enams;
-using EDKGC.Encryption.DES;
 using EDKGC.Encryption.RSA;
-using Newtonsoft.Json;
 using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Security;
 
 namespace EDKGC.Models.AsymmetricAlgorithms
 {
     public class RsaAsymmetricalAlModel
     {
         readonly Encoding encoding = Encoding.Default;
-        private GenerateKeysRSA _generateKeysRsa = new GenerateKeysRSA();
+        private readonly GenerateKeysRSA _generateKeysRsa = new GenerateKeysRSA();
         private AsymmetricCipherKeyPair _keyPair;
 
         public RsaAsymmetricalAlModel()
@@ -46,10 +42,7 @@ namespace EDKGC.Models.AsymmetricAlgorithms
 
         public void GenerateKeysRsa()
         {
-            var keyGenerationParameters = new KeyGenerationParameters(new SecureRandom(), 2048);
-            var keyPairGenerator = new RsaKeyPairGenerator();
-            keyPairGenerator.Init(keyGenerationParameters);
-            _keyPair = keyPairGenerator.GenerateKeyPair();
+            _keyPair = _generateKeysRsa.GenerateKeyPair();
 
             KeyPublic = ((RsaKeyParameters)_keyPair.Public).Modulus.ToByteArrayUnsigned();
             KeyPrivate = ((RsaPrivateCrtKeyParameters)_keyPair.Private).Exponent.ToByteArrayUnsigned();
@@ -68,14 +61,14 @@ namespace EDKGC.Models.AsymmetricAlgorithms
         public byte[] EncryptTextRsa(string plaintext)
         {
             EnterText = plaintext;
-            EncryptedText = EncryptRSA.EncryptText(plaintext, _keyPair,KeyEnDe);
+            EncryptedText = EncryptRsa.EncryptText(plaintext, _keyPair, KeyEnDe);
             return EncryptedText;
 
         }
         public byte[] EncryptTextRsa(byte[] plaintext)
         {
             EnterText = encoding.GetString(plaintext);
-            EncryptedText = EncryptRSA.EncryptTextBytes(plaintext, _keyPair, KeyEnDe);
+            EncryptedText = EncryptRsa.EncryptTextBytes(plaintext, _keyPair, KeyEnDe);
             return EncryptedText;
 
         }
@@ -84,12 +77,12 @@ namespace EDKGC.Models.AsymmetricAlgorithms
         public string DecryptTextRsa(byte[] encryptedBytes)
         {
            
-            return DecryptRSA.DecryptRsaT(encryptedBytes,_keyPair, KeyEnDe);
+            return DecryptRsa.DecryptRsaT(encryptedBytes, _keyPair, KeyEnDe);
         }
         public byte[] DecryptTextRsaB(byte[] encryptedBytes)
         {
 
-            return DecryptRSA.DecryptRsaToByte(encryptedBytes, _keyPair, KeyEnDe);
+            return DecryptRsa.DecryptRsaToByte(encryptedBytes, _keyPair, KeyEnDe);
         }
 
 

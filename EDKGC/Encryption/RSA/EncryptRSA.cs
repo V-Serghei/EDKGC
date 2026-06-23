@@ -1,30 +1,50 @@
-﻿using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Security;
 using System.Text;
 using EDKGC.Enams;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Security;
 
 namespace EDKGC.Encryption.RSA
 {
-    public class EncryptRSA
+    public static class EncryptRsa
     {
-        static readonly Encoding _encoding = Encoding.Default;
+        private static readonly Encoding Encoding = System.Text.Encoding.UTF8;
 
-        public static byte[] EncryptText(string plaintext, AsymmetricCipherKeyPair _keyPair, EKeyEff state)
+        public static byte[] EncryptText(string plaintext, AsymmetricCipherKeyPair keyPair, EKeyEff state)
         {
-            var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
-           if(state == EKeyEff.Public) cipher.Init(true, _keyPair.Public);
-           if (state == EKeyEff.Private) cipher.Init(true, _keyPair.Private);
-            var inputBytes = _encoding.GetBytes(plaintext);
-            return cipher.DoFinal(inputBytes);
-        }
-        public static byte[] EncryptTextBytes(byte[] plaintext, AsymmetricCipherKeyPair _keyPair, EKeyEff state)
-        {
-            var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
-            if (state == EKeyEff.Public) cipher.Init(true, _keyPair.Public);
-            if (state == EKeyEff.Private) cipher.Init(true, _keyPair.Private);
-            var inputBytes = (plaintext);
-            return cipher.DoFinal(inputBytes);
+            try
+            {
+                var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
+                switch (state)
+                {
+                    case EKeyEff.Public:
+                        cipher.Init(true, keyPair.Public);
+                        break;
+                    case EKeyEff.Private:
+                        cipher.Init(true, keyPair.Private);
+                        break;
+                }
+
+                return cipher.DoFinal(Encoding.GetBytes(plaintext));
+            }
+            catch (DataLengthException)
+            {
+                return null;
+            }
         }
 
+        public static byte[] EncryptTextBytes(byte[] plaintext, AsymmetricCipherKeyPair keyPair, EKeyEff state)
+        {
+            try
+            {
+                var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
+                if (state == EKeyEff.Public) cipher.Init(true, keyPair.Public);
+                if (state == EKeyEff.Private) cipher.Init(true, keyPair.Private);
+                return cipher.DoFinal(plaintext);
+            }
+            catch (DataLengthException)
+            {
+                return null;
+            }
+        }
     }
 }

@@ -9,14 +9,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using EDKGC.Enams;
+using EDKGC.Infrastructure.Command;
 using EDKGC.Infrastructure.Command.BasicCommands;
 using EDKGC.Models.ISO27001;
-using EDKGC.ViewModel.SatelliteWindows;
-using GrapeCity.DataVisualization.TypeScript;
+using GalaSoft.MvvmLight.Ioc;
 using LiveCharts;
 using LiveCharts.Wpf;
 using Newtonsoft.Json;
-using static MaterialDesignThemes.Wpf.Theme.ToolBar;
 using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
 namespace EDKGC.ViewModel.ISO27001
@@ -63,53 +62,89 @@ namespace EDKGC.ViewModel.ISO27001
 
         public CharResultData CharResultDataM { get; set; }
         public ICommand OpenIsoResultsWindowCommand { get; }
+        private readonly LocalizationViewModel _localization;
 
-        public string TextStart { get; }
-        public string TextInfoIso { get; }
+        private string _textStart;
+        private string _textInfoIso;
 
-        public TextInfo BaseTextInfo { get; }
+        public string TextStart
+        {
+            get => _textStart;
+            set => Set(ref _textStart, value);
+        }
+
+        public string TextInfoIso
+        {
+            get => _textInfoIso;
+            set => Set(ref _textInfoIso, value);
+        }
 
         public string ResultPercent { get; set; }
 
         #endregion
 
+        private List<QuestionModel> LoadQuestions()
+        {
+            string fileName = _localization?.IsEnglish == true
+                ? "ISOQuestion.en.json"
+                : "ISOQuestion.ru.json";
+            string jsonPath = Path.Combine(AppContext.BaseDirectory, "Data", "Seed", fileName);
+
+            if (!File.Exists(jsonPath))
+            {
+                jsonPath = Path.Combine(AppContext.BaseDirectory, "Data", "Seed", "ISOQuestion.json");
+            }
+
+            string json = File.ReadAllText(jsonPath);
+            return JsonConvert.DeserializeObject<List<QuestionModel>>(json) ?? new List<QuestionModel>();
+        }
+
         public ISOViewModel()
         {
 
 
-            Question = new List<QuestionModel>();
-            string basePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-            string jsonPath = Path.Combine(basePath, @"Data\Seed\ISOQuestion.json");
-            string json = File.ReadAllText(jsonPath);
-            Question = JsonConvert.DeserializeObject<List<QuestionModel>>(json);
             OpenIsoResultsWindowCommand = new OpenIsoResultsWindowCommand(this);
-            BaseTextInfo = new TextInfo();
-            TextStart = BaseTextInfo.TextStart;
-            TextInfoIso = BaseTextInfo.TextInf;
+            try
+            {
+                _localization = SimpleIoc.Default.GetInstance<LocalizationViewModel>();
+            }
+            catch
+            {
+                _localization = null;
+            }
+
+            Question = LoadQuestions();
+
+            if (_localization != null)
+            {
+                _localization.PropertyChanged += (_, _) => RefreshLanguage();
+            }
+            TextStart = GetIsoOverviewText();
+            TextInfoIso = GetIsoInfoText();
 
             ChartSeries = new SeriesCollection
             {
                 new PieSeries
                 {
-                    Title = "Да",
+                    Title = _localization?.Yes ?? "Yes",
                     Values = new ChartValues<int>(),
                     Fill = Brushes.Green
                 },
                 new PieSeries
                 {
-                    Title = "Нет",
+                    Title = _localization?.No ?? "No",
                     Values = new ChartValues<int>(),
                     Fill = Brushes.Red
                 },
                 new PieSeries
                 {
-                    Title = "Не знаю",
+                    Title = _localization?.DoNotKnow ?? "Do not know",
                     Values = new ChartValues<int>(),
                     Fill = Brushes.Yellow
                 },
                 new PieSeries
                 {
-                    Title = "Ждет ответа",
+                    Title = _localization?.Pending ?? "Pending",
                     Values = new ChartValues<int>{Question.Count},
                     Fill = Brushes.Gray
                 }
@@ -145,11 +180,11 @@ namespace EDKGC.ViewModel.ISO27001
 
 
 
-            RespYesCommand = new RelayCommand(ResolveYesCommand);
+            RespYesCommand = new LCommand(ResolveYesCommand);
 
-            RespNoCommand = new RelayCommand(ResolveNoCommand);
+            RespNoCommand = new LCommand(ResolveNoCommand);
 
-            RespDonTKnowCommand = new RelayCommand(ResolveDonTKnowCommand);
+            RespDonTKnowCommand = new LCommand(ResolveDonTKnowCommand);
 
             CurrentQuestion = Question[CurrentIndex];
 
@@ -173,10 +208,7 @@ namespace EDKGC.ViewModel.ISO27001
             CurrentIndexQuestion = CurrentIndex + "/" + Question.Count;
 
 
-            Items = new ObservableCollection<string>() {  "Low",
-                "Medium",
-                "High",
-                "Critical" };
+            UpdateLocalizedCollections();
 
         }
 
@@ -354,8 +386,7 @@ namespace EDKGC.ViewModel.ISO27001
 
             if (CurrentIndex >= Question.Count)
             {
-                ResultPercent = "В вашей компании ISO 27001 выполняется на " +
-                                ((double)SeriesData.RespYes / Question.Count * 100).ToString("0.##") + "%";
+                ResultPercent = GetResultPercentText();
 
                 OpenIsoResultsWindowCommand.Execute(this);
                 return;
@@ -393,84 +424,141 @@ namespace EDKGC.ViewModel.ISO27001
            if(CurrentIndex < Question.Count) {
                 if (Question[CurrentIndex].Resolved == Answer.Yes)
                 {
-                    ThreatLevel = "Safely";
-                    ResponseCurr = Question[CurrentIndex].Title + "\n" + Question[CurrentIndex].RespPos;
+                    ThreatLevel = _localization?.Safely ?? "Safely";
+                    ResponseCurr = GetTitle(Question[CurrentIndex]) + "\n" + GetRespPos(Question[CurrentIndex]);
 
                 }
                 else if (Question[CurrentIndex].Resolved == Answer.No)
                 {
-                    ResponseCurr = Question[CurrentIndex].Title + "\n" + Question[CurrentIndex].RespNeg;
-                    if (Question[CurrentIndex].Quality == Quality.High)
-                    {
-                        ThreatLevel = "High";
-                    }
-                    else if (Question[CurrentIndex].Quality == Quality.Low)
-                    {
-                        ThreatLevel = "Low";
-                    }
-                    else if (Question[CurrentIndex].Quality == Quality.Critical)
-                    {
-                        ThreatLevel = "Critical";
-                    }
-                    else if (Question[CurrentIndex].Quality == Quality.Medium)
-                    {
-                        ThreatLevel = "Medium";
-                    }
-                    else
-                    {
-                        ThreatLevel = "None";
-                    }
+                    ResponseCurr = GetTitle(Question[CurrentIndex]) + "\n" + GetRespNeg(Question[CurrentIndex]);
+                    ThreatLevel = GetThreatLevelText(Question[CurrentIndex].Quality);
 
                 }
                 else if (Question[CurrentIndex].Resolved == Answer.DonTKnow)
                 {
-                    ResponseCurr = Question[CurrentIndex].Title + "\n" + Question[CurrentIndex].RespNeg;
-                    if (Question[CurrentIndex].Quality == Quality.High)
-                    {
-                        ThreatLevel = "High";
-                    }
-                    else if (Question[CurrentIndex].Quality == Quality.Low)
-                    {
-                        ThreatLevel = "Low";
-                    }
-                    else if (Question[CurrentIndex].Quality == Quality.Critical)
-                    {
-                        ThreatLevel = "Critical";
-                    }
-                    else if (Question[CurrentIndex].Quality == Quality.Medium)
-                    {
-                        ThreatLevel = "Medium";
-                    }
-                    else
-                    {
-                        ThreatLevel = "None";
-                    }
+                    ResponseCurr = GetTitle(Question[CurrentIndex]) + "\n" + GetRespNeg(Question[CurrentIndex]);
+                    ThreatLevel = GetThreatLevelText(Question[CurrentIndex].Quality);
                 }
                 else
                 {
-                    ResponseCurr ="<<<"+ Question[CurrentIndex].Title +">>>" + "\n" + Question[CurrentIndex].RespNeg;
-                    if (Question[CurrentIndex].Quality == Quality.High)
-                    {
-                        ThreatLevel = "High";
-                    }
-                    else if (Question[CurrentIndex].Quality == Quality.Low)
-                    {
-                        ThreatLevel = "Low";
-                    }
-                    else if (Question[CurrentIndex].Quality == Quality.Critical)
-                    {
-                        ThreatLevel = "Critical";
-                    }
-                    else if (Question[CurrentIndex].Quality == Quality.Medium)
-                    {
-                        ThreatLevel = "Medium";
-                    }
-                    else
-                    {
-                        ThreatLevel = "None";
-                    }
+                    ResponseCurr ="<<<"+ GetTitle(Question[CurrentIndex]) +">>>" + "\n" + GetRespNeg(Question[CurrentIndex]);
+                    ThreatLevel = GetThreatLevelText(Question[CurrentIndex].Quality);
                 }
            }
+        }
+
+        private string GetTitle(QuestionModel question)
+        {
+            return question.Title;
+        }
+
+        private string GetRespPos(QuestionModel question)
+        {
+            return question.RespPos;
+        }
+
+        private string GetRespNeg(QuestionModel question)
+        {
+            return question.RespNeg;
+        }
+
+        private string GetResultPercentText()
+        {
+            string percent = ((double)SeriesData.RespYes / Question.Count * 100).ToString("0.##");
+            string format = _localization?.ResultPercentFormat ?? "ISO 27001 readiness: {0}%";
+            return string.Format(format, percent);
+        }
+
+        private void RefreshLanguage()
+        {
+            var resolvedByNumber = new Dictionary<int, Answer>();
+            foreach (var question in Question)
+            {
+                resolvedByNumber[question.Number] = question.Resolved;
+            }
+
+            int selectedRiskIndex = Items?.IndexOf(SelectedItemMiniCommand) ?? -1;
+            Question = LoadQuestions();
+            foreach (var question in Question)
+            {
+                if (resolvedByNumber.TryGetValue(question.Number, out var resolved))
+                {
+                    question.Resolved = resolved;
+                }
+            }
+
+            TextStart = GetIsoOverviewText();
+            TextInfoIso = GetIsoInfoText();
+            UpdateLocalizedCollections();
+
+            if (CurrentIndex < Question.Count)
+            {
+                CurrentQuestion = Question[CurrentIndex];
+                QuestionCurr = CurrentQuestion.Description;
+                ResponseCurrUpdate();
+            }
+            else
+            {
+                ResultPercent = GetResultPercentText();
+            }
+
+            if (selectedRiskIndex >= 0 && selectedRiskIndex < Items.Count)
+            {
+                SelectedItemMiniCommand = Items[selectedRiskIndex];
+            }
+            else
+            {
+                CurrUpdateResult();
+            }
+        }
+
+        private string GetIsoOverviewText()
+        {
+            return _localization?.IsoOverviewText ?? string.Empty;
+        }
+
+        private string GetIsoInfoText()
+        {
+            return _localization?.IsoInfoText ?? string.Empty;
+        }
+
+        private void UpdateLocalizedCollections()
+        {
+            if (ChartSeries?.Count >= 4)
+            {
+                if (ChartSeries[0] is PieSeries yesSeries) yesSeries.Title = _localization?.Yes ?? "Yes";
+                if (ChartSeries[1] is PieSeries noSeries) noSeries.Title = _localization?.No ?? "No";
+                if (ChartSeries[2] is PieSeries unknownSeries) unknownSeries.Title = _localization?.DoNotKnow ?? "Do not know";
+                if (ChartSeries[3] is PieSeries pendingSeries) pendingSeries.Title = _localization?.Pending ?? "Pending";
+            }
+
+            if (ChartResult?.Count >= 4)
+            {
+                if (ChartResult[0] is PieSeries lowSeries) lowSeries.Title = _localization?.Low ?? "Low";
+                if (ChartResult[1] is PieSeries mediumSeries) mediumSeries.Title = _localization?.Medium ?? "Medium";
+                if (ChartResult[2] is PieSeries highSeries) highSeries.Title = _localization?.High ?? "High";
+                if (ChartResult[3] is PieSeries criticalSeries) criticalSeries.Title = _localization?.Critical ?? "Critical";
+            }
+
+            Items = new ObservableCollection<string>
+            {
+                _localization?.Low ?? "Low",
+                _localization?.Medium ?? "Medium",
+                _localization?.High ?? "High",
+                _localization?.Critical ?? "Critical"
+            };
+        }
+
+        private string GetThreatLevelText(Quality quality)
+        {
+            return quality switch
+            {
+                Quality.Low => _localization?.Low ?? "Low",
+                Quality.Medium => _localization?.Medium ?? "Medium",
+                Quality.High => _localization?.High ?? "High",
+                Quality.Critical => _localization?.Critical ?? "Critical",
+                _ => _localization?.None ?? "None"
+            };
         }
 
 
@@ -530,65 +618,6 @@ namespace EDKGC.ViewModel.ISO27001
             set=> Set(ref _textResult, value);
         }
 
-        //  private void CurrUpdateResult()
-        //{
-        //    if (SelectedItemMiniCommand == Items[0])
-        //    {
-        //        foreach (var questionModel in Question)
-        //        {
-        //            if (questionModel.Resolved == Answer.No || questionModel.Resolved == Answer.None)
-        //            {
-        //                if (questionModel.Quality == Quality.Low)
-        //                {
-        //                    TextResult = "!!!" + questionModel.Title + "!!!\n" + questionModel.RespNeg + "\n";
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    else if (SelectedItemMiniCommand == Items[1])
-        //    {
-        //        foreach (var questionModel in Question)
-        //        {
-        //            if (questionModel.Resolved == Answer.No || questionModel.Resolved == Answer.None)
-        //            {
-        //                if (questionModel.Quality == Quality.Medium)
-        //                {
-        //                    TextResult = "!!!" + questionModel.Title + "!!!\n" + questionModel.RespNeg + "\n";
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    else if (SelectedItemMiniCommand == Items[2])
-        //    {
-        //        foreach (var questionModel in Question)
-        //        {
-        //            if (questionModel.Resolved == Answer.No || questionModel.Resolved == Answer.None)
-        //            {
-        //                if (questionModel.Quality == Quality.High)
-        //                {
-        //                    TextResult = "!!!" + questionModel.Title + "!!!\n" + questionModel.RespNeg + "\n";
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    else if (SelectedItemMiniCommand == Items[3])
-        //    {
-        //        foreach (var questionModel in Question)
-        //        {
-        //            if (questionModel.Resolved == Answer.No || questionModel.Resolved == Answer.None)
-        //            {
-        //                if (questionModel.Quality == Quality.Critical)
-        //                {
-        //                    TextResult = "!!!" + questionModel.Title + "!!!\n" + questionModel.RespNeg +"\n";
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
         private void CurrUpdateResult()
         {
             if (SelectedItemMiniCommand == Items[0])
@@ -602,9 +631,9 @@ namespace EDKGC.ViewModel.ISO27001
                         if (questionModel.Quality == Quality.Low)
                         {
                             formattedText.Append("!!!");
-                            formattedText.Append(questionModel.Title);
+                            formattedText.Append(GetTitle(questionModel));
                             formattedText.Append("!!!\n");
-                            formattedText.Append(questionModel.RespNeg);
+                            formattedText.Append(GetRespNeg(questionModel));
                             formattedText.Append("\n\n\n");
                         }
                     }
@@ -624,9 +653,9 @@ namespace EDKGC.ViewModel.ISO27001
                         if (questionModel.Quality == Quality.Medium)
                         {
                             formattedText.Append("!!!");
-                            formattedText.Append(questionModel.Title);
+                            formattedText.Append(GetTitle(questionModel));
                             formattedText.Append("!!!\n");
-                            formattedText.Append(questionModel.RespNeg);
+                            formattedText.Append(GetRespNeg(questionModel));
                             formattedText.Append("\n\n\n");
                         }
                     }
@@ -646,9 +675,9 @@ namespace EDKGC.ViewModel.ISO27001
                         if (questionModel.Quality == Quality.High)
                         {
                             formattedText.Append("!!!");
-                            formattedText.Append(questionModel.Title);
+                            formattedText.Append(GetTitle(questionModel));
                             formattedText.Append("!!!\n");
-                            formattedText.Append(questionModel.RespNeg);
+                            formattedText.Append(GetRespNeg(questionModel));
                             formattedText.Append("\n\n\n");
                         }
                     }
@@ -668,9 +697,9 @@ namespace EDKGC.ViewModel.ISO27001
                         if (questionModel.Quality == Quality.Critical)
                         {
                             formattedText.Append("!!!");
-                            formattedText.Append(questionModel.Title);
+                            formattedText.Append(GetTitle(questionModel));
                             formattedText.Append("!!!\n");
-                            formattedText.Append(questionModel.RespNeg);
+                            formattedText.Append(GetRespNeg(questionModel));
                             formattedText.Append("\n\n\n");
                         }
                     }
@@ -678,15 +707,8 @@ namespace EDKGC.ViewModel.ISO27001
 
                 TextResult = formattedText.ToString();
             }
-        }   
-
-
-
+        }
 
         #endregion
-
-
-
-
     }
 }

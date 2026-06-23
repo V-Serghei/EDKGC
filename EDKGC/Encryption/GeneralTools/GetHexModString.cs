@@ -1,29 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
+using System.Globalization;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EDKGC.Encryption.GeneralTools
 {
-    public class GetHexModString
+    // ReSharper disable LocalizableElement
+    public static class GetHexModString
     {
-
         public static string GetHexModToString(byte[] byteM)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder(byteM.Length * 2);
             foreach (byte b in byteM)
-            {
                 sb.Append(b.ToString("x2"));
-            }
             return sb.ToString();
         }
+
         public static byte[] GetStringToHexMod(string hexString)
         {
-            byte[] bytes = new byte[hexString.Length / 2];
+            if (string.IsNullOrEmpty(hexString))
+                throw new ArgumentException("Hex string must not be empty.", nameof(hexString));
+            if (hexString.Length % 2 != 0)
+                throw new ArgumentException("Hex string must have an even number of characters.", nameof(hexString));
+
+            var bytes = new byte[hexString.Length / 2];
             for (int i = 0; i < hexString.Length; i += 2)
             {
-                bytes[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
+                if (!byte.TryParse(hexString.AsSpan(i, 2), NumberStyles.HexNumber, null, out bytes[i / 2]))
+                    throw new ArgumentException($"Invalid hex characters at position {i}.", nameof(hexString));
             }
             return bytes;
         }

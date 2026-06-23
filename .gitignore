@@ -1,18 +1,47 @@
 
-.vs/
+# Build output
 EDKGC/bin/
 EDKGC/obj/
-
-
 *.dll
 *.exe
 *.pdb
+
+# NuGet packages
+EDKGC/packages/
+*.nupkg
+*.nuget.props
+*.nuget.targets
+
+# Visual Studio
+.vs/
 *.user
 *.suo
 *.cache
-*.log
 *.vspscc
 *.vssscc
 *.pidb
-*.log
 *.vspx
+*.sln.docstates
+
+# JetBrains Rider / IntelliJ
+.idea/
+**/.idea/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Claude Code
+.claude/
+
+# Temp / secrets
+*.env
+*.env.local
+secrets.*

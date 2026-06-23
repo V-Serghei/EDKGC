@@ -15,7 +15,7 @@ using EDKGC.Models.AsymmetricAlgorithms;
 using EDKGC.Models.ElectronicSignature;
 using EDKGC.Models.SymmetricEncryption;
 using GalaSoft.MvvmLight;
-using Org.BouncyCastle.Utilities;
+using GalaSoft.MvvmLight.Ioc;
 
 //TODO:Review all input variations and protect against critical errors.
 //Testing is required
@@ -35,9 +35,13 @@ namespace EDKGC.ViewModel.CentralSolutions
         /// And
         /// Encoding
         /// </summary>
-        readonly Encoding _encoding = Encoding.Default;
+        readonly Encoding _encoding = Encoding.UTF8;
 
         private RsaAsymmetricalAlModel _rsaAsymmetricalAlModel;
+        private DiffieHellmanAsymmetricalAlModel _diffieHellmanAsymmetricalAlModel;
+        private ElGamalAsymmetricalAlModel _elGamalAsymmetricalAlModel;
+        private EccAsymmetricalAlModel _eccAsymmetricalAlModel;
+        private LocalizationViewModel _localization;
 
         public string ConvertByteStringContainer { get; set; }
 
@@ -72,6 +76,10 @@ namespace EDKGC.ViewModel.CentralSolutions
 
             GenKeyAsymmetrical2Command = new RelayCommand(GenKeyAs);
             _rsaAsymmetricalAlModel = new RsaAsymmetricalAlModel();
+            _diffieHellmanAsymmetricalAlModel = new DiffieHellmanAsymmetricalAlModel();
+            _elGamalAsymmetricalAlModel = new ElGamalAsymmetricalAlModel();
+            _eccAsymmetricalAlModel = new EccAsymmetricalAlModel();
+            _electronicSignatureRsa.SetKeyPair(_rsaAsymmetricalAlModel.GetKeyP());
             _itemsAsymAl = new ObservableCollection<string>
             {
                 "RSA",
@@ -86,6 +94,14 @@ namespace EDKGC.ViewModel.CentralSolutions
 
             DesSymmetricEncryptionM = new DESsymmetricEncryption();
 
+            TripleDesSymmetricEncryptionM = new TripleDesSymmetricEncryption();
+
+            BlowfishSymmetricEncryptionM = new BlowfishSymmetricEncryption();
+
+            TwofishSymmetricEncryptionM = new TwofishSymmetricEncryption();
+
+            SerpentSymmetricEncryptionM = new SerpentSymmetricEncryption();
+
             GenKeySymmetricalCommand = new RelayCommand(GenKeyAl);
 
             EncryptTextCommand = new RelayCommand(EncryptDecryptTextSym);
@@ -94,14 +110,116 @@ namespace EDKGC.ViewModel.CentralSolutions
 
             SwapKeyCommand = new RelayCommand(SwapKeyR);
 
-            Items = new ObservableCollection<string>() { "Aes", "DES", "3DES", "SEAL", "Blowfish", "Twofish", "Serpent" };
+            Items = new ObservableCollection<string>() { "Aes", "DES", "3DES", "Blowfish", "Twofish", "Serpent" };
             SelectionChangedCommand = new RelayCommand(UpdateCommand);
 
             #endregion
 
             CloseAppCommand = new RelayCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecuted);
+            AboutProgramCommand = new RelayCommand(ShowAboutProgram);
 
-            
+            SetupLocalization();
+        }
+
+        private void SetupLocalization()
+        {
+            try
+            {
+                _localization = SimpleIoc.Default.GetInstance<LocalizationViewModel>();
+                _localization.PropertyChanged += (_, _) => RefreshLocalizedText();
+                RefreshLocalizedText();
+            }
+            catch
+            {
+                _localization = null;
+            }
+        }
+
+        private string L(string key) => _localization?.Text(key) ?? key;
+
+        private void RefreshLocalizedText()
+        {
+            ButtonEDecrypt = ButtonEffect == Effect.Decrypt ? L("Decrypt") : L("Encrypt");
+            SignatureDecryptButtonText = _isSignatureDecrypted ? L("Encrypt") : L("Decrypt");
+
+            if (TextNonEncrypt == "Enter text" || TextNonEncrypt == "Введите текст")
+            {
+                TextNonEncrypt = L("EnterText");
+            }
+
+            if (EnterTextS == "Enter text" || EnterTextS == "Введите текст")
+            {
+                EnterTextS = L("EnterText");
+            }
+
+            if (HashEntTextS == "Expect hash" || HashEntTextS == "Ожидается хеш")
+            {
+                HashEntTextS = L("ExpectHash");
+            }
+
+            if (EncryptVerTextBoxS == "Expect Encrypt" || EncryptVerTextBoxS == "Ожидается подпись")
+            {
+                EncryptVerTextBoxS = L("ExpectEncrypt");
+            }
+
+            if (KeyEncState == "Public Key!" || KeyEncState == "Публичный ключ!")
+            {
+                KeyEncState = L("PublicKey") + "!";
+            }
+            else if (KeyEncState == "Private Key!" || KeyEncState == "Приватный ключ!")
+            {
+                KeyEncState = L("PrivateKey") + "!";
+            }
+
+            if (KeyTextAl1 == "Generate Key!" || KeyTextAl1 == "Сгенерируйте ключ!")
+            {
+                KeyTextAl1 = L("GenerateKeyPrompt") + "!";
+            }
+
+            if (KeyTextAl2 == "Generate Key!" || KeyTextAl2 == "Сгенерируйте ключ!")
+            {
+                KeyTextAl2 = L("GenerateKeyPrompt") + "!";
+            }
+
+            if (KeyTextAl == "Generate Key!" || KeyTextAl == "Сгенерируйте ключ!")
+            {
+                KeyTextAl = L("GenerateKeyPrompt") + "!";
+            }
+
+            if (EncryptTextAl == "Inappropriate key" || EncryptTextAl == "Неверный ключ")
+            {
+                EncryptTextAl = L("InappropriateKey");
+            }
+            else if (EncryptTextAl == "Inappropriate key or text" || EncryptTextAl == "Неверный ключ или текст")
+            {
+                EncryptTextAl = L("InappropriateKeyOrText");
+            }
+            else if (EncryptTextAl == "SEAL is not supported" || EncryptTextAl == "SEAL не поддерживается")
+            {
+                EncryptTextAl = L("SealNotSupported");
+            }
+
+            if (EncryptVerTextBoxS == "Inappropriate signature" || EncryptVerTextBoxS == "Неверная подпись")
+            {
+                EncryptVerTextBoxS = L("InappropriateSignature");
+            }
+            else if (EncryptVerTextBoxS == "Generate signature first" || EncryptVerTextBoxS == "Сначала сгенерируйте подпись")
+            {
+                EncryptVerTextBoxS = L("GenerateSignatureFirst");
+            }
+            else if (EncryptVerTextBoxS == "Could not generate signature" || EncryptVerTextBoxS == "Не удалось сгенерировать подпись")
+            {
+                EncryptVerTextBoxS = L("CouldNotGenerateSignature");
+            }
+
+            if (TextResp == "Pass" || TextResp == "Пройдено")
+            {
+                TextResp = L("Pass");
+            }
+            else if (TextResp == "Hazard!!!" || TextResp == "Ошибка!!!")
+            {
+                TextResp = L("Hazard");
+            }
         }
 
        
@@ -194,8 +312,7 @@ namespace EDKGC.ViewModel.CentralSolutions
             {
                 case TypeOfAlgorithm.Symmetrical:
                 {
-                    KeyTextAl = "Generate Key!";
-                    TextNonEncrypt = EncryptTextAl;
+                    KeyTextAl = L("GenerateKeyPrompt") + "!";
                     if (ButtonEffect == Effect.Decrypt)
                     {
                         SwapEnDecrypt();
@@ -215,17 +332,13 @@ namespace EDKGC.ViewModel.CentralSolutions
                     }
                     else if (SelectedItemText == Items[3])
                     {
-                        _algorithmSymmetricEncryption = SymmetricEncryption.SEAL;
+                        _algorithmSymmetricEncryption = SymmetricEncryption.Blowfish;
                     }
                     else if (SelectedItemText == Items[4])
                     {
-                        _algorithmSymmetricEncryption = SymmetricEncryption.Blowfish;
-                    }
-                    else if (SelectedItemText == Items[5])
-                    {
                         _algorithmSymmetricEncryption = SymmetricEncryption.Twofish;
                     }
-                    else
+                    else if (SelectedItemText == Items[5])
                     {
                         _algorithmSymmetricEncryption = SymmetricEncryption.Serpent;
                     }
@@ -234,9 +347,9 @@ namespace EDKGC.ViewModel.CentralSolutions
                 }
                 case TypeOfAlgorithm.Asymmetrical:
                 {
-                    KeyTextAl1 = "Generate Key!";
+                    KeyTextAl1 = L("GenerateKeyPrompt") + "!";
                     KeyTextAl2 = KeyTextAl1;
-                    TextNonEncrypt = EncryptTextAl;
+                    EncryptTextAl = "";
                     if (ButtonEffect == Effect.Decrypt)
                     {
                         SwapEnDecrypt();
@@ -275,7 +388,7 @@ namespace EDKGC.ViewModel.CentralSolutions
                 OnPropertyChanged(nameof(ItemsAsymAl));
             }
         }
-        private string _selectedItemAsymAl;
+        private string _selectedItemAsymAl = "RSA";
         public string SelectedItemAsumAl
         {
             get => _selectedItemAsymAl;
@@ -309,7 +422,7 @@ namespace EDKGC.ViewModel.CentralSolutions
                 case EKeyEff.Public:
                     KeyState = EKeyEff.Private;
                     (KeyTextAl1, KeyTextAl2) = (KeyTextAl2, KeyTextAl1);
-                    KeyEncState = "Private Key!";
+                    KeyEncState = L("PrivateKey") + "!";
                     EncryptTextAl = "";
                     TextNonEncrypt = "";
                     SwapEnDecrypt();
@@ -318,7 +431,7 @@ namespace EDKGC.ViewModel.CentralSolutions
                     KeyState = EKeyEff.Public;
                     (KeyTextAl1, KeyTextAl2) = (KeyTextAl2, KeyTextAl1);
                     EncryptTextAl = "";
-                    KeyEncState = "Public Key!";
+                    KeyEncState = L("PublicKey") + "!";
                     
                     TextNonEncrypt = "";
                     break;
@@ -339,13 +452,13 @@ namespace EDKGC.ViewModel.CentralSolutions
             {
                 case Effect.Encrypt:
                     ButtonEffect = Effect.Decrypt;
-                    ButtonEDecrypt = "Decrypt";
+                    ButtonEDecrypt = L("Decrypt");
                     TextNonEncrypt = EncryptTextAl;
                     EncryptTextAl = "";
                     break;
                 case Effect.Decrypt:
                     ButtonEffect = Effect.Encrypt;
-                    ButtonEDecrypt = "Encrypt";
+                    ButtonEDecrypt = L("Encrypt");
                     if (EncryptTextAl == "") TextNonEncrypt = "";
                     else
                     {
@@ -366,12 +479,32 @@ namespace EDKGC.ViewModel.CentralSolutions
         #region CloseAppCommand
 
         public ICommand CloseAppCommand { get; }
+        public ICommand AboutProgramCommand { get; }
 
         private static bool CanCloseAppCommandExecuted() => true;
 
         public void OnCloseAppCommandExecuted()
         {
             Application.Current.Shutdown();
+        }
+
+        private void ShowAboutProgram()
+        {
+            LocalizationViewModel localization = null;
+            try
+            {
+                localization = SimpleIoc.Default.GetInstance<LocalizationViewModel>();
+            }
+            catch
+            {
+                localization = null;
+            }
+
+            MessageBox.Show(
+                localization?.AboutProgramMessage ?? "EDKGC",
+                localization?.AboutProgram ?? "About Program",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
         }
 
         #endregion
@@ -386,12 +519,7 @@ namespace EDKGC.ViewModel.CentralSolutions
         public string Title
         {
             get => _title;
-            set =>
-                //if(Equals(_title,value))return;
-                //_title = value;
-                //RaisePropertyChanged(nameof(Title));
-                Set(ref _title, value);
-
+            set => Set(ref _title, value);
         }
 
         #endregion
@@ -403,12 +531,20 @@ namespace EDKGC.ViewModel.CentralSolutions
         /// Message status bar
         /// </summary>
 
-        private string _status = "Processing";
+        private string _status = "Ready";
 
         public string Status
         {
             get => _status;
             set => Set(ref _status, value);
+        }
+
+        private double _operationProgress;
+
+        public double OperationProgress
+        {
+            get => _operationProgress;
+            set => Set(ref _operationProgress, value);
         }
 
         #endregion
@@ -434,6 +570,14 @@ namespace EDKGC.ViewModel.CentralSolutions
         public AesSymmetricEncryption AesSymmetricEncryptionM { get; set; }
 
         public DESsymmetricEncryption DesSymmetricEncryptionM { get; set; }
+
+        public TripleDesSymmetricEncryption TripleDesSymmetricEncryptionM { get; set; }
+
+        public BlowfishSymmetricEncryption BlowfishSymmetricEncryptionM { get; set; }
+
+        public TwofishSymmetricEncryption TwofishSymmetricEncryptionM { get; set; }
+
+        public SerpentSymmetricEncryption SerpentSymmetricEncryptionM { get; set; }
 
         private string _keyTextAl = "Generate Key!";
 
@@ -472,7 +616,31 @@ namespace EDKGC.ViewModel.CentralSolutions
                 }
                 case SymmetricEncryption.TripleDES:
                 {
-
+                    var key = TripleDesSymmetricEncryptionM.GenKey();
+                    KeyTextAl = GetHexModString.GetHexModToString(key);
+                    break;
+                }
+                case SymmetricEncryption.SEAL:
+                {
+                    KeyTextAl = "SEAL is not supported";
+                    break;
+                }
+                case SymmetricEncryption.Blowfish:
+                {
+                    var key = BlowfishSymmetricEncryptionM.GenKey();
+                    KeyTextAl = GetHexModString.GetHexModToString(key);
+                    break;
+                }
+                case SymmetricEncryption.Twofish:
+                {
+                    var key = TwofishSymmetricEncryptionM.GenKey();
+                    KeyTextAl = GetHexModString.GetHexModToString(key);
+                    break;
+                }
+                case SymmetricEncryption.Serpent:
+                {
+                    var key = SerpentSymmetricEncryptionM.GenKey();
+                    KeyTextAl = GetHexModString.GetHexModToString(key);
                     break;
                 }
                 default:
@@ -485,6 +653,12 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         public void EncryptDecryptTextSym()
         {
+            if (ButtonEffect == Effect.Encrypt && string.IsNullOrWhiteSpace(TextNonEncrypt))
+            {
+                TextNonEncrypt = L("EnterText");
+                EncryptTextAl = "";
+                return;
+            }
 
             switch (_algorithmSymmetricEncryption)
             {
@@ -504,12 +678,12 @@ namespace EDKGC.ViewModel.CentralSolutions
                                     EncryptTextAl = ConvertByteStringContainer;
                                 TextNonEncrypt = AesSymmetricEncryptionM.EnterText;
                             }
-                            else TextNonEncrypt = "Enter text";
+                            else TextNonEncrypt = L("EnterText");
                             
                             break;
                         case Effect.Decrypt:
                             var res = AesSymmetricEncryptionM.Decrypt(TextNonEncrypt);
-                            if (res == null) EncryptTextAl = "Inappropriate key";
+                            if (res == null) EncryptTextAl = L("InappropriateKey");
                             else
                             {
                                 ConvertByteStringContainer = _encoding.GetString(res);
@@ -534,7 +708,7 @@ namespace EDKGC.ViewModel.CentralSolutions
                             TextNonEncrypt = DesSymmetricEncryptionM.EnterText;
                             break;
                         case Effect.Decrypt:
-                            ConvertByteStringContainer = DesSymmetricEncryptionM.GetDecryptTextEbc(TextNonEncrypt) ?? "Inappropriate key";
+                            ConvertByteStringContainer = DesSymmetricEncryptionM.GetDecryptTextEbc(TextNonEncrypt) ?? L("InappropriateKey");
                             EncryptTextAl = ConvertByteStringContainer;
                             break;
                         case Effect.None:
@@ -547,6 +721,27 @@ namespace EDKGC.ViewModel.CentralSolutions
                 }
                 case SymmetricEncryption.TripleDES:
                 {
+                    EncryptDecryptBouncyBlockCipher(TripleDesSymmetricEncryptionM);
+                    break;
+                }
+                case SymmetricEncryption.SEAL:
+                {
+                    EncryptTextAl = L("SealNotSupported");
+                    break;
+                }
+                case SymmetricEncryption.Blowfish:
+                {
+                    EncryptDecryptBouncyBlockCipher(BlowfishSymmetricEncryptionM);
+                    break;
+                }
+                case SymmetricEncryption.Twofish:
+                {
+                    EncryptDecryptBouncyBlockCipher(TwofishSymmetricEncryptionM);
+                    break;
+                }
+                case SymmetricEncryption.Serpent:
+                {
+                    EncryptDecryptBouncyBlockCipher(SerpentSymmetricEncryptionM);
                     break;
                 }
                 default:
@@ -558,6 +753,34 @@ namespace EDKGC.ViewModel.CentralSolutions
             
 
 
+        }
+
+        private void EncryptDecryptBouncyBlockCipher(BouncyBlockSymmetricEncryption encryptionModel)
+        {
+            switch (ButtonEffect)
+            {
+                case Effect.Encrypt:
+                    if (string.IsNullOrWhiteSpace(TextNonEncrypt))
+                    {
+                        TextNonEncrypt = L("EnterText");
+                        EncryptTextAl = "";
+                        return;
+                    }
+
+                    ConvertByteStringContainer =
+                        GetHexModString.GetHexModToString(encryptionModel.GetEncryptTextEdc(TextNonEncrypt));
+                    EncryptTextAl = ConvertByteStringContainer;
+                    TextNonEncrypt = encryptionModel.EnterText;
+                    break;
+                case Effect.Decrypt:
+                    ConvertByteStringContainer = encryptionModel.GetDecryptTextEbc(TextNonEncrypt) ?? L("InappropriateKey");
+                    EncryptTextAl = ConvertByteStringContainer;
+                    break;
+                case Effect.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         
@@ -609,12 +832,38 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         private void GenKeyAs()
         {
-            _rsaAsymmetricalAlModel.GenerateKeysRsa();
-            //KeyTextAl2 = _encoding.GetString(_rsaAsymmetricalAlModel.GenPrivateKey());
-            //KeyTextAl1 = _encoding.GetString(_rsaAsymmetricalAlModel.GenPublicKey());
-            KeyTextAl2 = GetHexModString.GetHexModToString(_rsaAsymmetricalAlModel.GenPrivateKey());
-            KeyTextAl1 = GetHexModString.GetHexModToString(_rsaAsymmetricalAlModel.GenPublicKey());
+            StartOperation("Generating asymmetric key...");
 
+            switch (_asymmetricAlgorithms)
+            {
+                case AsymmetricAlgorithms.RSA:
+                    _rsaAsymmetricalAlModel.GenerateKeysRsa();
+                    KeyTextAl2 = GetHexModString.GetHexModToString(_rsaAsymmetricalAlModel.GenPrivateKey());
+                    KeyTextAl1 = GetHexModString.GetHexModToString(_rsaAsymmetricalAlModel.GenPublicKey());
+                    _electronicSignatureRsa.SetKeyPair(_rsaAsymmetricalAlModel.GetKeyP());
+                    break;
+                case AsymmetricAlgorithms.DiffieHellman:
+                    _diffieHellmanAsymmetricalAlModel.GenerateKeys();
+                    KeyTextAl1 = GetHexModString.GetHexModToString(_diffieHellmanAsymmetricalAlModel.GetPublicKey());
+                    KeyTextAl2 = GetHexModString.GetHexModToString(_diffieHellmanAsymmetricalAlModel.GetPrivateKey());
+                    EncryptTextAl = L("SharedSecret") + ": " + GetHexModString.GetHexModToString(_diffieHellmanAsymmetricalAlModel.GetSharedSecret());
+                    break;
+                case AsymmetricAlgorithms.ElGamal:
+                    _elGamalAsymmetricalAlModel.GenerateKeys();
+                    KeyTextAl1 = GetHexModString.GetHexModToString(_elGamalAsymmetricalAlModel.GetPublicKey());
+                    KeyTextAl2 = GetHexModString.GetHexModToString(_elGamalAsymmetricalAlModel.GetPrivateKey());
+                    break;
+                case AsymmetricAlgorithms.ECC:
+                    _eccAsymmetricalAlModel.GenerateKeys();
+                    KeyTextAl1 = GetHexModString.GetHexModToString(_eccAsymmetricalAlModel.GetPublicKey());
+                    KeyTextAl2 = GetHexModString.GetHexModToString(_eccAsymmetricalAlModel.GetPrivateKey());
+                    EncryptTextAl = L("SharedSecret") + ": " + GetHexModString.GetHexModToString(_eccAsymmetricalAlModel.GetSharedSecret());
+                    break;
+                default:
+                    break;
+            }
+
+            CompleteOperation("Asymmetric key ready");
         }
 
        
@@ -622,6 +871,16 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         private void EncryptDecryptAs()
         {
+            StartOperation(ButtonEffect == Effect.Encrypt ? "Encrypting..." : "Decrypting...");
+
+            if (ButtonEffect == Effect.Encrypt && string.IsNullOrWhiteSpace(TextNonEncrypt))
+            {
+                TextNonEncrypt = L("EnterText");
+                EncryptTextAl = "";
+                CompleteOperation("Waiting for text");
+                return;
+            }
+
             switch (_asymmetricAlgorithms)
             {
                 
@@ -632,23 +891,33 @@ namespace EDKGC.ViewModel.CentralSolutions
                         case Effect.Encrypt:
                             if (TextNonEncrypt != null)
                             {
-                                    //ConvertByteStringContainer =
-                                    //    _encoding.GetString(_rsaAsymmetricalAlModel.EncryptTextRsa(TextNonEncrypt));
-                                    ConvertByteStringContainer =
-                                        GetHexModString.GetHexModToString(_rsaAsymmetricalAlModel.EncryptTextRsa(TextNonEncrypt));
+                                    var encryptedText = _rsaAsymmetricalAlModel.EncryptTextRsa(TextNonEncrypt);
+                                    if (encryptedText == null)
+                                    {
+                                        EncryptTextAl = L("RsaTextTooLong");
+                                        break;
+                                    }
+                                    ConvertByteStringContainer = GetHexModString.GetHexModToString(encryptedText);
                                     EncryptTextAl = ConvertByteStringContainer;
                                 
                             }
-                            else TextNonEncrypt = "Enter text";
+                            else TextNonEncrypt = L("EnterText");
 
                             break;
                         case Effect.Decrypt:
-                            var res = _rsaAsymmetricalAlModel.DecryptTextRsa((GetHexModString.GetStringToHexMod(TextNonEncrypt)));
-                            if (res == null) EncryptTextAl = "Inappropriate key";
-                            else
+                            try
                             {
-                                ConvertByteStringContainer = res;
-                                EncryptTextAl = ConvertByteStringContainer;
+                                var res = _rsaAsymmetricalAlModel.DecryptTextRsa(GetHexModString.GetStringToHexMod(TextNonEncrypt));
+                                if (res == null) EncryptTextAl = L("InappropriateKeyOrText");
+                                else
+                                {
+                                    ConvertByteStringContainer = res;
+                                    EncryptTextAl = ConvertByteStringContainer;
+                                }
+                            }
+                            catch (ArgumentException)
+                            {
+                                EncryptTextAl = L("InappropriateKeyOrText");
                             }
 
                             break;
@@ -659,21 +928,79 @@ namespace EDKGC.ViewModel.CentralSolutions
                     break;
                 case AsymmetricAlgorithms.DiffieHellman:
                 {
-
+                    EncryptDecryptSharedSecretAsymmetric(_diffieHellmanAsymmetricalAlModel);
                 }
                     break;
                 case AsymmetricAlgorithms.ElGamal:
                 {
-
+                    EncryptDecryptElGamal();
                 }
                     break;
                 case AsymmetricAlgorithms.ECC:
                 {
-
+                    EncryptDecryptSharedSecretAsymmetric(_eccAsymmetricalAlModel);
                 }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+
+            CompleteOperation("Ready");
+        }
+
+        private void EncryptDecryptSharedSecretAsymmetric(ISharedSecretAsymmetricalAlModel encryptionModel)
+        {
+            try
+            {
+                switch (ButtonEffect)
+                {
+                    case Effect.Encrypt:
+                        ConvertByteStringContainer =
+                            GetHexModString.GetHexModToString(encryptionModel.EncryptText(TextNonEncrypt));
+                        EncryptTextAl = ConvertByteStringContainer;
+                        break;
+                    case Effect.Decrypt:
+                        ConvertByteStringContainer =
+                            encryptionModel.DecryptText(GetHexModString.GetStringToHexMod(TextNonEncrypt));
+                        EncryptTextAl = ConvertByteStringContainer;
+                        break;
+                    case Effect.None:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            catch (Exception)
+            {
+                EncryptTextAl = L("InappropriateKeyOrText");
+            }
+        }
+
+        private void EncryptDecryptElGamal()
+        {
+            try
+            {
+                switch (ButtonEffect)
+                {
+                    case Effect.Encrypt:
+                        ConvertByteStringContainer =
+                            GetHexModString.GetHexModToString(_elGamalAsymmetricalAlModel.EncryptText(TextNonEncrypt));
+                        EncryptTextAl = ConvertByteStringContainer;
+                        break;
+                    case Effect.Decrypt:
+                        ConvertByteStringContainer =
+                            _elGamalAsymmetricalAlModel.DecryptText(GetHexModString.GetStringToHexMod(TextNonEncrypt));
+                        EncryptTextAl = ConvertByteStringContainer;
+                        break;
+                    case Effect.None:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            catch (Exception)
+            {
+                EncryptTextAl = L("InappropriateKeyOrText");
             }
         }
 
@@ -700,6 +1027,9 @@ namespace EDKGC.ViewModel.CentralSolutions
         private byte[] hashNotEncrypt { get; set; }
 
         private byte[] enctyptTextBytes { get; set; }
+        private string _signatureText;
+        private bool _isSignatureDecrypted;
+        private string _signatureDecryptButtonText = "Decrypt";
 
 
 
@@ -729,33 +1059,88 @@ namespace EDKGC.ViewModel.CentralSolutions
             set=> Set(ref _encryptVerTextBoxS, value);
         }
 
+        public string SignatureDecryptButtonText
+        {
+            get => _signatureDecryptButtonText;
+            set => Set(ref _signatureDecryptButtonText, value);
+        }
+
 
 
 
         private void GenKeyPeir()
         {
-            GenKeyAs();
+            StartOperation("Generating signature keys...");
 
+            _rsaAsymmetricalAlModel.GenerateKeysRsa();
+            KeyTextAl2 = GetHexModString.GetHexModToString(_rsaAsymmetricalAlModel.GenPrivateKey());
+            KeyTextAl1 = GetHexModString.GetHexModToString(_rsaAsymmetricalAlModel.GenPublicKey());
             _electronicSignatureRsa.SetKeyPair(_rsaAsymmetricalAlModel.GetKeyP());
+            _signatureText = null;
+            _isSignatureDecrypted = false;
+            SignatureDecryptButtonText = L("Decrypt");
+            EncryptVerTextBoxS = L("ExpectEncrypt");
+            HashEntTextS = L("ExpectHash");
+            TextResp = "...";
+            CompleteOperation("Signature keys ready");
 
         }
 
         private void GenSignature()
         {
-            //HashEntTextS = _electronicSignatureRsa.GenHashPrivKey(EnterTextS);
-            // EncryptVerTextBoxS = _electronicSignatureRsa.EncryptHashText(HashEntTextS);
+            StartOperation("Generating signature...");
+
             HashEntTextS = _electronicSignatureRsa.GenHashPrivKey(EnterTextS);
             hashNotEncrypt = _electronicSignatureRsa.GetHashBytes();
-            enctyptTextBytes = _rsaAsymmetricalAlModel.EncryptTextRsa(hashNotEncrypt);
-            EncryptVerTextBoxS = GetHexModString.GetHexModToString(enctyptTextBytes);
+            EncryptVerTextBoxS = _electronicSignatureRsa.EncryptHashText(EnterTextS);
+            if (EncryptVerTextBoxS == null)
+            {
+                EncryptVerTextBoxS = L("CouldNotGenerateSignature");
+                CompleteOperation("Signature failed");
+                return;
+            }
+            _signatureText = EncryptVerTextBoxS;
+            _isSignatureDecrypted = false;
+            SignatureDecryptButtonText = L("Decrypt");
+            enctyptTextBytes = GetHexModString.GetStringToHexMod(EncryptVerTextBoxS);
+            TextResp = "...";
+            CompleteOperation("Signature generated");
         }
 
         private void DecryptTextHashS()
         {
+            if (_isSignatureDecrypted)
+            {
+                StartOperation("Restoring signature...");
+                if (string.IsNullOrEmpty(_signatureText))
+                {
+                    EncryptVerTextBoxS = L("GenerateSignatureFirst");
+                    CompleteOperation("Signature missing");
+                    return;
+                }
 
-            //EncryptVerTextBoxS = _electronicSignatureRsa.DecryptTextHash();
-            EncryptVerTextBoxS =
-                GetHexModString.GetHexModToString(_rsaAsymmetricalAlModel.DecryptTextRsaB(enctyptTextBytes));
+                EncryptVerTextBoxS = _signatureText;
+                _isSignatureDecrypted = false;
+                SignatureDecryptButtonText = L("Decrypt");
+                CompleteOperation("Signature restored");
+                return;
+            }
+
+            StartOperation("Decrypting signature...");
+
+            var signature = GetSignatureForVerification();
+            if (signature == null)
+            {
+                EncryptVerTextBoxS = L("GenerateSignatureFirst");
+                CompleteOperation("Signature missing");
+                return;
+            }
+
+            var signatureBytes = GetHexModString.GetStringToHexMod(signature);
+            EncryptVerTextBoxS = _electronicSignatureRsa.DecryptTextHash(signatureBytes) ?? L("InappropriateSignature");
+            _isSignatureDecrypted = EncryptVerTextBoxS != L("InappropriateSignature");
+            SignatureDecryptButtonText = _isSignatureDecrypted ? L("Encrypt") : L("Decrypt");
+            CompleteOperation("Signature decrypted");
         }
         private SolidColorBrush _textColor = Brushes.Green;
         public SolidColorBrush TextColor
@@ -773,15 +1158,52 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         private void VerifySignRsa()
         {
-            TextResp = _electronicSignatureRsa.VerifySignature(HashEntTextS, EncryptVerTextBoxS);
+            StartOperation("Verifying signature...");
+
+            var signatureForVerify = GetSignatureForVerification();
+            if (signatureForVerify == null)
+            {
+                TextResp = L("Hazard");
+                TextColor = Brushes.Red;
+                CompleteOperation("Signature missing");
+                return;
+            }
+
+            TextResp = _electronicSignatureRsa.VerifySignature(HashEntTextS, signatureForVerify);
             TextColor = TextResp == "Pass" ? Brushes.Green : Brushes.Red;
+            TextResp = TextResp == "Pass" ? L("Pass") : L("Hazard");
+            CompleteOperation(TextResp == L("Pass") ? "Signature verified" : "Signature mismatch");
+        }
+
+        private string GetSignatureForVerification()
+        {
+            if (EncryptVerTextBoxS == HashEntTextS && !string.IsNullOrEmpty(_signatureText))
+                return _signatureText;
+
+            try
+            {
+                GetHexModString.GetStringToHexMod(EncryptVerTextBoxS);
+                return EncryptVerTextBoxS;
+            }
+            catch (ArgumentException)
+            {
+                return string.IsNullOrEmpty(_signatureText) ? null : _signatureText;
+            }
+        }
+
+        private void StartOperation(string status)
+        {
+            Status = status;
+            OperationProgress = 20;
+        }
+
+        private void CompleteOperation(string status)
+        {
+            OperationProgress = 100;
+            Status = status;
         }
 
         #endregion
 
-        public void Dispose()
-        {
-           
-        }
     }
 }

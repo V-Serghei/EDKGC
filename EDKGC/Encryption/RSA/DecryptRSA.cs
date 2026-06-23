@@ -1,36 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using EDKGC.Enams;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
 
 namespace EDKGC.Encryption.RSA
 {
-    public class DecryptRSA
+    public static class DecryptRsa
     {
-        static readonly Encoding _encoding = Encoding.Default;
+        private static readonly Encoding Encoding = System.Text.Encoding.UTF8;
 
-        public static string DecryptRsaT(byte[] encryptedBytes, AsymmetricCipherKeyPair _keyPair, EKeyEff stat)
+        public static string DecryptRsaT(byte[] encryptedBytes, AsymmetricCipherKeyPair keyPair, EKeyEff stat)
         {
-            var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
-            if(stat == EKeyEff.Public)cipher.Init(false, _keyPair.Private);
-            if (stat == EKeyEff.Private) cipher.Init(false, _keyPair.Public);
-
-            var decryptedBytes = cipher.DoFinal(encryptedBytes);
-            return _encoding.GetString(decryptedBytes);
+            try
+            {
+                var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
+                if (stat == EKeyEff.Public) cipher.Init(false, keyPair.Private);
+                if (stat == EKeyEff.Private) cipher.Init(false, keyPair.Public);
+                return Encoding.GetString(cipher.DoFinal(encryptedBytes));
+            }
+            catch (InvalidCipherTextException)
+            {
+                return null;
+            }
         }
-        public static byte[] DecryptRsaToByte(byte[] encryptedBytes, AsymmetricCipherKeyPair _keyPair, EKeyEff stat)
-        {
-            var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
-            if (stat == EKeyEff.Public) cipher.Init(false, _keyPair.Private);
-            if (stat == EKeyEff.Private) cipher.Init(false, _keyPair.Public);
 
-            var decryptedBytes = cipher.DoFinal(encryptedBytes);
-            return decryptedBytes;
+        public static byte[] DecryptRsaToByte(byte[] encryptedBytes, AsymmetricCipherKeyPair keyPair, EKeyEff stat)
+        {
+            try
+            {
+                var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
+                if (stat == EKeyEff.Public) cipher.Init(false, keyPair.Private);
+                if (stat == EKeyEff.Private) cipher.Init(false, keyPair.Public);
+                return cipher.DoFinal(encryptedBytes);
+            }
+            catch (InvalidCipherTextException)
+            {
+                return null;
+            }
         }
     }
 }

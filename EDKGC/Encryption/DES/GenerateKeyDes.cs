@@ -1,33 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EDKGC.Encryption.DES
 {
-    public class GenerateKeyDes
+    public static class GenerateKeyDes
     {
         public static byte[] GenKeyDes()
         {
-            using (var des = new DESCryptoServiceProvider())
-            {
-                des.GenerateKey();
-                return des.Key;
-            }
+            using var des = System.Security.Cryptography.DES.Create();
+            des.GenerateKey();
+            return des.Key;
         }
 
         public static byte[] GenIv()
         {
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                byte[] iv = new byte[8]; 
-                rng.GetBytes(iv);
-                return iv;
-            }
-
+            var iv = new byte[8];
+            RandomNumberGenerator.Fill(iv);
+            return iv;
         }
-
     }
 }
