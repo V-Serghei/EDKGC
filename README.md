@@ -1,38 +1,37 @@
 # EDKGC — Educational Cryptography GUI for .NET
 
-WPF-приложение на C# (.NET Framework) для изучения алгоритмов шифрования и аудита информационной безопасности по стандарту ISO 27001.
+A WPF desktop application for learning cryptographic algorithms and conducting ISO 27001 information security audits.
 
-## Возможности
+## Features
 
-- **Симметричное шифрование**: AES, DES, Triple DES
-- **Асимметричное шифрование**: RSA
-- **Хэширование**: генерация хэш-значений
-- **Электронная подпись**: RSA-подпись документов
-- **ISO 27001**: интерактивный аудит с визуализацией результатов (pie/bar charts)
+- **Symmetric encryption**: AES, DES, Triple DES
+- **Asymmetric encryption**: RSA
+- **Hashing**: SHA-based hash generation
+- **Digital signature**: RSA document signing
+- **ISO 27001 audit**: Interactive questionnaire with pie/bar chart visualization
 
-## Технологии
+## Tech Stack
 
-- C# / .NET Framework
-- WPF (MVVM-архитектура)
-- BouncyCastle.Cryptography
-- System.Text.Json
+- C# / WPF — **net8.0-windows** (SDK-style project)
+- MVVM architecture (MvvmLightLibs + CommunityToolkit.Mvvm)
+- NuGet: BouncyCastle.Cryptography, System.Text.Json, MaterialDesignThemes, LiveCharts, OxyPlot, FontAwesome5
 
-## Структура проекта
+## Project Structure
 
 ```
 EDKGC/
-├── Encryption/       — алгоритмы шифрования (AES, DES, RSA)
-├── Models/           — модели данных
+├── Encryption/       — cryptographic algorithms (AES, DES, RSA)
+├── Models/           — data models
 ├── ViewModel/        — MVVM ViewModels
-├── Views/            — XAML-представления
-├── Infrastructure/   — команды, конвертеры
-├── Enams/            — перечисления
-├── Data/Seed/        — начальные данные (ISO 27001 вопросы)
-└── Resources/        — иконки и изображения
+├── Views/            — XAML views
+├── Infrastructure/   — commands, converters
+├── Enams/            — enumerations
+├── Data/Seed/        — seed data (ISO 27001 questions)
+└── Resources/        — icons and images
 ```
 
-## Начало работы
+## Getting Started
 
-1. Открыть `EDKGC/EDKGC.sln` в Visual Studio или Rider
-2. Восстановить NuGet пакеты (`Restore NuGet Packages`)
-3. Собрать и запустить проект
+1. Open `EDKGC/EDKGC.sln` in Visual Studio or Rider
+2. Restore NuGet packages
+3. Build and run

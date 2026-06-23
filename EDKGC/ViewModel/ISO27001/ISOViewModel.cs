@@ -12,7 +12,6 @@ using EDKGC.Enams;
 using EDKGC.Infrastructure.Command.BasicCommands;
 using EDKGC.Models.ISO27001;
 using EDKGC.ViewModel.SatelliteWindows;
-using GrapeCity.DataVisualization.TypeScript;
 using LiveCharts;
 using LiveCharts.Wpf;
 using Newtonsoft.Json;
@@ -78,8 +77,7 @@ namespace EDKGC.ViewModel.ISO27001
 
 
             Question = new List<QuestionModel>();
-            string basePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-            string jsonPath = Path.Combine(basePath, @"Data\Seed\ISOQuestion.json");
+            string jsonPath = Path.Combine(AppContext.BaseDirectory, "Data", "Seed", "ISOQuestion.json");
             string json = File.ReadAllText(jsonPath);
             Question = JsonConvert.DeserializeObject<List<QuestionModel>>(json);
             OpenIsoResultsWindowCommand = new OpenIsoResultsWindowCommand(this);
