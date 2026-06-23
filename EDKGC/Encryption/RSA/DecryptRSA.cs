@@ -11,18 +11,32 @@ namespace EDKGC.Encryption.RSA
 
         public static string DecryptRsaT(byte[] encryptedBytes, AsymmetricCipherKeyPair _keyPair, EKeyEff stat)
         {
-            var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
-            if (stat == EKeyEff.Public) cipher.Init(false, _keyPair.Private);
-            if (stat == EKeyEff.Private) cipher.Init(false, _keyPair.Public);
-            return _encoding.GetString(cipher.DoFinal(encryptedBytes));
+            try
+            {
+                var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
+                if (stat == EKeyEff.Public) cipher.Init(false, _keyPair.Private);
+                if (stat == EKeyEff.Private) cipher.Init(false, _keyPair.Public);
+                return _encoding.GetString(cipher.DoFinal(encryptedBytes));
+            }
+            catch (InvalidCipherTextException)
+            {
+                return null;
+            }
         }
 
         public static byte[] DecryptRsaToByte(byte[] encryptedBytes, AsymmetricCipherKeyPair _keyPair, EKeyEff stat)
         {
-            var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
-            if (stat == EKeyEff.Public) cipher.Init(false, _keyPair.Private);
-            if (stat == EKeyEff.Private) cipher.Init(false, _keyPair.Public);
-            return cipher.DoFinal(encryptedBytes);
+            try
+            {
+                var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
+                if (stat == EKeyEff.Public) cipher.Init(false, _keyPair.Private);
+                if (stat == EKeyEff.Private) cipher.Init(false, _keyPair.Public);
+                return cipher.DoFinal(encryptedBytes);
+            }
+            catch (InvalidCipherTextException)
+            {
+                return null;
+            }
         }
     }
 }

@@ -53,7 +53,8 @@
                       Header="Helper" 
                       Background="#FF495E4A" 
                       BorderBrush="#FF679C8B" Width="123" RenderTransformOrigin="0.889,0.551">
-                <MenuItem Header="About Program">
+                <MenuItem Header="About Program"
+                          Command="{Binding Central.AboutProgramCommand}">
 
                 </MenuItem>
             </MenuItem>
