@@ -21,31 +21,31 @@
 
     <DockPanel Background="{StaticResource WindowGradientBrush}">
         <Menu DockPanel.Dock="Top" Style="{StaticResource ModernMenu}">
-            <MenuItem Header="File" Style="{StaticResource ModernMenuItem}">
-                <MenuItem Header="Exit"
+            <MenuItem Header="{Binding Localization.File}" Style="{StaticResource ModernMenuItem}">
+                <MenuItem Header="{Binding Localization.BackToHome}"
+                          Click="BackToHome_Click"
+                          Style="{StaticResource ModernMenuItem}" />
+                <MenuItem Header="{Binding Localization.LanguageToggleText}"
+                          Command="{Binding Localization.ToggleLanguageCommand}"
+                          Style="{StaticResource ModernMenuItem}" />
+                <MenuItem Header="{Binding Localization.Exit}"
                           Command="{Binding Central.CloseAppCommand}"
                           Style="{StaticResource ModernMenuItem}" />
             </MenuItem>
-            <MenuItem Header="Helper" Style="{StaticResource ModernMenuItem}">
-                <MenuItem Header="About Program"
+            <MenuItem Header="{Binding Localization.Helper}" Style="{StaticResource ModernMenuItem}">
+                <MenuItem Header="{Binding Localization.AboutProgram}"
                           Command="{Binding Central.AboutProgramCommand}"
                           Style="{StaticResource ModernMenuItem}" />
             </MenuItem>
             <MenuItem Header="{Binding Central.SelectedItemText}" IsEnabled="False" Style="{StaticResource ModernMenuItem}" />
         </Menu>
 
-        <StatusBar DockPanel.Dock="Bottom" Height="30" Background="#0F172A" Foreground="{StaticResource TextBrush}">
-            <StatusBarItem>
-                <TextBlock Text="{Binding Central.Status}" />
-            </StatusBarItem>
-        </StatusBar>
-
         <TabControl Style="{StaticResource ModernTabControl}" Margin="20">
             <TabItem Style="{StaticResource ModernTabItem}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <fa5:ImageAwesome Icon="Solid_Key" Height="15" Margin="0,0,8,0" Foreground="{StaticResource AccentBrush}" />
-                        <TextBlock Text="Symmetric encryption" />
+                        <TextBlock Text="{Binding Localization.SymmetricEncryption}" />
                     </StackPanel>
                 </TabItem.Header>
 
@@ -66,7 +66,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Algorithms" Style="{StaticResource SectionTitleText}" />
+                            <TextBlock Text="{Binding Localization.Algorithms}" Style="{StaticResource SectionTitleText}" />
                             <ListView Grid.Row="1"
                                       Margin="0,14,0,0"
                                       Style="{StaticResource ModernListView}"
@@ -91,14 +91,14 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="Input and key" Style="{StaticResource SectionTitleText}" />
+                            <TextBlock Text="{Binding Localization.InputAndKey}" Style="{StaticResource SectionTitleText}" />
                             <TextBox Grid.Row="1"
                                      Margin="0,12,0,0"
                                      Style="{StaticResource ModernTextBox}"
                                      Text="{Binding Central.KeyTextAl}"
                                      IsReadOnly="True" />
                             <Button Grid.Row="2"
-                                    Content="Generate key"
+                                    Content="{Binding Localization.GenerateKey}"
                                     Style="{StaticResource PrimaryButton}"
                                     Margin="0,12,0,0"
                                     HorizontalAlignment="Left"
@@ -123,17 +123,17 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Result" Style="{StaticResource SectionTitleText}" />
+                            <TextBlock Text="{Binding Localization.Result}" Style="{StaticResource SectionTitleText}" />
                             <TextBox Grid.Row="1"
                                      Margin="0,12,0,0"
                                      Style="{StaticResource ModernTextBox}"
                                      Text="{Binding Central.EncryptTextAl, Mode=TwoWay}" />
                             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
-                                <Button Content="Swap"
+                                <Button Content="{Binding Localization.Swap}"
                                         Style="{StaticResource ModernButton}"
                                         Width="100"
                                         Command="{Binding Central.SwapEncryptDecryptcCommand}" />
-                                <Button Content="Copy"
+                                <Button Content="{Binding Localization.Copy}"
                                         Style="{StaticResource SuccessButton}"
                                         Width="100"
                                         Margin="10,0,0,0"
@@ -148,7 +148,7 @@
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <fa5:ImageAwesome Icon="Brands_Keycdn" Height="15" Margin="0,0,8,0" Foreground="{StaticResource AccentBrush}" />
-                        <TextBlock Text="Asymmetric encryption" />
+                        <TextBlock Text="{Binding Localization.AsymmetricEncryption}" />
                     </StackPanel>
                 </TabItem.Header>
 
@@ -170,7 +170,10 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="{Binding Central.SelectedItemAsumAl, StringFormat={}{0} workspace}" Style="{StaticResource SectionTitleText}" />
+                            <TextBlock Style="{StaticResource SectionTitleText}">
+                                <Run Text="{Binding Central.SelectedItemAsumAl, Mode=OneWay}" />
+                                <Run Text="{Binding Localization.WorkspaceSuffix, Mode=OneWay}" />
+                            </TextBlock>
                             <ListView Grid.Row="1"
                                       Margin="0,12,0,0"
                                       Height="132"
@@ -194,7 +197,7 @@
                                      Text="{Binding Central.KeyTextAl2}"
                                      IsReadOnly="True" />
                             <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,12,0,0">
-                                <Button Content="Generate key"
+                                <Button Content="{Binding Localization.GenerateKey}"
                                         Style="{StaticResource PrimaryButton}"
                                         Command="{Binding Central.GenKeyAsymmetrical2Command}" />
                                 <Button Content="{Binding Central.KeyEncState}"
@@ -222,17 +225,17 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Result" Style="{StaticResource SectionTitleText}" />
+                            <TextBlock Text="{Binding Localization.Result}" Style="{StaticResource SectionTitleText}" />
                             <TextBox Grid.Row="1"
                                      Margin="0,12,0,0"
                                      Style="{StaticResource ModernTextBox}"
                                      Text="{Binding Central.EncryptTextAl, Mode=TwoWay}" />
                             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
-                                <Button Content="Swap"
+                                <Button Content="{Binding Localization.Swap}"
                                         Style="{StaticResource ModernButton}"
                                         Width="100"
                                         Command="{Binding Central.SwapEncryptDecryptcCommand}" />
-                                <Button Content="Copy"
+                                <Button Content="{Binding Localization.Copy}"
                                         Style="{StaticResource SuccessButton}"
                                         Width="100"
                                         Margin="10,0,0,0"
@@ -247,7 +250,7 @@
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <fa5:ImageAwesome Icon="Solid_FileSignature" Height="15" Margin="0,0,8,0" Foreground="{StaticResource AccentBrush}" />
-                        <TextBlock Text="Signing" />
+                        <TextBlock Text="{Binding Localization.Signing}" />
                     </StackPanel>
                 </TabItem.Header>
 
@@ -267,7 +270,13 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Signature input" Style="{StaticResource SectionTitleText}" />
+                            <StackPanel>
+                                <TextBlock Text="{Binding Localization.SignatureInput}" Style="{StaticResource SectionTitleText}" />
+                                <TextBlock Text="{Binding Localization.SignatureMethod}"
+                                           Margin="0,6,0,0"
+                                           TextWrapping="Wrap"
+                                           Style="{StaticResource MutedText}" />
+                            </StackPanel>
                             <TextBox Grid.Row="1"
                                      Margin="0,12,0,0"
                                      Style="{StaticResource ModernTextBox}"
@@ -279,7 +288,7 @@
                                      Text="{Binding Central.KeyTextAl2}"
                                      IsReadOnly="True" />
                             <Button Grid.Row="3"
-                                    Content="Generate keys"
+                                    Content="{Binding Localization.GenerateKeys}"
                                     Style="{StaticResource PrimaryButton}"
                                     Margin="0,12,0,0"
                                     HorizontalAlignment="Left"
@@ -289,7 +298,7 @@
                                      Style="{StaticResource ModernTextBox}"
                                      Text="{Binding Central.EnterTextS, Mode=TwoWay}" />
                             <Button Grid.Row="5"
-                                    Content="Generate signature"
+                                    Content="{Binding Localization.GenerateSignature}"
                                     Style="{StaticResource PrimaryButton}"
                                     Margin="0,14,0,0"
                                     HorizontalAlignment="Left"
@@ -313,7 +322,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Hash" Style="{StaticResource SectionTitleText}" />
+                                <TextBlock Text="{Binding Localization.Hash}" Style="{StaticResource SectionTitleText}" />
                                 <TextBox Grid.Row="1"
                                          Margin="0,12,0,0"
                                          Style="{StaticResource ModernTextBox}"
@@ -327,7 +336,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Signature / decrypted hash" Style="{StaticResource SectionTitleText}" />
+                                <TextBlock Text="{Binding Localization.SignatureDecryptedHash}" Style="{StaticResource SectionTitleText}" />
                                 <TextBox Grid.Row="1"
                                          Margin="0,12,0,0"
                                          Style="{StaticResource ModernTextBox}"
@@ -342,7 +351,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel>
-                                    <TextBlock Text="Verification" Style="{StaticResource SectionTitleText}" />
+                                    <TextBlock Text="{Binding Localization.Verification}" Style="{StaticResource SectionTitleText}" />
                                     <TextBlock Text="{Binding Central.TextResp}"
                                                Margin="0,18,0,0"
                                                FontSize="34"
@@ -350,16 +359,16 @@
                                                Foreground="{Binding Central.TextColor}" />
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <Button Content="Decrypt"
+                                    <Button Content="{Binding Central.SignatureDecryptButtonText}"
                                             Style="{StaticResource ModernButton}"
                                             Width="130"
                                             Command="{Binding Central.DecryptEncryptHashCommand}" />
-                                    <Button Content="Verify"
+                                    <Button Content="{Binding Localization.Verify}"
                                             Style="{StaticResource PrimaryButton}"
                                             Width="130"
                                             Margin="0,10,0,0"
                                             Command="{Binding Central.VerifySignatureCommand}" />
-                                    <Button Content="Copy"
+                                    <Button Content="{Binding Localization.Copy}"
                                             Style="{StaticResource SuccessButton}"
                                             Width="130"
                                             Margin="0,10,0,0"

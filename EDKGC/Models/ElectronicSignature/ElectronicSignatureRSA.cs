@@ -64,7 +64,7 @@ namespace EDKGC.Models.ElectronicSignature
         public string DecryptTextHash(byte[] encryptedText)
         {
             EncryptedText = encryptedText;
-            var nEncrypt = DecryptRSA.DecryptRsaToByte(EncryptedText, _keyPair, EKeyEff.Public);
+            var nEncrypt = DecryptRSA.DecryptRsaToByte(EncryptedText, _keyPair, EKeyEff.Private);
             if (nEncrypt == null) return null;
 
             DecryptHash = _encoding.GetString(nEncrypt);
@@ -76,9 +76,7 @@ namespace EDKGC.Models.ElectronicSignature
             string decryptedHash;
             try
             {
-                decryptedHash = signature == hash
-                    ? signature
-                    : DecryptTextHash(GetHexModString.GetStringToHexMod(signature));
+                decryptedHash = DecryptTextHash(GetHexModString.GetStringToHexMod(signature));
             }
             catch (ArgumentException)
             {

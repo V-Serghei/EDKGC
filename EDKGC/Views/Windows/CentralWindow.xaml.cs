@@ -30,5 +30,11 @@ namespace EDKGC.Views.Windows
             if (DataContext is ViewModelLocator locator && !string.IsNullOrEmpty(locator.Central.EncryptVerTextBoxS))
                 Clipboard.SetText(locator.Central.EncryptVerTextBoxS);
         }
+
+        private void BackToHome_Click(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show();
+            Close();
+        }
     }
 }

@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:EDKGC.ViewModel"
         xmlns:wpf1="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-        xmlns:valueConverter="clr-namespace:EDKGC.Infrastructure.Command.ValueConverter"
         mc:Ignorable="d"
         Title="ISO results"
         Width="980"
@@ -19,10 +18,6 @@
     <Window.DataContext>
         <viewModel:ViewModelLocator />
     </Window.DataContext>
-    <Window.Resources>
-        <valueConverter:RedTextConverter x:Key="RedTextConverter" />
-    </Window.Resources>
-
     <Grid Background="{StaticResource WindowGradientBrush}" Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="320" />
@@ -38,7 +33,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Threat levels" Style="{StaticResource SectionTitleText}" />
+                <TextBlock Text="{Binding Localization.ThreatLevels}" Style="{StaticResource SectionTitleText}" />
                 <ListView Grid.Row="1"
                           Margin="0,12,0,14"
                           Style="{StaticResource ModernListView}"
@@ -51,7 +46,12 @@
                     </ListView.ItemTemplate>
                 </ListView>
                 <wpf1:PieChart Grid.Row="2"
-                               Series="{Binding IsoViewModelInstance.ChartResult}" />
+                               Series="{Binding IsoViewModelInstance.ChartResult}">
+                    <wpf1:PieChart.DataTooltip>
+                        <wpf1:DefaultTooltip Background="#101827"
+                                             Foreground="{StaticResource TextBrush}" />
+                    </wpf1:PieChart.DataTooltip>
+                </wpf1:PieChart>
                 <TextBox Grid.Row="3"
                          Margin="0,14,0,0"
                          Style="{StaticResource ModernTextBox}"
@@ -67,7 +67,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="Recommendations" Style="{StaticResource SectionTitleText}" />
+                <TextBlock Text="{Binding Localization.Recommendations}" Style="{StaticResource SectionTitleText}" />
                 <RichTextBox Grid.Row="1"
                              Margin="0,12,0,0"
                              Background="#101827"
@@ -77,15 +77,9 @@
                              Padding="12"
                              IsReadOnly="True"
                              ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <FlowDocument>
+                    <FlowDocument Foreground="{StaticResource TextBrush}">
                         <Paragraph>
-                            <Run Text="{Binding IsoViewModelInstance.TextResult}">
-                                <Run.Foreground>
-                                    <Binding Path="Text"
-                                             RelativeSource="{RelativeSource Self}"
-                                             Converter="{StaticResource RedTextConverter}" />
-                                </Run.Foreground>
-                            </Run>
+                            <Run Text="{Binding IsoViewModelInstance.TextResult, Mode=OneWay}" />
                         </Paragraph>
                     </FlowDocument>
                 </RichTextBox>

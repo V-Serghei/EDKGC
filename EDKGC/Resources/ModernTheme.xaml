@@ -182,6 +182,8 @@
         </Setter>
     </Style>
 
+    <Style TargetType="TextBox" BasedOn="{StaticResource ModernTextBox}" />
+
     <Style x:Key="ModernComboBox" TargetType="ComboBox">
         <Setter Property="Background" Value="#101827" />
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
@@ -197,11 +199,11 @@
         <Setter Property="MinHeight" Value="30" />
         <Style.Triggers>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter Property="Background" Value="#263244" />
-                <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+                <Setter Property="Background" Value="#F8FAFC" />
+                <Setter Property="Foreground" Value="#061018" />
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#334155" />
+                <Setter Property="Background" Value="#164E63" />
                 <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
             </Trigger>
         </Style.Triggers>
@@ -217,8 +219,29 @@
 
     <Style x:Key="ModernMenuItem" TargetType="MenuItem">
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="Background" Value="#0F172A" />
         <Setter Property="Padding" Value="12,7" />
+        <Style.Resources>
+            <SolidColorBrush x:Key="{x:Static SystemColors.MenuBrushKey}" Color="#0F172A" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.MenuTextBrushKey}" Color="#E5E7EB" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#F8FAFC" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="#061018" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#0F172A" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="#E5E7EB" />
+        </Style.Resources>
+        <Style.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="#F8FAFC" />
+                <Setter Property="Foreground" Value="#061018" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource MutedTextBrush}" />
+                <Setter Property="Opacity" Value="0.8" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
+
+    <Style TargetType="MenuItem" BasedOn="{StaticResource ModernMenuItem}" />
 
     <Style x:Key="ModernTabControl" TargetType="TabControl">
         <Setter Property="Background" Value="Transparent" />
@@ -274,15 +297,37 @@
         <Setter Property="Padding" Value="2" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#263244" />
-                <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+                <Setter Property="Background" Value="#F8FAFC" />
+                <Setter Property="Foreground" Value="#061018" />
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#155E75" />
-                <Setter Property="Foreground" Value="#FFFFFF" />
+                <Setter Property="Background" Value="#164E63" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style x:Key="DataGridEditTextBox" TargetType="TextBox" BasedOn="{StaticResource ModernTextBox}">
+        <Setter Property="Background" Value="#101827" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSoft}" />
+        <Setter Property="Padding" Value="6" />
+        <Setter Property="TextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="DataGridComboBox" TargetType="ComboBox" BasedOn="{StaticResource ModernComboBox}">
+        <Setter Property="Background" Value="#101827" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSoft}" />
+    </Style>
+
+    <Style x:Key="DataGridTextElement" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Padding" Value="4,0" />
+    </Style>
+
+    <Style x:Key="DataGridTextEditingElement" TargetType="TextBox" BasedOn="{StaticResource DataGridEditTextBox}" />
 
     <Style x:Key="ModernProgressBar" TargetType="ProgressBar">
         <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
@@ -299,5 +344,51 @@
         <Setter Property="RowBackground" Value="#101827" />
         <Setter Property="AlternatingRowBackground" Value="#162235" />
         <Setter Property="HeadersVisibility" Value="Column" />
+    </Style>
+
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="#0F172A" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSoft}" />
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <Style TargetType="DataGridRow">
+        <Setter Property="Background" Value="#101827" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Style.Triggers>
+            <Trigger Property="AlternationIndex" Value="1">
+                <Setter Property="Background" Value="#162235" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#164E63" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="DataGridCell">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSoft}" />
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <Setter Property="Padding" Value="8,4" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#164E63" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="RichTextBox">
+        <Setter Property="Background" Value="#101827" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSoft}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="12" />
+        <Setter Property="SelectionBrush" Value="{StaticResource AccentBrush}" />
     </Style>
 </ResourceDictionary>

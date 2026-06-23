@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using EDKGC.ViewModel;
 
 namespace EDKGC.Views.Windows
 {
@@ -34,14 +35,10 @@ namespace EDKGC.Views.Windows
 
         private void BasicInformation_Click(object sender, RoutedEventArgs e)
         {
+            var locator = Application.Current.Resources["Locator"] as ViewModelLocator;
             MessageBox.Show(
-                "EDKGC modules:\n\n" +
-                "Symmetric encryption: AES, DES, 3DES, Blowfish, Twofish, Serpent.\n" +
-                "Asymmetric encryption: RSA demo with public/private key switching.\n" +
-                "Signing: hash generation, RSA signature, decrypt and verify flow.\n" +
-                "ISO 27001: questionnaire and risk analysis tools.\n\n" +
-                "Note: RSA can encrypt only short messages directly. For long text, encrypt a hash or a symmetric key.",
-                "Basic information",
+                locator?.Localization.BasicInfoMessage ?? "EDKGC modules",
+                locator?.Localization.BasicInformation ?? "Basic information",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
         }

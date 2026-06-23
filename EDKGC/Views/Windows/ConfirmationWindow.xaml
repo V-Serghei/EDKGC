@@ -33,9 +33,9 @@
                     </Grid.ColumnDefinitions>
                     <Image Source="../../Resources/questionW.ico" Width="30" Height="30" Margin="0,2,14,0" />
                     <StackPanel Grid.Column="1">
-                        <TextBlock Text="Are you sure you want to leave?"
+                        <TextBlock Text="{Binding Source={StaticResource Locator}, Path=Localization.ConfirmLeaveTitle}"
                                    Style="{StaticResource SectionTitleText}" />
-                        <TextBlock Text="Unsaved data in the current workflow may be lost."
+                        <TextBlock Text="{Binding Source={StaticResource Locator}, Path=Localization.ConfirmLeaveText}"
                                    Margin="0,6,0,0"
                                    TextWrapping="Wrap"
                                    Foreground="{StaticResource TextBrush}" />
@@ -43,10 +43,10 @@
                 </Grid>
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,22,0,0">
-                    <Button Content="Come back"
+                    <Button Content="{Binding Source={StaticResource Locator}, Path=Localization.ComeBack}"
                             Style="{StaticResource ModernButton}"
                             Command="{Binding NoCommand}" />
-                    <Button Content="Yes"
+                    <Button Content="{Binding Source={StaticResource Locator}, Path=Localization.Yes}"
                             Style="{StaticResource DangerButton}"
                             Margin="10,0,0,0"
                             Command="{Binding YesCommand}" />

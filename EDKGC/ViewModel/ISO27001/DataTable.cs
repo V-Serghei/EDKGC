@@ -36,17 +36,26 @@ namespace EDKGC.ViewModel.ISO27001
         public double SLE
         {
             get => _sle;
-            set { _sle = value; NotifyPropertyChanged(nameof(SLE)); }
+            set
+            {
+                if (value < 0) value = 0;
+                _sle = value;
+                NotifyPropertyChanged(nameof(SLE));
+                CalculateAle();
+            }
         }
 
         public double EF
         {
-            get
+            get => _ef;
+            set
             {
-                if (_ef == 0 || _sle == 0) return 0;
-                return _ef < _sle ? ((_sle / _ef) / 100) : (_ef / _sle);
+                if (value < 0) value = 0;
+                if (value > 1) value = 1;
+                _ef = value;
+                NotifyPropertyChanged(nameof(EF));
+                CalculateAle();
             }
-            set { _ef = value; NotifyPropertyChanged(nameof(EF)); }
         }
 
         public RateOfOccurrence RateOfOccurrence
@@ -69,7 +78,7 @@ namespace EDKGC.ViewModel.ISO27001
 
         public double ARO
         {
-            get => _aro / 100;
+            get => _aro;
             set { _aro = value; NotifyPropertyChanged(nameof(ARO)); CalculateAle(); }
         }
 
@@ -90,23 +99,23 @@ namespace EDKGC.ViewModel.ISO27001
                 _rateOfOccurrence.FirstValue == 0 ||
                 _rateOfOccurrence.SecondValue == 0)
                 return;
-
-            // Unit "лет" (years): ARO = occurrences / years * 100
-            // Unit "месяц" (months): convert second value to months first
-            bool isYears = _rateOfOccurrence.Unit?.Contains("лет") == true;
+            // Annualized Rate of Occurrence: expected number of events per year.
+            bool isYears = _rateOfOccurrence.Unit == "Years" ||
+                           _rateOfOccurrence.Unit?.Contains("\u043B\u0435\u0442") == true ||
+                           _rateOfOccurrence.Unit?.Contains("year") == true;
             if (isYears)
             {
-                ARO = (double)(_rateOfOccurrence.FirstValue * 100) / _rateOfOccurrence.SecondValue;
+                ARO = (double)_rateOfOccurrence.FirstValue / _rateOfOccurrence.SecondValue;
             }
             else
             {
-                ARO = (_rateOfOccurrence.FirstValue * 100) / ((double)_rateOfOccurrence.SecondValue / 12);
+                ARO = _rateOfOccurrence.FirstValue / ((double)_rateOfOccurrence.SecondValue / 12);
             }
         }
 
         private void CalculateAle()
         {
-            ALE = ARO * _ef;
+            ALE = SLE * EF * ARO;
         }
     }
 
@@ -116,23 +125,35 @@ namespace EDKGC.ViewModel.ISO27001
         private int _secondValue;
         private string _unit;
 
+        public RateOfOccurrence()
+        {
+            _unit = "Years";
+        }
+
         public int FirstValue
         {
             get => _firstValue;
-            set { _firstValue = value; NotifyPropertyChanged(nameof(FirstValue)); }
+            set { _firstValue = value < 0 ? 0 : value; NotifyPropertyChanged(nameof(FirstValue)); }
         }
 
         public int SecondValue
         {
             get => _secondValue;
-            set { _secondValue = value; NotifyPropertyChanged(nameof(SecondValue)); }
+            set { _secondValue = value < 0 ? 0 : value; NotifyPropertyChanged(nameof(SecondValue)); }
         }
 
         public string Unit
         {
             get => _unit;
-            set { _unit = value; NotifyPropertyChanged(nameof(Unit)); }
+            set
+            {
+                _unit = value;
+                NotifyPropertyChanged(nameof(Unit));
+                NotifyPropertyChanged(nameof(UnitText));
+            }
         }
+
+        public string UnitText => Unit == "Months" ? "months" : "years";
 
         public event PropertyChangedEventHandler PropertyChanged;
 

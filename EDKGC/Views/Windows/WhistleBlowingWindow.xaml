@@ -24,7 +24,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="ISO 27001 overview" Style="{StaticResource SectionTitleText}" />
+                <TextBlock Text="{Binding Localization.IsoOverview}" Style="{StaticResource SectionTitleText}" />
                 <TextBox Grid.Row="1"
                          Margin="0,12,0,0"
                          Style="{StaticResource ModernTextBox}"

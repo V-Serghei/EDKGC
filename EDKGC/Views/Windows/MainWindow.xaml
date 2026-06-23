@@ -17,7 +17,6 @@
     <Grid Background="{StaticResource WindowGradientBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid Margin="36">
@@ -31,7 +30,7 @@
                            FontSize="52"
                            FontWeight="Bold"
                            Foreground="{StaticResource TextBrush}" />
-                <TextBlock Text="Encryptor / Decryptor / Key Generator / Cracker"
+                <TextBlock Text="{Binding Localization.AppSubtitle}"
                            Margin="2,4,0,0"
                            FontSize="17"
                            Foreground="{StaticResource MutedTextBrush}" />
@@ -51,11 +50,11 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel>
-                            <TextBlock Text="Cryptography workspace"
+                            <TextBlock Text="{Binding Localization.CryptographyWorkspace}"
                                        FontSize="28"
                                        FontWeight="SemiBold"
                                        Foreground="{StaticResource TextBrush}" />
-                            <TextBlock Text="Work with symmetric algorithms, RSA, signatures, and ISO risk analysis in one focused desktop tool."
+                            <TextBlock Text="{Binding Localization.CentralWorkspaceDescription}"
                                        Margin="0,14,0,0"
                                        Width="520"
                                        HorizontalAlignment="Left"
@@ -66,13 +65,13 @@
                         </StackPanel>
 
                         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,32,0,0">
-                            <Button Content="Start"
+                            <Button Content="{Binding Localization.Start}"
                                     Style="{StaticResource PrimaryButton}"
                                     Width="150"
                                     Height="44"
                                     Command="{Binding Main.ShowButtonsCommand}"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
-                            <Button Content="Exit"
+                            <Button Content="{Binding Localization.Exit}"
                                     Style="{StaticResource ModernButton}"
                                     Width="120"
                                     Height="44"
@@ -95,13 +94,13 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Central workspace" Style="{StaticResource SectionTitleText}" />
+                            <TextBlock Text="{Binding Localization.CentralWorkspace}" Style="{StaticResource SectionTitleText}" />
                             <TextBlock Grid.Row="1"
-                                       Text="Open encryption, RSA, and signature tools."
+                                       Text="{Binding Localization.CentralWorkspaceDescription}"
                                        Margin="0,6,0,16"
                                        Style="{StaticResource MutedText}" />
                             <Button Grid.Row="2"
-                                    Content="Open"
+                                    Content="{Binding Localization.Open}"
                                     Style="{StaticResource PrimaryButton}"
                                     Click="Button_Click" />
                         </Grid>
@@ -116,11 +115,11 @@
                             </Grid.RowDefinitions>
                             <TextBlock Text="ISO 27001" Style="{StaticResource SectionTitleText}" />
                             <TextBlock Grid.Row="1"
-                                       Text="Answer controls and estimate risk exposure."
+                                       Text="{Binding Localization.IsoDescription}"
                                        Margin="0,6,0,16"
                                        Style="{StaticResource MutedText}" />
                             <Button Grid.Row="2"
-                                    Content="Open"
+                                    Content="{Binding Localization.Open}"
                                     Style="{StaticResource ModernButton}"
                                     Click="Button_Click_Iso" />
                         </Grid>
@@ -133,13 +132,13 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Basic information" Style="{StaticResource SectionTitleText}" />
+                            <TextBlock Text="{Binding Localization.BasicInformation}" Style="{StaticResource SectionTitleText}" />
                             <TextBlock Grid.Row="1"
-                                       Text="Documentation area reserved for the next iteration."
+                                       Text="{Binding Localization.BasicInformationDescription}"
                                        Margin="0,6,0,16"
                                        Style="{StaticResource MutedText}" />
                             <Button Grid.Row="2"
-                                    Content="Open"
+                                    Content="{Binding Localization.Open}"
                                     Style="{StaticResource ModernButton}"
                                     Click="BasicInformation_Click" />
                         </Grid>
@@ -149,10 +148,5 @@
             </Grid>
         </Grid>
 
-        <StatusBar Grid.Row="1" Height="28" Background="#0F172A" Foreground="{StaticResource TextBrush}">
-            <StatusBarItem>
-                <TextBlock Text="{Binding Central.Status}" />
-            </StatusBarItem>
-        </StatusBar>
     </Grid>
 </Window>
