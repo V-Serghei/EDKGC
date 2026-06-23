@@ -17,7 +17,7 @@ namespace EDKGC.Models
 
         public byte[] GenKeyAesAlg()
         {
-            Key = new GenerateKeyAes().GenerateAesKey(128);
+            Key = GenerateKeyAes.GenerateAesKey(128);
             return Key;
         }
 
@@ -27,14 +27,14 @@ namespace EDKGC.Models
             if (Key == null) GenKeyAesAlg();
             EnterText = entText;
             ResKey = Key?.ToArray();
-            EncryptedText = new EncryptAes().Encrypt(_encoding.GetBytes(EnterText), Key);
+            EncryptedText = EncryptAes.Encrypt(_encoding.GetBytes(EnterText), Key);
             return EncryptedText;
         }
 
         public byte[] EncryptingCbc(string entText)
         {
             EnterText = entText;
-            EncryptedText = new EncryptAes().EncryptIV(Convert.FromBase64String(EnterText), Key, IV);
+            EncryptedText = EncryptAes.EncryptIv(Convert.FromBase64String(EnterText), Key);
             return EncryptedText;
         }
 
@@ -42,7 +42,7 @@ namespace EDKGC.Models
         {
             if (Key == null || ResKey == null || !Key.SequenceEqual(ResKey))
                 return null;
-            return new DecryptAes().Decrypt(EncryptedText, Key);
+            return DecryptAes.Decrypt(EncryptedText, Key);
         }
     }
 }

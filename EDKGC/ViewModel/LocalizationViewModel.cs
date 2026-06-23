@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using EDKGC.Infrastructure.Command;
 using Newtonsoft.Json;
+using IoFile = System.IO.File;
 
 namespace EDKGC.ViewModel
 {
@@ -54,13 +55,13 @@ namespace EDKGC.ViewModel
             string fileName = IsEnglish ? "ui.en.json" : "ui.ru.json";
             string path = Path.Combine(AppContext.BaseDirectory, "Data", "Localization", fileName);
 
-            if (!System.IO.File.Exists(path))
+            if (!IoFile.Exists(path))
             {
                 _strings = new Dictionary<string, string>();
                 return;
             }
 
-            string json = System.IO.File.ReadAllText(path);
+            string json = IoFile.ReadAllText(path);
             _strings = JsonConvert.DeserializeObject<Dictionary<string, string>>(json)
                        ?? new Dictionary<string, string>();
         }

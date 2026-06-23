@@ -3,7 +3,7 @@ using System.Text;
 
 namespace EDKGC.Encryption.GeneralTools
 {
-    public class GenHash
+    public static class GenHash
     {
         public static byte[] GenHashText(string enterText)
         {

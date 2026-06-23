@@ -3,9 +3,9 @@ using System.Security.Cryptography;
 
 namespace EDKGC.Encryption.AES
 {
-    public class DecryptAes
+    public static class DecryptAes
     {
-        public byte[] Decrypt(byte[] cipherText, byte[] key)
+        public static byte[] Decrypt(byte[] cipherText, byte[] key)
         {
             using (Aes aes = Aes.Create())
             {
@@ -19,7 +19,7 @@ namespace EDKGC.Encryption.AES
             }
         }
 
-        public byte[] DecryptCBC(byte[] cipherText, byte[] key, byte[] iv)
+        public static byte[] DecryptCbc(byte[] cipherText, byte[] key, byte[] iv)
         {
             using (Aes aes = Aes.Create())
             {

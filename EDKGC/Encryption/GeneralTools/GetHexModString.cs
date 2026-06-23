@@ -4,7 +4,8 @@ using System.Text;
 
 namespace EDKGC.Encryption.GeneralTools
 {
-    public class GetHexModString
+    // ReSharper disable LocalizableElement
+    public static class GetHexModString
     {
         public static string GetHexModToString(byte[] byteM)
         {

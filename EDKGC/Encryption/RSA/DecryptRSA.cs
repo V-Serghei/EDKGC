@@ -5,18 +5,18 @@ using Org.BouncyCastle.Security;
 
 namespace EDKGC.Encryption.RSA
 {
-    public class DecryptRSA
+    public static class DecryptRsa
     {
-        static readonly Encoding _encoding = Encoding.UTF8;
+        private static readonly Encoding Encoding = System.Text.Encoding.UTF8;
 
-        public static string DecryptRsaT(byte[] encryptedBytes, AsymmetricCipherKeyPair _keyPair, EKeyEff stat)
+        public static string DecryptRsaT(byte[] encryptedBytes, AsymmetricCipherKeyPair keyPair, EKeyEff stat)
         {
             try
             {
                 var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
-                if (stat == EKeyEff.Public) cipher.Init(false, _keyPair.Private);
-                if (stat == EKeyEff.Private) cipher.Init(false, _keyPair.Public);
-                return _encoding.GetString(cipher.DoFinal(encryptedBytes));
+                if (stat == EKeyEff.Public) cipher.Init(false, keyPair.Private);
+                if (stat == EKeyEff.Private) cipher.Init(false, keyPair.Public);
+                return Encoding.GetString(cipher.DoFinal(encryptedBytes));
             }
             catch (InvalidCipherTextException)
             {
@@ -24,13 +24,13 @@ namespace EDKGC.Encryption.RSA
             }
         }
 
-        public static byte[] DecryptRsaToByte(byte[] encryptedBytes, AsymmetricCipherKeyPair _keyPair, EKeyEff stat)
+        public static byte[] DecryptRsaToByte(byte[] encryptedBytes, AsymmetricCipherKeyPair keyPair, EKeyEff stat)
         {
             try
             {
                 var cipher = CipherUtilities.GetCipher("RSA/NONE/PKCS1Padding");
-                if (stat == EKeyEff.Public) cipher.Init(false, _keyPair.Private);
-                if (stat == EKeyEff.Private) cipher.Init(false, _keyPair.Public);
+                if (stat == EKeyEff.Public) cipher.Init(false, keyPair.Private);
+                if (stat == EKeyEff.Private) cipher.Init(false, keyPair.Public);
                 return cipher.DoFinal(encryptedBytes);
             }
             catch (InvalidCipherTextException)

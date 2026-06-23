@@ -196,15 +196,16 @@
                                      Style="{StaticResource ModernTextBox}"
                                      Text="{Binding Central.KeyTextAl2}"
                                      IsReadOnly="True" />
-                            <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,12,0,0">
+                            <UniformGrid Grid.Row="4" Columns="2" Margin="0,12,0,0">
                                 <Button Content="{Binding Localization.GenerateKey}"
                                         Style="{StaticResource PrimaryButton}"
+                                        Margin="0,0,5,0"
                                         Command="{Binding Central.GenKeyAsymmetrical2Command}" />
                                 <Button Content="{Binding Central.KeyEncState}"
                                         Style="{StaticResource ModernButton}"
-                                        Margin="10,0,0,0"
+                                        Margin="5,0,0,0"
                                         Command="{Binding Central.SwapKeyCommand}" />
-                            </StackPanel>
+                            </UniformGrid>
                             <TextBox Grid.Row="5"
                                      Margin="0,16,0,0"
                                      Style="{StaticResource ModernTextBox}"

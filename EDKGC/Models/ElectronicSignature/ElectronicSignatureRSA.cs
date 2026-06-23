@@ -48,7 +48,7 @@ namespace EDKGC.Models.ElectronicSignature
             if (HashBytes == null)
                 GenHashPrivKey(enterTextH);
 
-            var text = EncryptRSA.EncryptTextBytes(HashBytes, _keyPair, EKeyEff.Private);
+            var text = EncryptRsa.EncryptTextBytes(HashBytes, _keyPair, EKeyEff.Private);
             if (text == null) return null;
 
             EncryptedText = text;
@@ -64,7 +64,7 @@ namespace EDKGC.Models.ElectronicSignature
         public string DecryptTextHash(byte[] encryptedText)
         {
             EncryptedText = encryptedText;
-            var nEncrypt = DecryptRSA.DecryptRsaToByte(EncryptedText, _keyPair, EKeyEff.Private);
+            var nEncrypt = DecryptRsa.DecryptRsaToByte(EncryptedText, _keyPair, EKeyEff.Private);
             if (nEncrypt == null) return null;
 
             DecryptHash = _encoding.GetString(nEncrypt);

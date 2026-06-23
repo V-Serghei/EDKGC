@@ -5,7 +5,7 @@ using Org.BouncyCastle.Crypto.Parameters;
 
 namespace EDKGC.Encryption.GeneralTools
 {
-    public class BlockCipherTools
+    public static class BlockCipherTools
     {
         public static byte[] EncryptEbc(byte[] enterText, byte[] key, IBlockCipher engine)
         {
