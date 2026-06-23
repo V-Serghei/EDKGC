@@ -14,7 +14,7 @@ A WPF desktop application for learning cryptographic algorithms and conducting I
 
 - C# / WPF — **net8.0-windows** (SDK-style project)
 - MVVM architecture (MvvmLightLibs + CommunityToolkit.Mvvm)
-- NuGet: BouncyCastle.Cryptography, System.Text.Json, MaterialDesignThemes, LiveCharts, OxyPlot, FontAwesome5
+- NuGet: BouncyCastle.Cryptography 2.6.2, MaterialDesignThemes 5.3.2, CommunityToolkit.Mvvm 8.4.2, LiveCharts 0.9.7, OxyPlot 2.2.0, FontAwesome5, Newtonsoft.Json 13.0.4
 
 ## Project Structure
 

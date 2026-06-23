@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EDKGC.Encryption.DES
 {
@@ -11,7 +6,7 @@ namespace EDKGC.Encryption.DES
     {
         public static byte[] GenKeyDes()
         {
-            using (var des = new DESCryptoServiceProvider())
+            using (var des = System.Security.Cryptography.DES.Create())
             {
                 des.GenerateKey();
                 return des.Key;
@@ -20,14 +15,9 @@ namespace EDKGC.Encryption.DES
 
         public static byte[] GenIv()
         {
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                byte[] iv = new byte[8]; 
-                rng.GetBytes(iv);
-                return iv;
-            }
-
+            byte[] iv = new byte[8];
+            RandomNumberGenerator.Fill(iv);
+            return iv;
         }
-
     }
 }

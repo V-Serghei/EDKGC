@@ -11,7 +11,7 @@ namespace EDKGC.Encryption.DES
     {
         public static byte[] EncryptDesEbc(byte[] enterText, byte[] key)
         {
-            using (var des = new DESCryptoServiceProvider())
+            using (var des = System.Security.Cryptography.DES.Create())
             {
                 des.Key = key;
                 des.Mode = CipherMode.ECB; 
@@ -31,7 +31,7 @@ namespace EDKGC.Encryption.DES
         }
         public static byte[] EncryptDesCbc(byte[] plainText, byte[] key, byte[] iv)
         {
-            using (var des = new DESCryptoServiceProvider())
+            using (var des = System.Security.Cryptography.DES.Create())
             {
                 des.Key = key;
                 des.IV = iv;
