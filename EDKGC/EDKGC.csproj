@@ -32,6 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- Copy seed data to output so the app can read it at runtime -->
     <None Update="Data\Seed\ISOQuestion.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

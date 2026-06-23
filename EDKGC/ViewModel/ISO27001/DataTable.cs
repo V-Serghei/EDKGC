@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EDKGC.ViewModel.ISO27001
 {
@@ -21,52 +16,37 @@ namespace EDKGC.ViewModel.ISO27001
             _rateOfOccurrence = new RateOfOccurrence();
             _rateOfOccurrence.PropertyChanged += RateOfOccurrence_PropertyChanged;
         }
+
         private void RateOfOccurrence_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(RateOfOccurrence.FirstValue) || e.PropertyName == nameof(RateOfOccurrence.SecondValue) || e.PropertyName == nameof(RateOfOccurrence.Unit))
+            if (e.PropertyName == nameof(RateOfOccurrence.FirstValue) ||
+                e.PropertyName == nameof(RateOfOccurrence.SecondValue) ||
+                e.PropertyName == nameof(RateOfOccurrence.Unit))
             {
                 CalculateAro();
             }
         }
+
         public string ThreatEvent
         {
             get => _threatEvent;
-            set
-            {
-                _threatEvent = value;
-                NotifyPropertyChanged(nameof(ThreatEvent));
-            }
+            set { _threatEvent = value; NotifyPropertyChanged(nameof(ThreatEvent)); }
         }
 
         public double SLE
         {
             get => _sle;
-            set
-            {
-                _sle = value;
-                NotifyPropertyChanged(nameof(SLE));
-            }
+            set { _sle = value; NotifyPropertyChanged(nameof(SLE)); }
         }
 
         public double EF
         {
             get
             {
-                if (_ef < SLE)
-                {
-                    return (SLE / _ef)/100;
-
-                }
-                else
-                {
-                    return (_ef / SLE);
-                }
+                if (_ef == 0 || _sle == 0) return 0;
+                return _ef < _sle ? ((_sle / _ef) / 100) : (_ef / _sle);
             }
-            set
-            {
-                _ef = value;
-                NotifyPropertyChanged(nameof(EF));
-            }
+            set { _ef = value; NotifyPropertyChanged(nameof(EF)); }
         }
 
         public RateOfOccurrence RateOfOccurrence
@@ -75,90 +55,59 @@ namespace EDKGC.ViewModel.ISO27001
             set
             {
                 if (_rateOfOccurrence != null)
-                {
                     _rateOfOccurrence.PropertyChanged -= RateOfOccurrence_PropertyChanged;
-                }
 
                 _rateOfOccurrence = value;
 
                 if (_rateOfOccurrence != null)
-                {
                     _rateOfOccurrence.PropertyChanged += RateOfOccurrence_PropertyChanged;
-                }
 
                 NotifyPropertyChanged(nameof(RateOfOccurrence));
                 CalculateAro();
             }
         }
 
-
         public double ARO
         {
-            get => _aro/100;
-            set
-            {
-                _aro = value;
-                NotifyPropertyChanged(nameof(ARO));
-                CalculateAle();
-            }
+            get => _aro / 100;
+            set { _aro = value; NotifyPropertyChanged(nameof(ARO)); CalculateAle(); }
         }
 
         public double ALE
         {
             get => _ale;
-            set
-            {
-                _ale = value;
-                NotifyPropertyChanged(nameof(ALE));
-            }
+            set { _ale = value; NotifyPropertyChanged(nameof(ALE)); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged(string propertyName)
-        {
+        private void NotifyPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+
         public void CalculateAro()
         {
-            if (_rateOfOccurrence.Unit == "System.Windows.Controls.ComboBoxItem: лет")
+            if (_rateOfOccurrence == null ||
+                _rateOfOccurrence.FirstValue == 0 ||
+                _rateOfOccurrence.SecondValue == 0)
+                return;
+
+            // Unit "лет" (years): ARO = occurrences / years * 100
+            // Unit "месяц" (months): convert second value to months first
+            bool isYears = _rateOfOccurrence.Unit?.Contains("лет") == true;
+            if (isYears)
             {
-                if (_rateOfOccurrence != null && _rateOfOccurrence.FirstValue != 0 &&
-                    _rateOfOccurrence.SecondValue != 0)
-                {
-                    var percentage = (double)(_rateOfOccurrence.FirstValue * 100) / _rateOfOccurrence.SecondValue;
-                    ARO = percentage;
-                }
+                ARO = (double)(_rateOfOccurrence.FirstValue * 100) / _rateOfOccurrence.SecondValue;
             }
             else
             {
-                if (_rateOfOccurrence != null && _rateOfOccurrence.FirstValue!=0 && _rateOfOccurrence.SecondValue!=0)
-                {
-                    var percentage = (double)((_rateOfOccurrence.FirstValue * 100) /(double) ((double)_rateOfOccurrence.SecondValue/12));
-
-                    ARO = percentage;
-                }
+                ARO = (_rateOfOccurrence.FirstValue * 100) / ((double)_rateOfOccurrence.SecondValue / 12);
             }
-           
         }
 
         private void CalculateAle()
         {
-            try
-            {
-                    ALE = (ARO * _ef);
-
-                
-            }
-            catch (Exception e)
-            {
-                ALE = 0;
-                Console.WriteLine(e);
-                throw;
-            }
-           
+            ALE = ARO * _ef;
         }
-
     }
 
     public class RateOfOccurrence : INotifyPropertyChanged
@@ -170,39 +119,24 @@ namespace EDKGC.ViewModel.ISO27001
         public int FirstValue
         {
             get => _firstValue;
-            set
-            {
-                _firstValue = value;
-                NotifyPropertyChanged(nameof(FirstValue));
-            }
+            set { _firstValue = value; NotifyPropertyChanged(nameof(FirstValue)); }
         }
 
         public int SecondValue
         {
             get => _secondValue;
-            set
-            {
-                _secondValue = value;
-                NotifyPropertyChanged(nameof(SecondValue));
-            }
+            set { _secondValue = value; NotifyPropertyChanged(nameof(SecondValue)); }
         }
 
         public string Unit
         {
             get => _unit;
-            set
-            {
-                _unit = value;
-                NotifyPropertyChanged(nameof(Unit));
-
-            }
+            set { _unit = value; NotifyPropertyChanged(nameof(Unit)); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged(string propertyName)
-        {
+        private void NotifyPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

@@ -15,7 +15,6 @@ using EDKGC.Models.AsymmetricAlgorithms;
 using EDKGC.Models.ElectronicSignature;
 using EDKGC.Models.SymmetricEncryption;
 using GalaSoft.MvvmLight;
-using Org.BouncyCastle.Utilities;
 
 //TODO:Review all input variations and protect against critical errors.
 //Testing is required
@@ -35,7 +34,7 @@ namespace EDKGC.ViewModel.CentralSolutions
         /// And
         /// Encoding
         /// </summary>
-        readonly Encoding _encoding = Encoding.Default;
+        readonly Encoding _encoding = Encoding.UTF8;
 
         private RsaAsymmetricalAlModel _rsaAsymmetricalAlModel;
 
@@ -386,12 +385,7 @@ namespace EDKGC.ViewModel.CentralSolutions
         public string Title
         {
             get => _title;
-            set =>
-                //if(Equals(_title,value))return;
-                //_title = value;
-                //RaisePropertyChanged(nameof(Title));
-                Set(ref _title, value);
-
+            set => Set(ref _title, value);
         }
 
         #endregion
@@ -779,9 +773,5 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         #endregion
 
-        public void Dispose()
-        {
-           
-        }
     }
 }

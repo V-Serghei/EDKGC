@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using EDKGC.Encryption.DES;
 
 namespace EDKGC.Models.SymmetricEncryption
 {
     public class DESsymmetricEncryption
     {
-        readonly Encoding _encoding = Encoding.Default;
+        readonly Encoding _encoding = Encoding.UTF8;
 
         public byte[] Key { get; set; }
-
         public byte[] ResKey { get; set; }
-
         public string EnterText { get; set; }
-
         public byte[] EncryptedText { get; set; }
-
         public byte[] IV { get; set; }
 
         public DESsymmetricEncryption()
@@ -40,44 +33,31 @@ namespace EDKGC.Models.SymmetricEncryption
         public byte[] GetEncryptTextEdc(string notEncryptText)
         {
             EnterText = notEncryptText;
-            var byteText = _encoding.GetBytes(notEncryptText);
-            ResKey = Key;
-            EncryptedText = EncryptDes.EncryptDesEbc(byteText, Key);
+            ResKey = Key?.ToArray();
+            EncryptedText = EncryptDes.EncryptDesEbc(_encoding.GetBytes(notEncryptText), Key);
             return EncryptedText;
         }
+
         public byte[] GetEncryptTextCbc(string notEncryptText)
         {
             EnterText = notEncryptText;
-            var byteText = _encoding.GetBytes(notEncryptText);
-            ResKey = Key;
-            EncryptedText = EncryptDes.EncryptDesCbc(byteText, Key,IV);
+            ResKey = Key?.ToArray();
+            EncryptedText = EncryptDes.EncryptDesCbc(_encoding.GetBytes(notEncryptText), Key, IV);
             return EncryptedText;
         }
 
         public string GetDecryptTextEbc(string encryptText)
         {
-            if (ResKey == Key)
-            {
-                var byteText = EncryptedText;
-                return DecryptDes.DecryptEbc(byteText, Key);
-
-            }
-            else return null;
-
-
+            if (Key == null || ResKey == null || !Key.SequenceEqual(ResKey))
+                return null;
+            return DecryptDes.DecryptEbc(EncryptedText, Key);
         }
 
         public string GetDecryptTextCbc(string encryptText)
         {
-            if (ResKey == Key)
-            {
-                var byteText = _encoding.GetBytes(encryptText);
-                return DecryptDes.DecryptCbc(byteText, Key,IV);
-
-            }
-            else return null;
-
-
+            if (Key == null || ResKey == null || !Key.SequenceEqual(ResKey))
+                return null;
+            return DecryptDes.DecryptCbc(_encoding.GetBytes(encryptText), Key, IV);
         }
     }
 }

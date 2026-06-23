@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using EDKGC.Enams;
+using EDKGC.Infrastructure.Command;
 using EDKGC.Infrastructure.Command.BasicCommands;
 using EDKGC.Models.ISO27001;
 using EDKGC.ViewModel.SatelliteWindows;
@@ -143,11 +144,11 @@ namespace EDKGC.ViewModel.ISO27001
 
 
 
-            RespYesCommand = new RelayCommand(ResolveYesCommand);
+            RespYesCommand = new LCommand(ResolveYesCommand);
 
-            RespNoCommand = new RelayCommand(ResolveNoCommand);
+            RespNoCommand = new LCommand(ResolveNoCommand);
 
-            RespDonTKnowCommand = new RelayCommand(ResolveDonTKnowCommand);
+            RespDonTKnowCommand = new LCommand(ResolveDonTKnowCommand);
 
             CurrentQuestion = Question[CurrentIndex];
 
@@ -527,65 +528,6 @@ namespace EDKGC.ViewModel.ISO27001
             get=> _textResult;
             set=> Set(ref _textResult, value);
         }
-
-        //  private void CurrUpdateResult()
-        //{
-        //    if (SelectedItemMiniCommand == Items[0])
-        //    {
-        //        foreach (var questionModel in Question)
-        //        {
-        //            if (questionModel.Resolved == Answer.No || questionModel.Resolved == Answer.None)
-        //            {
-        //                if (questionModel.Quality == Quality.Low)
-        //                {
-        //                    TextResult = "!!!" + questionModel.Title + "!!!\n" + questionModel.RespNeg + "\n";
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    else if (SelectedItemMiniCommand == Items[1])
-        //    {
-        //        foreach (var questionModel in Question)
-        //        {
-        //            if (questionModel.Resolved == Answer.No || questionModel.Resolved == Answer.None)
-        //            {
-        //                if (questionModel.Quality == Quality.Medium)
-        //                {
-        //                    TextResult = "!!!" + questionModel.Title + "!!!\n" + questionModel.RespNeg + "\n";
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    else if (SelectedItemMiniCommand == Items[2])
-        //    {
-        //        foreach (var questionModel in Question)
-        //        {
-        //            if (questionModel.Resolved == Answer.No || questionModel.Resolved == Answer.None)
-        //            {
-        //                if (questionModel.Quality == Quality.High)
-        //                {
-        //                    TextResult = "!!!" + questionModel.Title + "!!!\n" + questionModel.RespNeg + "\n";
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    else if (SelectedItemMiniCommand == Items[3])
-        //    {
-        //        foreach (var questionModel in Question)
-        //        {
-        //            if (questionModel.Resolved == Answer.No || questionModel.Resolved == Answer.None)
-        //            {
-        //                if (questionModel.Quality == Quality.Critical)
-        //                {
-        //                    TextResult = "!!!" + questionModel.Title + "!!!\n" + questionModel.RespNeg +"\n";
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
 
         private void CurrUpdateResult()
         {

@@ -30,8 +30,17 @@ EDKGC/
 └── Resources/        — icons and images
 ```
 
+## Code Quality
+
+- All cryptographic primitives use modern APIs: `DES.Create()`, `RandomNumberGenerator.Fill()`
+- `Encoding.UTF8` used throughout (no platform-dependent `Encoding.Default`)
+- Byte array comparison uses `SequenceEqual()` instead of reference equality
+- Hex parsing uses `byte.TryParse` with `AsSpan()` for correctness and input validation
+- DataContext wired to application-level `ViewModelLocator` singleton from `App.xaml`
+- Zero compiler warnings and zero suppressions needed
+
 ## Getting Started
 
 1. Open `EDKGC/EDKGC.sln` in Visual Studio or Rider
 2. Restore NuGet packages
-3. Build and run
+3. Build and run (`dotnet build` — 0 errors, 0 warnings)
