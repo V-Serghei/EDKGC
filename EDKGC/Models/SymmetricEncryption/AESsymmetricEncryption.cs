@@ -24,6 +24,7 @@ namespace EDKGC.Models
         public byte[] Encrypting(string entText)
         {
             if (entText == null) return null;
+            if (Key == null) GenKeyAesAlg();
             EnterText = entText;
             ResKey = Key?.ToArray();
             EncryptedText = new EncryptAes().Encrypt(_encoding.GetBytes(EnterText), Key);

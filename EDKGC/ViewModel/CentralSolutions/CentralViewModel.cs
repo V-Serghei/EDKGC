@@ -280,7 +280,7 @@ namespace EDKGC.ViewModel.CentralSolutions
                 OnPropertyChanged(nameof(ItemsAsymAl));
             }
         }
-        private string _selectedItemAsymAl;
+        private string _selectedItemAsymAl = "RSA";
         public string SelectedItemAsumAl
         {
             get => _selectedItemAsymAl;
@@ -527,6 +527,12 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         public void EncryptDecryptTextSym()
         {
+            if (ButtonEffect == Effect.Encrypt && string.IsNullOrWhiteSpace(TextNonEncrypt))
+            {
+                TextNonEncrypt = "Enter text";
+                EncryptTextAl = "";
+                return;
+            }
 
             switch (_algorithmSymmetricEncryption)
             {
@@ -628,6 +634,13 @@ namespace EDKGC.ViewModel.CentralSolutions
             switch (ButtonEffect)
             {
                 case Effect.Encrypt:
+                    if (string.IsNullOrWhiteSpace(TextNonEncrypt))
+                    {
+                        TextNonEncrypt = "Enter text";
+                        EncryptTextAl = "";
+                        return;
+                    }
+
                     ConvertByteStringContainer =
                         GetHexModString.GetHexModToString(encryptionModel.GetEncryptTextEdc(TextNonEncrypt));
                     EncryptTextAl = ConvertByteStringContainer;
@@ -706,6 +719,13 @@ namespace EDKGC.ViewModel.CentralSolutions
 
         private void EncryptDecryptAs()
         {
+            if (ButtonEffect == Effect.Encrypt && string.IsNullOrWhiteSpace(TextNonEncrypt))
+            {
+                TextNonEncrypt = "Enter text";
+                EncryptTextAl = "";
+                return;
+            }
+
             switch (_asymmetricAlgorithms)
             {
                 
@@ -716,10 +736,13 @@ namespace EDKGC.ViewModel.CentralSolutions
                         case Effect.Encrypt:
                             if (TextNonEncrypt != null)
                             {
-                                    //ConvertByteStringContainer =
-                                    //    _encoding.GetString(_rsaAsymmetricalAlModel.EncryptTextRsa(TextNonEncrypt));
-                                    ConvertByteStringContainer =
-                                        GetHexModString.GetHexModToString(_rsaAsymmetricalAlModel.EncryptTextRsa(TextNonEncrypt));
+                                    var encryptedText = _rsaAsymmetricalAlModel.EncryptTextRsa(TextNonEncrypt);
+                                    if (encryptedText == null)
+                                    {
+                                        EncryptTextAl = "RSA text is too long. Use a shorter message or encrypt a hash/file key.";
+                                        break;
+                                    }
+                                    ConvertByteStringContainer = GetHexModString.GetHexModToString(encryptedText);
                                     EncryptTextAl = ConvertByteStringContainer;
                                 
                             }
@@ -750,17 +773,17 @@ namespace EDKGC.ViewModel.CentralSolutions
                     break;
                 case AsymmetricAlgorithms.DiffieHellman:
                 {
-
+                    EncryptTextAl = "DiffieHellman is not implemented yet.";
                 }
                     break;
                 case AsymmetricAlgorithms.ElGamal:
                 {
-
+                    EncryptTextAl = "ElGamal is not implemented yet.";
                 }
                     break;
                 case AsymmetricAlgorithms.ECC:
                 {
-
+                    EncryptTextAl = "ECC is not implemented yet.";
                 }
                     break;
                 default:
@@ -836,6 +859,11 @@ namespace EDKGC.ViewModel.CentralSolutions
             HashEntTextS = _electronicSignatureRsa.GenHashPrivKey(EnterTextS);
             hashNotEncrypt = _electronicSignatureRsa.GetHashBytes();
             EncryptVerTextBoxS = _electronicSignatureRsa.EncryptHashText(EnterTextS);
+            if (EncryptVerTextBoxS == null)
+            {
+                EncryptVerTextBoxS = "Could not generate signature";
+                return;
+            }
             enctyptTextBytes = GetHexModString.GetStringToHexMod(EncryptVerTextBoxS);
             TextResp = "...";
         }

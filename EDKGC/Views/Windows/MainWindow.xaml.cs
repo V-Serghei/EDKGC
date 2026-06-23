@@ -25,11 +25,25 @@ namespace EDKGC.Views.Windows
                 rectangle.Fill = Brushes.Blue;
         }
 
-        private void Button_Click_Iso(object sender, MouseButtonEventArgs e)
+        private void Button_Click_Iso(object sender, RoutedEventArgs e)
         {
             new ISOWindow().Show();
             new WhistleBlowingWindow().Show();
             Close();
+        }
+
+        private void BasicInformation_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                "EDKGC modules:\n\n" +
+                "Symmetric encryption: AES, DES, 3DES, Blowfish, Twofish, Serpent.\n" +
+                "Asymmetric encryption: RSA demo with public/private key switching.\n" +
+                "Signing: hash generation, RSA signature, decrypt and verify flow.\n" +
+                "ISO 27001: questionnaire and risk analysis tools.\n\n" +
+                "Note: RSA can encrypt only short messages directly. For long text, encrypt a hash or a symmetric key.",
+                "Basic information",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
         }
     }
 }

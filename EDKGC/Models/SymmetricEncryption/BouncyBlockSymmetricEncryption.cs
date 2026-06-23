@@ -25,6 +25,9 @@ namespace EDKGC.Models.SymmetricEncryption
 
         public byte[] GetEncryptTextEdc(string notEncryptText)
         {
+            if (notEncryptText == null) return null;
+            if (Key == null) GenKey();
+
             EnterText = notEncryptText;
             ResKey = Key?.ToArray();
             EncryptedText = BlockCipherTools.EncryptEbc(_encoding.GetBytes(notEncryptText), Key, CreateEngine());

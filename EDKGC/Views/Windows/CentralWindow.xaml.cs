@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using EDKGC.ViewModel;
 using EDKGC.ViewModel.CentralSolutions;
 
 namespace EDKGC.Views.Windows
@@ -16,6 +17,18 @@ namespace EDKGC.Views.Windows
         {
             if (DataContext is CentralViewModel vm)
                 vm.SelectionChangedCommand.Execute(sender);
+        }
+
+        private void CopyCentralResult_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ViewModelLocator locator && !string.IsNullOrEmpty(locator.Central.EncryptTextAl))
+                Clipboard.SetText(locator.Central.EncryptTextAl);
+        }
+
+        private void CopySignature_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ViewModelLocator locator && !string.IsNullOrEmpty(locator.Central.EncryptVerTextBoxS))
+                Clipboard.SetText(locator.Central.EncryptVerTextBoxS);
         }
     }
 }

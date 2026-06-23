@@ -49,6 +49,8 @@ namespace EDKGC.Models.ElectronicSignature
                 GenHashPrivKey(enterTextH);
 
             var text = EncryptRSA.EncryptTextBytes(HashBytes, _keyPair, EKeyEff.Private);
+            if (text == null) return null;
+
             EncryptedText = text;
             EncryptHash = GetHexModString.GetHexModToString(text);
             return EncryptHash;
